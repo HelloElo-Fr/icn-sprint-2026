@@ -119,7 +119,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .tf{background:#FFEBEE;padding:1px 6px;border-radius:6px;color:#C62828;font-size:0.7em;font-weight:600;}
 .ts{background:#E8F5E9;padding:1px 6px;border-radius:6px;color:#2E7D32;font-size:0.7em;font-weight:600;}
 
-/* Chatbot */
+/* Chatbot floating */
 .chat-btn{position:fixed;bottom:16px;right:16px;width:52px;height:52px;border-radius:50%;background:#1565C0;color:#fff;border:none;font-size:1.4em;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:200;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
 .chat-btn:active{transform:scale(.9);}
 .chat-box{position:fixed;bottom:76px;right:12px;width:calc(100vw - 24px);max-width:360px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:200;display:none;overflow:hidden;max-height:70vh;flex-direction:column;}
@@ -135,6 +135,26 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .chat-input input:focus{border-color:#1565C0;}
 .chat-input button{margin-left:6px;background:#1565C0;color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1em;}
 
+/* Inline chatbot on home */
+.home-chat{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:16px;overflow:hidden;}
+.home-chat-hdr{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px;}
+.home-chat-hdr .hc-icon{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.4em;flex-shrink:0;}
+.home-chat-hdr .hc-text h3{font-size:1em;margin-bottom:2px;}
+.home-chat-hdr .hc-text p{font-size:0.78em;opacity:.85;}
+.home-chat-body{padding:14px;}
+.home-chat-body .hc-input-wrap{display:flex;gap:8px;}
+.home-chat-body .hc-input{flex:1;border:2px solid #e0e0e0;border-radius:14px;padding:12px 16px;font-size:1em;outline:none;transition:border-color .2s;}
+.home-chat-body .hc-input:focus{border-color:#1565C0;}
+.home-chat-body .hc-send{background:#1565C0;color:#fff;border:none;border-radius:14px;padding:0 18px;cursor:pointer;font-size:1.1em;transition:background .2s;}
+.home-chat-body .hc-send:active{background:#0D47A1;}
+.hc-result{margin-top:12px;display:none;}
+.hc-result.show{display:block;}
+.hc-result-card{background:linear-gradient(135deg,#f0f4f8,#e8edf2);border-radius:12px;padding:14px 16px;font-size:0.88em;line-height:1.7;}
+.hc-result-card strong{color:#0D47A1;}
+.hc-quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.hc-quick button{background:#E3F2FD;color:#1565C0;border:1px solid #BBDEFB;border-radius:20px;padding:6px 14px;font-size:0.78em;cursor:pointer;font-weight:500;transition:all .15s;}
+.hc-quick button:active{background:#1565C0;color:#fff;}
+
 /* Modal overlay */
 .modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;}
 .modal-bg.open{display:flex;}
@@ -147,17 +167,39 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .modal-member{font-size:0.82em;padding:4px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;}
 .modal-member:last-child{border-bottom:none;}
 
-/* Responsive */
+/* Responsive — mobile-first refinements */
+@media(max-width:374px){
+  .hdr h1{font-size:1em;}
+  .tabs .tb{padding:8px 8px;font-size:0.68em;}
+  .stats{grid-template-columns:repeat(3,1fr);gap:5px;}
+  .st .n{font-size:1.1em;}
+  .home-chat-hdr .hc-icon{width:36px;height:36px;font-size:1.1em;}
+  .home-chat-hdr .hc-text h3{font-size:0.88em;}
+  .home-chat-body .hc-input{padding:10px 12px;font-size:0.9em;}
+}
 @media(min-width:600px){
   .stats{grid-template-columns:repeat(6,1fr);}
   .vg{grid-template-columns:1fr 1fr;}
   .eq-grid{grid-template-columns:1fr 1fr;}
   .rm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .home-chat-body .hc-input-wrap{max-width:480px;}
+  .hc-result-card{max-width:480px;}
 }
 @media(min-width:900px){
   .vg{grid-template-columns:repeat(3,1fr);}
   .eq-grid{grid-template-columns:repeat(3,1fr);}
+  .pnl{padding:20px 24px;}
+  .home-chat{max-width:600px;margin-left:auto;margin-right:auto;margin-bottom:20px;}
 }
+/* Safe area for notched phones */
+@supports(padding-bottom: env(safe-area-inset-bottom)){
+  .chat-btn{bottom:calc(16px + env(safe-area-inset-bottom));}
+  .chat-box{bottom:calc(76px + env(safe-area-inset-bottom));}
+}
+/* Smooth scroll for tabs */
+.tabs{scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tabs .tb{scroll-snap-align:start;}
 </style>
 </head>
 <body>
@@ -313,6 +355,26 @@ function teamRow(t, showMove){
 
 function buildOverview(){
   return `<div class="pnl act" id="p-overview">
+  <div class="home-chat">
+    <div class="home-chat-hdr">
+      <div class="hc-icon">&#128269;</div>
+      <div class="hc-text"><h3>Ou dois-je aller ?</h3><p>Tape ton nom pour trouver ta salle et ton equipe</p></div>
+    </div>
+    <div class="home-chat-body">
+      <div class="hc-input-wrap">
+        <input type="text" class="hc-input" id="homeSearch" placeholder="Ton nom de famille..." autocomplete="off">
+        <button class="hc-send" id="homeSearchBtn">&#10148;</button>
+      </div>
+      <div class="hc-quick">
+        <button onclick="homeQuick('TOKYO')">TOKYO</button>
+        <button onclick="homeQuick('MONTREAL')">MONTREAL</button>
+        <button onclick="homeQuick('SEOUL')">SEOUL</button>
+        <button onclick="homeQuick('BERLIN')">BERLIN</button>
+        <button onclick="homeQuick('RIO')">RIO</button>
+      </div>
+      <div class="hc-result" id="homeResult"><div class="hc-result-card" id="homeResultCard"></div></div>
+    </div>
+  </div>
   <div class="stats">
     <div class="st"><div class="n">187</div><div class="l">participants</div></div>
     <div class="st"><div class="n">22</div><div class="l">equipes</div></div>
@@ -544,6 +606,27 @@ document.addEventListener("input", e=>{
       c.style.display = c.dataset.search.includes(q) ? "" : "none";
     });
   }
+});
+
+// ============ HOME CHATBOT ============
+function homeDoSearch(){
+  const input = document.getElementById("homeSearch");
+  const q = input.value.trim();
+  if(!q) return;
+  const result = chatSearch(q);
+  const card = document.getElementById("homeResultCard");
+  card.innerHTML = result;
+  document.getElementById("homeResult").classList.add("show");
+}
+function homeQuick(val){
+  document.getElementById("homeSearch").value = val;
+  homeDoSearch();
+}
+document.addEventListener("click",e=>{
+  if(e.target.id==="homeSearchBtn") homeDoSearch();
+});
+document.addEventListener("keydown",e=>{
+  if(e.target.id==="homeSearch" && e.key==="Enter") homeDoSearch();
 });
 
 // ============ INIT ============
