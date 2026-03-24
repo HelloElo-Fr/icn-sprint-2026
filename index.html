@@ -190,7 +190,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 
 <div class="hdr">
   <h1>ICN DESIGN SPRINT</h1>
-  <div class="sub">28 mars 2026 — 187 participants — 22 equipes</div>
+  <div class="sub">28 mars 2026 \u2022 187 participants \u2022 22 \u00e9quipes</div>
 </div>
 
 <div class="tabs" id="tabs"></div>
@@ -200,11 +200,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 
 <div class="chat-box" id="chatBox">
   <div class="chat-hdr">
-    <span>Ou suis-je ?</span>
+    <span>O\u00f9 suis-je ?</span>
     <span class="close" id="chatClose">&#10005;</span>
   </div>
   <div class="chat-msgs" id="chatMsgs">
-    <div class="chat-msg bot">Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d'equipe</strong>, ou une question (<em>horaires, wifi, dejeuner, village...</em>).</div>
+    <div class="chat-msg bot">Salut ! Tape ton <strong>nom</strong> ou ton <strong>\u00e9quipe</strong> et je te dis direct o\u00f9 aller. Tu peux aussi me poser une question : <em>horaires, wifi, d\u00e9jeuner, village...</em></div>
   </div>
   <div class="chat-input">
     <input type="text" id="chatIn" placeholder="Ton nom, equipe ou question..." autocomplete="off">
@@ -290,80 +290,81 @@ const ROOM_NAMES = {
 // ============ FAQ KNOWLEDGE BASE (participant-facing only) ============
 const FAQ = [
   {q:["horaire","heure","planning","programme","quand","timing","agenda","schedule"],
-   a:`<strong>Planning de la journee :</strong><br>
-   10h00 — Cafe d'accueil en amphitheatre<br>
-   10h15 — Kick-off par Francois Therin<br>
-   10h35 — Collecte des irritants (Klaxoon)<br>
-   11h05 — Restitution par Francois<br>
-   11h20 — Presentation du Design Sprint<br>
-   11h35 — Ice-breaker<br>
-   11h55 — Dejeuner partage<br>
-   13h00 — Mini Design Sprint (5 exercices)<br>
-   14h55 — Pitchs en villages<br>
-   15h30 — 8 pitchs finaux en pleniere<br>
-   15h50 — Closing + annonce des projets retenus<br>
-   16h20 — Mot de la fin + photo de groupe<br>
-   16h30 — Fin`},
+   a:`<strong>Ta journee en resume :</strong><br>
+   10h00 Cafe d'accueil, amphi<br>
+   10h15 Francois Therin lance la journee<br>
+   10h35 Tu notes tes irritants sur Klaxoon<br>
+   11h05 Francois reagit a chaud<br>
+   11h20 On t'explique le Design Sprint<br>
+   11h35 Ice-breaker pour se connaitre<br>
+   11h55 Dejeuner partage<br>
+   13h00 C'est parti : 5 exercices en equipe<br>
+   14h55 Pitchs en villages<br>
+   15h30 Les 8 finalistes pitchent devant tout le monde<br>
+   15h50 Closing, Francois annonce les projets retenus<br>
+   16h20 Photo de groupe<br>
+   16h30 Fin !`},
   {q:["dejeuner","manger","lunch","repas","midi","pot luck","potluck","faim"],
-   a:`<strong>Dejeuner :</strong> Pot luck / dejeuner partage de 11h55 a 13h00 dans l'amphitheatre.`},
+   a:`<strong>Dejeuner partage</strong> de 11h55 a 13h00 dans l'amphi. On mange ensemble, on fait connaissance. A 13h on attaque le Sprint.`},
   {q:["pause","cafe","coffee","break"],
-   a:`<strong>Pauses :</strong><br>10h00 — Cafe d'accueil<br>10h45 — Pause cafe (20 min)<br>14h15 — Pause cafe (15 min)`},
+   a:`<strong>Pauses cafe :</strong><br>10h00 a l'accueil<br>10h45 pendant 20 min<br>14h15 pendant 15 min`},
   {q:["wifi","internet","connexion","reseau","network"],
-   a:`<strong>WiFi :</strong> Le WiFi ICN sera disponible. Les identifiants seront communiques sur place a l'accueil.`},
+   a:`<strong>WiFi :</strong> Les identifiants ICN seront affiches a l'accueil. Tu en auras besoin pour Klaxoon.`},
   {q:["village","pitch","finale","finaliste","vote","gommette"],
    a:`<strong>Les 4 villages :</strong><br>
-   Village A (bleu) — Salle du Conseil : Tokyo, Barcelona, Montreal, Nairobi, Marseille, Comex<br>
-   Village B (vert) — 207 Bobby Fisher : Amsterdam, Sydney, Mumbai, Lisbonne, Dublin, Lyon<br>
-   Village C (violet) — 112 Dorothy Vaughan : San Francisco, Berlin, Singapour, Vancouver, Buenos Aires<br>
-   Village D (orange) — 101 Marie Curie : Seoul, Marrakech, Le Cap, Helsinki, Rio<br><br>
-   A 14h55, chaque equipe pitche 2 min devant son village. Chaque village garde ses 2 meilleurs projets. Les 8 finalistes pitchent ensuite en pleniere.`},
+   A (bleu) Salle du Conseil : Tokyo, Barcelona, Montreal, Nairobi, Marseille, Comex<br>
+   B (vert) 207 Bobby Fisher : Amsterdam, Sydney, Mumbai, Lisbonne, Dublin, Lyon<br>
+   C (violet) 112 Dorothy Vaughan : San Francisco, Berlin, Singapour, Vancouver, Buenos Aires<br>
+   D (orange) 101 Marie Curie : Seoul, Marrakech, Le Cap, Helsinki, Rio<br><br>
+   A 14h55 tu pitches 2 min devant ton village. Chaque village garde ses 2 meilleurs projets. Les 8 finalistes passent ensuite devant tout le monde.`},
   {q:["exercice","fiche","sprint","lightning","hmw","crazy","sketch","canvas","comment ca marche","methode","quoi faire"],
-   a:`<strong>Les 5 exercices du Design Sprint (13h-14h55) :</strong><br>
-   1. <strong>Lightning Demos</strong> (15 min) — Chacun partage un exemple inspirant vu ailleurs<br>
-   2. <strong>HMW + Vote</strong> (15 min) — Ecrire 3 "Comment pourrait-on..." + vote gommettes<br>
-   3. <strong>Solution Sketch</strong> (11 min) — Chacun dessine 1 projet sur feuille A4 pliee en 4<br>
-   4. <strong>Echange + Vote</strong> (24 min) — Tour de table, discussion, vote heatmap<br>
-   5. <strong>Pitch Canvas</strong> (30 min) — Poster A2 : Probleme, Solution, Benefice, Action lundi<br><br>
-   Chaque table a un capitaine avec les fiches. Il suffit de suivre les instructions !`},
+   a:`<strong>5 exercices, tout est guide par les fiches sur ta table :</strong><br>
+   1. <strong>Lightning Demos</strong> (15 min) Tu partages un truc inspirant vu ailleurs<br>
+   2. <strong>HMW + Vote</strong> (15 min) Tu ecris 3 "Comment pourrait-on..." puis vote gommettes<br>
+   3. <strong>Solution Sketch</strong> (11 min) Tu dessines ton projet sur une feuille A4 pliee en 4<br>
+   4. <strong>Echange + Vote</strong> (24 min) Tour de table, discussion, puis vote<br>
+   5. <strong>Pitch Canvas</strong> (30 min) Poster A2 en equipe : Probleme, Solution, Benefice, Action lundi<br><br>
+   Le capitaine de ta table lit les fiches et chronometre. Toi tu suis le mouvement.`},
   {q:["capitaine","captain","fiche","tuto","role"],
-   a:`<strong>Capitaine de table :</strong> Chaque table a un capitaine qui lit les fiches d'instructions et chronometre les exercices. Pas besoin d'experience, il suffit de suivre les fiches !`},
+   a:`<strong>Le capitaine de table</strong> lit les fiches d'instructions a voix haute et lance le timer a chaque etape. Pas besoin d'etre un pro, les fiches sont claires. Tu suis les consignes, c'est tout.`},
   {q:["salle","room","plan","etage","floor","ou","where","batiment","station"],
    a:`<strong>Les salles :</strong><br>
-   <u>1er etage :</u> Salle du Conseil (90 pl.), 101 Marie Curie, 104 Simone de Beauvoir, 107 Charles Darwin, 112 Dorothy Vaughan<br>
-   <u>2eme etage :</u> 207 Bobby Fisher, 205 Emile Galle, 206 Jean Prouve, 202 Rosa Parks`},
+   <u>1er etage</u> Salle du Conseil (90 pl.), 101 Marie Curie, 104 Simone de Beauvoir, 107 Charles Darwin, 112 Dorothy Vaughan<br>
+   <u>2eme etage</u> 207 Bobby Fisher, 205 Emile Galle, 206 Jean Prouve, 202 Rosa Parks<br><br>
+   Tape le nom de ton equipe pour savoir ta salle exacte.`},
   {q:["klaxoon","post-it","post it","irritant","pain point","probleme"],
-   a:`<strong>Collecte Klaxoon (10h35) :</strong> Vous noterez vos irritants individuellement sur Klaxoon (outil en ligne). 1 irritant par post-it, autant que vous voulez. En silence, chacun pour soi. Le WiFi sera disponible.`},
+   a:`<strong>Klaxoon (10h35) :</strong> On te demande de noter ce qui te pose probleme au quotidien. 1 irritant par post-it, tu en mets autant que tu veux. En silence, chacun pour soi. C'est anonyme et ca prend 10 minutes.`},
   {q:["photo","groupe","fin","cloture","closing"],
-   a:`<strong>Cloture :</strong> 16h20 — Mot de la fin, remerciements et photo de groupe. Fin a 16h30.`},
+   a:`<strong>16h20</strong> photo de groupe, mot de la fin. On se libere a <strong>16h30</strong>. Pas de depassement prevu.`},
   {q:["ice","breaker","icebreaker","jeu","art"],
-   a:`<strong>Ice-breaker (11h35) :</strong> Par petits groupes de 4-5 personnes. Theme : "Si j'etais une oeuvre d'art, je serais... parce que..." Ambiance decontractee pour faire connaissance avant les tables.`},
+   a:`<strong>Ice-breaker a 11h35 :</strong> Par groupes de 4-5 personnes pres de toi. Le theme : "Si j'etais une oeuvre d'art, je serais... parce que..." C'est leger, ca permet de se connaitre avant de bosser ensemble.`},
   {q:["gommette","vote","comment voter","sticker","dot"],
-   a:`<strong>Vote par gommettes :</strong> Chaque personne recoit des gommettes a coller sur les idees les plus prometteuses. C'est un vote silencieux : pas de debat, votre gommette vaut autant que celle de votre voisin.`},
+   a:`<strong>Le vote par gommettes</strong> c'est simple : tu colles tes gommettes sur les idees qui te parlent le plus. Pas de debat, pas de lobbying. Ta gommette vaut autant que celle de ton voisin. C'est ca qui rend le truc juste.`},
   {q:["francois","therin","dg","directeur"],
-   a:`<strong>Francois Therin</strong> est le Directeur General d'ICN. Il ouvre la journee a 10h15 et selectionne les projets finalistes a 15h30.`},
+   a:`<strong>Francois Therin</strong>, Directeur General d'ICN, ouvre la journee a 10h15. C'est lui qui choisit les projets finalistes a la fin. Il sera la toute la journee.`},
   {q:["combien","participant","nombre","effectif","personne"],
-   a:`<strong>187 participants</strong> repartis en <strong>22 equipes</strong> dans <strong>4 villages</strong>.`},
+   a:`On est <strong>187</strong>, repartis en <strong>22 equipes</strong> et <strong>4 villages</strong>. C'est la premiere fois que tout le monde est reuni.`},
   {q:["train","paris","arrivee","transport"],
-   a:`<strong>Train Paris :</strong> Arrivee prevue a 10h. Le cafe d'accueil commence a 10h00 en amphitheatre.`},
+   a:`Le train Paris arrive vers <strong>10h</strong>. Le cafe d'accueil est a 10h en amphi, tu as le temps de t'installer.`},
   {q:["apres-midi","afternoon","pm","13h","14h","15h"],
-   a:`<strong>Apres-midi (13h-16h30) :</strong><br>
-   13h00 — Brief + Sprint Questions<br>
-   13h10-14h15 — 5 exercices du Design Sprint en equipe<br>
-   14h15 — Pause cafe<br>
-   14h30 — Construction du Pitch Canvas<br>
-   14h55 — Pitchs en villages (2 projets retenus par village)<br>
-   15h30 — 8 pitchs finaux en pleniere<br>
-   15h50 — Closing<br>
-   16h20 — Photo de groupe`},
+   a:`<strong>L'apres-midi en resume :</strong><br>
+   13h00 Brief + Sprint Questions<br>
+   13h10 a 14h15 Les 5 exercices du Sprint en equipe<br>
+   14h15 Pause cafe<br>
+   14h30 Construction du Pitch Canvas<br>
+   14h55 Pitchs en villages, 2 projets retenus par village<br>
+   15h30 8 pitchs finaux devant tout le monde<br>
+   15h50 Closing<br>
+   16h20 Photo de groupe`},
   {q:["matin","morning","amphi","amphitheatre","10h","11h"],
-   a:`<strong>Matinee (10h-12h) en amphitheatre :</strong><br>
-   10h00 — Cafe d'accueil<br>
-   10h15 — Kick-off Francois Therin<br>
-   10h35 — Collecte des irritants (Klaxoon)<br>
-   11h05 — Restitution<br>
-   11h20 — Presentation Sprint<br>
-   11h35 — Ice-breaker<br>
-   11h55 — Dejeuner`}
+   a:`<strong>La matinee (10h-12h) c'est en amphi :</strong><br>
+   10h00 Cafe d'accueil<br>
+   10h15 Francois Therin lance la journee<br>
+   10h35 Tu notes tes irritants sur Klaxoon<br>
+   11h05 Francois reagit<br>
+   11h20 On presente le Sprint de l'apres-midi<br>
+   11h35 Ice-breaker<br>
+   11h55 Dejeuner`}
 ];
 
 // ============ BUILD INDEX ============
@@ -379,7 +380,7 @@ TEAMS.forEach(t => {
 // ============ CHATBOT SEARCH ============
 function chatSearch(query){
   const q = query.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  if(!q) return "Tape ton nom de famille ou un nom d'equipe !";
+  if(!q) return "Tape ton nom de famille ou le nom de ton equipe, je te trouve en 2 secondes.";
 
   // FAQ match
   for(const faq of FAQ){
@@ -432,20 +433,20 @@ function chatSearch(query){
     ).join("<br>");
   }
   if(found.length > 8){
-    return `${found.length} resultats, sois plus precis ! Essaie avec ton nom de famille complet.`;
+    return `${found.length} personnes correspondent. Donne-moi ton nom de famille complet pour que je te trouve.`;
   }
 
-  return `Pas de resultat pour "${query}".<br>Essaie :<br>&#8226; Ton <strong>nom de famille</strong><br>&#8226; Un nom de ville (Tokyo, Seoul...)<br>&#8226; Un mot-cle : <em>horaires, village, wifi, dejeuner, exercice, salle</em>`;
+  return `Je ne trouve rien pour "${query}".<br>Quelques pistes :<br>&#8226; Ton <strong>nom de famille</strong> (ex : Dupont)<br>&#8226; Le nom de ton equipe (ex : Tokyo, Seoul)<br>&#8226; Une question : <em>horaires, wifi, dejeuner, village, exercice</em>`;
 }
 
 // ============ RENDER ============
 const tabDefs = [
   {id:"overview",label:"Accueil"},
   {id:"planning",label:"Planning"},
+  {id:"exercices",label:"Exercices"},
   {id:"villages",label:"Villages"},
-  {id:"equipes",label:"Equipes"},
-  {id:"salles",label:"Salles"},
-  {id:"faq",label:"FAQ"}
+  {id:"equipes",label:"\u00C9quipes"},
+  {id:"salles",label:"Salles"}
 ];
 
 function init(){
@@ -459,7 +460,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildPlanning() + buildVillages() + buildEquipes() + buildSalles() + buildFAQ();
+  panelsEl.innerHTML = buildOverview() + buildPlanning() + buildExercices() + buildVillages() + buildEquipes() + buildSalles();
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -478,7 +479,7 @@ function buildOverview(){
   <div class="home-chat">
     <div class="home-chat-hdr">
       <div class="hc-icon">&#128269;</div>
-      <div class="hc-text"><h3>Ou dois-je aller ?</h3><p>Tape ton nom, ton equipe, ou pose une question</p></div>
+      <div class="hc-text"><h3>O\u00f9 dois-je aller ?</h3><p>Tape ton nom ou ton \u00e9quipe, je te r\u00e9ponds direct</p></div>
     </div>
     <div class="home-chat-body">
       <div class="hc-input-wrap">
@@ -489,7 +490,7 @@ function buildOverview(){
         <button onclick="homeQuick('horaires')">Horaires</button>
         <button onclick="homeQuick('village')">Villages</button>
         <button onclick="homeQuick('exercice')">Exercices</button>
-        <button onclick="homeQuick('dejeuner')">Dejeuner</button>
+        <button onclick="homeQuick('dejeuner')">D\u00e9jeuner</button>
         <button onclick="homeQuick('wifi')">WiFi</button>
       </div>
       <div class="hc-result" id="homeResult"><div class="hc-result-card" id="homeResultCard"></div></div>
@@ -497,66 +498,135 @@ function buildOverview(){
   </div>
   <div class="stats">
     <div class="st"><div class="n">187</div><div class="l">participants</div></div>
-    <div class="st"><div class="n">22</div><div class="l">equipes</div></div>
+    <div class="st"><div class="n">22</div><div class="l">\u00e9quipes</div></div>
     <div class="st"><div class="n">4</div><div class="l">villages</div></div>
     <div class="st"><div class="n">8</div><div class="l">salles</div></div>
   </div>
-  <div class="sec"><div class="sec-h">La journee en bref</div><div style="padding:14px;">
+  <div class="sec"><div class="sec-h">Ta journ\u00e9e en un coup d'\u0153il</div><div style="padding:14px;">
     <div class="tl">
-      <div class="tl-i"><div class="tl-d" style="background:#1565C0;"></div><h4 style="color:#1565C0;">10h-12h — Matinee en amphitheatre</h4><p>Kick-off, collecte des irritants (Klaxoon), restitution, ice-breaker, dejeuner.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#7B1FA2;"></div><h4 style="color:#7B1FA2;">13h-14h15 — Mini Design Sprint</h4><p>5 exercices en equipe : Lightning Demos, HMW, Solution Sketch, Vote, Pitch Canvas.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">14h15 — Pause cafe</h4><p>15 minutes.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#2E7D32;"></div><h4 style="color:#2E7D32;">14h30-14h55 — Construction du Pitch</h4><p>Poster Pitch Canvas A2 en equipe.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#E65100;"></div><h4 style="color:#E65100;">14h55 — Pitchs en villages</h4><p>Chaque equipe pitche 2 min. Chaque village garde ses 2 meilleurs projets.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#C2185B;"></div><h4 style="color:#C2185B;">15h30 — 8 Pitchs finaux</h4><p>Les 8 finalistes pitchent 90 sec en pleniere. Francois selectionne.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F9A825;"></div><h4 style="color:#F9A825;">16h20 — Photo de groupe + fin</h4><p>Fin a 16h30.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#1565C0;"></div><h4 style="color:#1565C0;">10h-12h \u2022 Matin\u00e9e en amphi</h4><p>Fran\u00e7ois Th\u00e9rin ouvre la journ\u00e9e. Tu notes tes irritants sur Klaxoon. Il r\u00e9agit en live. Ice-breaker. D\u00e9jeuner.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#7B1FA2;"></div><h4 style="color:#7B1FA2;">13h-14h15 \u2022 Design Sprint en \u00e9quipe</h4><p>5 exercices chrono : Lightning Demos, HMW, Solution Sketch, Vote, Pitch Canvas. Le capitaine de ta table te guide avec les fiches.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">14h15 \u2022 Pause caf\u00e9</h4><p>15 minutes pour souffler.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#2E7D32;"></div><h4 style="color:#2E7D32;">14h30 \u2022 Construction du Pitch</h4><p>Poster A2 en \u00e9quipe : ton probl\u00e8me, ta solution, ce que \u00e7a change concr\u00e8tement, et ce qu'on fait d\u00e8s lundi.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#E65100;"></div><h4 style="color:#E65100;">14h55 \u2022 Pitchs en villages</h4><p>Tu pitches 2 min devant ton village. Chaque village garde ses 2 meilleurs projets.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#C2185B;"></div><h4 style="color:#C2185B;">15h30 \u2022 8 Pitchs finaux</h4><p>Les 8 finalistes passent devant les 187 personnes. Fran\u00e7ois choisit les projets qu'il veut financer.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#F9A825;"></div><h4 style="color:#F9A825;">16h20 \u2022 Photo de groupe</h4><p>Fin \u00e0 16h30. On ne d\u00e9borde pas.</p></div>
     </div>
+  </div></div>
+  <div class="sec"><div class="sec-h">4 r\u00e8gles du jeu</div><div style="padding:16px;font-size:0.9em;line-height:1.9;color:#444;">
+    <strong>1.</strong> On travaille d'abord <strong>en silence</strong>, puis on partage. Les meilleures id\u00e9es viennent de la r\u00e9flexion individuelle.<br>
+    <strong>2.</strong> On \u00e9crit, on dessine, on produit. Si c'est dit \u00e0 l'oral et pas \u00e9crit, <strong>\u00e7a n'existe pas</strong>.<br>
+    <strong>3.</strong> On vote par <strong>gommettes</strong>, pas par d\u00e9bat. Ta gommette vaut autant que celle de ton voisin.<br>
+    <strong>4.</strong> Quand le timer sonne, <strong>on passe \u00e0 la suite</strong>. M\u00eame si c'est imparfait.
   </div></div>
   </div>`;
 }
 
 function buildPlanning(){
   return `<div class="pnl" id="p-planning">
-  <h2 style="font-size:1.05em;margin-bottom:14px;color:#0D47A1;">Planning detaille</h2>
-  <div class="sec"><div class="sec-h">Matinee — Amphitheatre<span class="bdg">10h-12h</span></div><div style="padding:10px;overflow-x:auto;">
+  <h2 style="font-size:1.05em;margin-bottom:14px;color:#0D47A1;">Planning d\u00e9taill\u00e9</h2>
+  <div class="sec"><div class="sec-h">Matin\u00e9e en amphi<span class="bdg">10h-12h</span></div><div style="padding:10px;overflow-x:auto;">
     <table class="stbl">
-      <tr><th>Heure</th><th>Duree</th><th>Activite</th></tr>
-      <tr><td>10h00</td><td>15'</td><td>Cafe d'accueil</td></tr>
-      <tr><td>10h15</td><td>15'</td><td>Kick-off par Francois Therin</td></tr>
-      <tr><td>10h30</td><td>5'</td><td>Presentation de la journee</td></tr>
-      <tr><td>10h35</td><td>10'</td><td>Collecte des irritants (Klaxoon, en silence)</td></tr>
-      <tr><td>10h45</td><td>20'</td><td>Pause cafe</td></tr>
-      <tr><td>11h05</td><td>15'</td><td>Restitution par Francois</td></tr>
-      <tr><td>11h20</td><td>15'</td><td>Presentation du Design Sprint</td></tr>
-      <tr><td>11h35</td><td>20'</td><td>Ice-breaker en sous-groupes</td></tr>
-      <tr><td>11h55</td><td>65'</td><td>Dejeuner partage</td></tr>
+      <tr><th>Heure</th><th>Dur\u00e9e</th><th>Ce qui se passe</th></tr>
+      <tr><td>10h00</td><td>15'</td><td>Caf\u00e9 d'accueil, tu t'installes</td></tr>
+      <tr><td>10h15</td><td>15'</td><td>Fran\u00e7ois Th\u00e9rin ouvre la journ\u00e9e</td></tr>
+      <tr><td>10h30</td><td>5'</td><td>Pr\u00e9sentation de la journ\u00e9e et de l'\u00e9quipe</td></tr>
+      <tr><td>10h35</td><td>10'</td><td>Tu notes tes irritants sur Klaxoon, en silence</td></tr>
+      <tr><td>10h45</td><td>20'</td><td>Pause caf\u00e9</td></tr>
+      <tr><td>11h05</td><td>15'</td><td>Fran\u00e7ois r\u00e9agit aux irritants en live</td></tr>
+      <tr><td>11h20</td><td>15'</td><td>On t'explique le Design Sprint de l'apr\u00e8s-midi</td></tr>
+      <tr><td>11h35</td><td>20'</td><td>Ice-breaker : "Si j'\u00e9tais une \u0153uvre d'art..."</td></tr>
+      <tr><td>11h55</td><td>65'</td><td>D\u00e9jeuner partag\u00e9</td></tr>
     </table>
   </div></div>
-  <div class="sec"><div class="sec-h">Apres-midi — Design Sprint<span class="bdg">13h-16h30</span></div><div style="padding:10px;overflow-x:auto;">
+  <div class="sec"><div class="sec-h">Apr\u00e8s-midi Design Sprint<span class="bdg">13h-16h30</span></div><div style="padding:10px;overflow-x:auto;">
     <table class="stbl">
-      <tr><th>Heure</th><th>Duree</th><th>Activite</th></tr>
-      <tr><td>13h00</td><td>10'</td><td>Brief + Sprint Questions</td></tr>
+      <tr><th>Heure</th><th>Dur\u00e9e</th><th>Ce qui se passe</th></tr>
+      <tr><td>13h00</td><td>10'</td><td>Brief + tu re\u00e7ois ta Sprint Question</td></tr>
       <tr><td>13h10</td><td>15'</td><td>Fiche 1 : Lightning Demos</td></tr>
-      <tr><td>13h25</td><td>15'</td><td>Fiche 2 : HMW + Vote</td></tr>
-      <tr><td>13h40</td><td>10'</td><td>Collecte et synthese</td></tr>
+      <tr><td>13h25</td><td>15'</td><td>Fiche 2 : HMW + Vote gommettes</td></tr>
+      <tr><td>13h40</td><td>10'</td><td>Collecte et synth\u00e8se des id\u00e9es</td></tr>
       <tr><td>13h50</td><td>10'</td><td>Fiche 3 : Solution Sketch</td></tr>
-      <tr><td>14h00</td><td>15'</td><td>Fiche 4 : Echange + Vote</td></tr>
-      <tr style="background:#FFF8E1"><td>14h15</td><td>15'</td><td><strong>Pause cafe</strong></td></tr>
-      <tr><td>14h30</td><td>25'</td><td>Fiche 5 : Pitch Canvas</td></tr>
-      <tr style="background:#E3F2FD"><td>14h55</td><td>25'</td><td><strong>Pitchs en villages</strong> (2 projets retenus / village)</td></tr>
-      <tr><td>15h20</td><td>10'</td><td>Preparation des finalistes</td></tr>
-      <tr style="background:#FFF3E0"><td>15h30</td><td>20'</td><td><strong>8 pitchs finaux en pleniere</strong></td></tr>
+      <tr><td>14h00</td><td>15'</td><td>Fiche 4 : \u00c9change + Vote</td></tr>
+      <tr style="background:#FFF8E1"><td>14h15</td><td>15'</td><td><strong>Pause caf\u00e9</strong></td></tr>
+      <tr><td>14h30</td><td>25'</td><td>Fiche 5 : Pitch Canvas en \u00e9quipe</td></tr>
+      <tr style="background:#E3F2FD"><td>14h55</td><td>25'</td><td><strong>Pitchs en villages</strong>, 2 projets retenus par village</td></tr>
+      <tr><td>15h20</td><td>10'</td><td>Pr\u00e9paration des 8 finalistes</td></tr>
+      <tr style="background:#FFF3E0"><td>15h30</td><td>20'</td><td><strong>8 pitchs finaux devant tout le monde</strong></td></tr>
       <tr><td>15h50</td><td>15'</td><td>Closing + fresque IA</td></tr>
-      <tr><td>16h05</td><td>15'</td><td>Francois annonce les projets retenus</td></tr>
+      <tr><td>16h05</td><td>15'</td><td>Fran\u00e7ois annonce les projets retenus</td></tr>
       <tr><td>16h20</td><td>10'</td><td>Mot de la fin + photo de groupe</td></tr>
-      <tr style="background:#E8F5E9"><td>16h30</td><td></td><td><strong>Fin</strong></td></tr>
+      <tr style="background:#E8F5E9"><td>16h30</td><td></td><td><strong>C'est fini !</strong></td></tr>
     </table>
   </div></div>
+  <div style="background:#E3F2FD;border-radius:12px;padding:16px;font-size:0.88em;color:#0D47A1;line-height:1.7;">
+    <strong>Infos pratiques :</strong> D\u00e9jeuner partag\u00e9 de 11h55 \u00e0 13h. WiFi : identifiants \u00e0 l'accueil. Mat\u00e9riel (post-its, marqueurs, gommettes) : tout est sur ta table. Fin 16h30, pas de d\u00e9passement pr\u00e9vu.
+  </div>
+  </div>`;
+}
+
+function buildExercices(){
+  return `<div class="pnl" id="p-exercices">
+  <h2 style="font-size:1.05em;margin-bottom:14px;color:#7B1FA2;">Les 5 exercices du Sprint</h2>
+  <p style="font-size:0.88em;color:#555;margin-bottom:16px;line-height:1.6;">Tout est guid\u00e9 par les fiches sur ta table. Le capitaine lit les consignes et lance le timer. Toi, tu suis le mouvement.</p>
+
+  <div class="sec"><div class="sec-h" style="background:#1565C0;">Fiche 1 : Lightning Demos<span class="bdg">15 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
+    <strong>L'id\u00e9e :</strong> Avant de chercher des solutions, on s'inspire de ce qui marche ailleurs. Pense \u00e0 un truc que tu as vu dans une autre boite, une autre industrie, un autre pays, une appli, et qui pourrait inspirer ta Sprint Question.<br><br>
+    <strong>Comment \u00e7a se passe :</strong><br>
+    \u2022 3 min en silence : tu notes ton exemple sur un post-it, au marqueur, en gros<br>
+    \u2022 Tour de table : 1 min par personne, tu montres ton post-it et tu expliques en une phrase<br>
+    \u2022 Pas de d\u00e9bat, pas de questions. On \u00e9coute.<br><br>
+    <strong>Exemple :</strong> "L'appli de ma banque me pr\u00e9vient avant un d\u00e9couvert. On pourrait pr\u00e9venir nos \u00e9quipes avant un probl\u00e8me au lieu de r\u00e9agir apr\u00e8s."
+  </div></div>
+
+  <div class="sec"><div class="sec-h" style="background:#E65100;">Fiche 2 : HMW + Vote<span class="bdg">15 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
+    <strong>L'id\u00e9e :</strong> Tu prends un probl\u00e8me et tu le reformules en question ouverte : "Comment pourrait-on..." C'est ce changement de formulation qui ouvre le cerveau vers les solutions.<br><br>
+    <strong>Comment \u00e7a se passe :</strong><br>
+    \u2022 3 min en silence : tu \u00e9cris 3 post-its "Comment pourrait-on..." en gros au marqueur<br>
+    \u2022 Tous les post-its au centre, lecture silencieuse 2 min<br>
+    \u2022 Vote gommettes : 3 par personne sur les questions les plus prometteuses<br>
+    \u2022 Le capitaine identifie le top 3<br><br>
+    <strong>Exemple :</strong> "Comment pourrait-on rendre le premier jour moins stressant pour les nouveaux ?" Pas : "Comment pourrait-on cr\u00e9er une appli ?" (trop pr\u00e9cis, c'est d\u00e9j\u00e0 une solution d\u00e9guis\u00e9e).
+  </div></div>
+
+  <div class="sec"><div class="sec-h" style="background:#7B1FA2;">Fiche 3 : Solution Sketch<span class="bdg">11 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
+    <strong>L'id\u00e9e :</strong> Chacun construit UN projet complet sur une feuille, en silence. M\u00eame les plus discrets ont leur chance ici.<br><br>
+    <strong>Comment \u00e7a se passe :</strong><br>
+    \u2022 Plie ta feuille A4 en 4 cases<br>
+    \u2022 Case 1 (2 min) : PROBL\u00c8ME. Quel probl\u00e8me concret tu veux r\u00e9soudre ?<br>
+    \u2022 Case 2 (2 min) : SOLUTION. Ton id\u00e9e en une phrase + un sch\u00e9ma<br>
+    \u2022 Case 3 (2 min) : COMMENT \u00c7A MARCHE. Concr\u00e8tement, comment \u00e7a se passe ?<br>
+    \u2022 Case 4 (2 min) : ACTION LUNDI. Qu'est-ce qu'on peut faire d\u00e8s lundi ?<br>
+    \u2022 Puis Gallery Walk : toutes les feuilles au centre, tu te l\u00e8ves et tu lis celles des autres. En silence.
+  </div></div>
+
+  <div class="sec"><div class="sec-h" style="background:#2E7D32;">Fiche 4 : \u00c9change + Vote<span class="bdg">24 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
+    <strong>L'id\u00e9e :</strong> Tu as lu les projets en silence. Maintenant chacun pr\u00e9sente le sien en 20 secondes, puis discussion libre, puis vote.<br><br>
+    <strong>Comment \u00e7a se passe :</strong><br>
+    \u2022 Tour de table flash (5 min) : "Mon id\u00e9e c'est..." 20 sec par personne<br>
+    \u2022 \u00c9change libre (10 min) : quels points communs ? quelles id\u00e9es combiner ?<br>
+    \u2022 Heatmap vote (5 min) : debout autour de la table, gommettes sur les projets les plus prometteurs<br>
+    \u2022 Le capitaine annonce le concept retenu par la table
+  </div></div>
+
+  <div class="sec"><div class="sec-h" style="background:#C2185B;">Fiche 5 : Pitch Canvas<span class="bdg">30 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
+    <strong>L'id\u00e9e :</strong> Si ton projet ne tient pas sur un poster, c'est qu'il n'est pas assez concret. Le Pitch Canvas force la clart\u00e9.<br><br>
+    <strong>Comment \u00e7a se passe :</strong><br>
+    \u2022 Sortez le poster A2 : 4 zones (Probl\u00e8me, Solution, B\u00e9n\u00e9fice concret, Premi\u00e8re action lundi)<br>
+    \u2022 R\u00e9partissez-vous : 2-3 personnes par zone (15 min)<br>
+    \u2022 Assemblez et r\u00e9p\u00e9tez votre pitch (14 min)<br>
+    \u2022 <strong>2 minutes max</strong> en village. Si s\u00e9lectionn\u00e9 pour la finale : <strong>90 secondes</strong><br><br>
+    <strong>Conseil :</strong> Soignez la zone "Premi\u00e8re action lundi". C'est ce qui transforme une id\u00e9e en projet r\u00e9el.
+  </div></div>
+
+  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:12px;padding:16px;font-size:0.88em;color:#795548;line-height:1.7;">
+    <strong>Mat\u00e9riel sur ta table :</strong> Post-its, marqueurs, gommettes, feuilles A4, poster Pitch Canvas A2. Tout est l\u00e0, tu n'as besoin de rien d'autre.
+  </div>
   </div>`;
 }
 
 function buildVillages(){
-  let html = `<div class="pnl" id="p-villages"><h2 style="font-size:1.05em;margin-bottom:14px;color:#7B1FA2;">4 Villages — Pitchs a 14h55</h2><div class="vg">`;
+  let html = `<div class="pnl" id="p-villages"><h2 style="font-size:1.05em;margin-bottom:14px;color:#7B1FA2;">4 Villages</h2><p style="font-size:0.88em;color:#555;margin-bottom:14px;line-height:1.5;">\u00c0 14h55, tu pitches devant ton village. Chaque village garde ses 2 meilleurs projets. Les 8 finalistes passent ensuite devant tout le monde.</p><div class="vg">`;
   for(const [vk,v] of Object.entries(VILLAGES)){
     const vTeams = TEAMS.filter(t=>t.village===vk);
     const ppl = vTeams.reduce((s,t)=>s+t.members.length,0);
@@ -566,17 +636,13 @@ function buildVillages(){
     });
     html += `</div></div>`;
   }
-  html += `</div>
-  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:12px;padding:14px;font-size:0.85em;color:#795548;">
-    <strong>Comment ca marche :</strong> A 14h55, chaque equipe pitche 2 min devant son village. Vote par gommettes. Chaque village garde ses 2 meilleurs projets. Les 8 finalistes pitchent ensuite 90 sec en pleniere devant tout le monde.
-  </div>
-  </div>`;
+  html += `</div></div>`;
   return html;
 }
 
 function buildEquipes(){
-  let html = `<div class="pnl" id="p-equipes"><h2 style="font-size:1.05em;margin-bottom:14px;">22 Equipes</h2>
-  <div style="margin-bottom:14px;"><input type="text" id="eqSearch" placeholder="Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:14px;font-size:0.9em;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#e0e0e0'"></div>
+  let html = `<div class="pnl" id="p-equipes"><h2 style="font-size:1.05em;margin-bottom:14px;">22 \u00e9quipes</h2>
+  <div style="margin-bottom:14px;"><input type="text" id="eqSearch" placeholder="Chercher un nom ou une \u00e9quipe..." style="width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:14px;font-size:0.9em;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#e0e0e0'"></div>
   <div class="eq-grid" id="eqGrid">`;
   TEAMS.forEach(t => {
     const v = VILLAGES[t.village];
@@ -599,7 +665,7 @@ function buildSalles(){
     if(!rooms[r]) rooms[r] = [];
     rooms[r].push(t);
   });
-  let html = `<div class="pnl" id="p-salles"><h2 style="font-size:1.05em;margin-bottom:14px;color:#2E7D32;">Repartition par salle</h2>`;
+  let html = `<div class="pnl" id="p-salles"><h2 style="font-size:1.05em;margin-bottom:14px;color:#2E7D32;">R\u00e9partition par salle</h2>`;
   for(const [room, teams] of Object.entries(rooms)){
     const ppl = teams.reduce((s,t)=>s+t.members.length,0);
     html += `<div class="sec"><div class="sec-h">${ROOM_NAMES[room] || room}<span class="bdg">${ppl} pers. / ${teams.length} eq.</span></div><div style="padding:8px 12px;">`;
@@ -611,34 +677,6 @@ function buildSalles(){
   }
   html += `</div>`;
   return html;
-}
-
-function buildFAQ(){
-  return `<div class="pnl" id="p-faq">
-  <h2 style="font-size:1.05em;margin-bottom:14px;">Questions frequentes</h2>
-  <div class="sec"><div class="sec-h">Comment ca marche ?</div><div style="padding:14px;font-size:0.88em;line-height:1.8;color:#444;">
-    <strong>Le Design Sprint</strong> est un atelier collaboratif en 5 exercices. Chaque table a un <strong>capitaine</strong> qui lit les fiches d'instructions et chronometre. Vous n'avez qu'a suivre !<br><br>
-    <strong>Les 4 regles :</strong><br>
-    1. On travaille d'abord en silence, puis on partage<br>
-    2. On ecrit et on dessine — si c'est dit a l'oral et pas ecrit, ca n'existe pas<br>
-    3. On vote par gommettes, pas par debat<br>
-    4. Quand le timer sonne, on passe a la suite<br>
-  </div></div>
-  <div class="sec"><div class="sec-h">Les 5 exercices</div><div style="padding:14px;font-size:0.85em;line-height:1.8;color:#444;">
-    <strong>1. Lightning Demos</strong> (15 min) — Partagez un exemple inspirant vu ailleurs. 1 post-it, 1 min/personne.<br><br>
-    <strong>2. HMW + Vote</strong> (15 min) — Ecrivez 3 "Comment pourrait-on..." sur des post-its. Vote par gommettes. On garde le top 3.<br><br>
-    <strong>3. Solution Sketch</strong> (11 min) — Feuille A4 pliee en 4 : Probleme / Solution / Comment ca marche / Action lundi. En silence.<br><br>
-    <strong>4. Echange + Vote</strong> (24 min) — Tour de table flash (20 sec/pers.), discussion libre, puis vote heatmap par gommettes.<br><br>
-    <strong>5. Pitch Canvas</strong> (30 min) — Poster A2 en equipe : Probleme, Solution, Benefice concret, Premiere action lundi. Repetez votre pitch de 2 min.
-  </div></div>
-  <div class="sec"><div class="sec-h">Infos pratiques</div><div style="padding:14px;font-size:0.85em;line-height:1.8;color:#444;">
-    <strong>Dejeuner :</strong> Pot luck de 11h55 a 13h00<br>
-    <strong>Pauses cafe :</strong> 10h00, 10h45, 14h15<br>
-    <strong>WiFi :</strong> Identifiants communiques a l'accueil<br>
-    <strong>Fin :</strong> 16h30 apres la photo de groupe<br>
-    <strong>Materiel :</strong> Post-its, marqueurs, gommettes et feuilles sont sur vos tables
-  </div></div>
-  </div>`;
 }
 
 // ============ MODAL ============
