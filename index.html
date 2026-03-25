@@ -243,6 +243,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 <div class="hdr">
   <h1>ICN DESIGN SPRINT</h1>
   <div class="sub">28 mars 2026 — 187 participants — 22 equipes</div>
+  <div style="position:absolute;top:12px;right:12px;display:flex;gap:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.3);">
+    <button onclick="setLang('fr')" id="langFr" style="padding:4px 10px;font-size:0.7em;font-weight:700;border:none;cursor:pointer;background:rgba(255,255,255,.9);color:#0D47A1;">FR</button>
+    <button onclick="setLang('en')" id="langEn" style="padding:4px 10px;font-size:0.7em;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,.7);">EN</button>
+  </div>
 </div>
 
 <div class="tabs" id="tabs"></div>
@@ -395,46 +399,43 @@ function buildOverview(){
   return `<div class="pnl act" id="p-overview">
   <div style="background:linear-gradient(135deg,#0D47A1,#1565C0);border-radius:14px;padding:20px;margin-bottom:16px;color:#fff;text-align:center;">
     <div style="font-size:2em;margin-bottom:8px;">&#127919;</div>
-    <h2 style="font-size:1.15em;margin-bottom:8px;">Bienvenue au Design Sprint ICN</h2>
-    <p style="font-size:0.85em;opacity:.9;line-height:1.5;">Aujourd'hui, 187 collaborateurs, 22 equipes, une journee pour imaginer ensemble l'ICN de demain.</p>
-  </div>
-  <div style="font-size:0.85em;color:#455A64;line-height:1.6;padding:0 4px;margin-bottom:16px;">
-    <p style="margin-bottom:10px;">Cette application est votre <strong>compagnon de journee</strong>. Vous y trouverez :</p>
+    <h2 style="font-size:1.15em;margin-bottom:8px;" data-fr="Bienvenue au Design Sprint ICN" data-en="Welcome to the ICN Design Sprint">Bienvenue au Design Sprint ICN</h2>
+    <p style="font-size:0.85em;opacity:.9;line-height:1.5;" data-fr="187 collaborateurs, 22 equipes, une journee pour imaginer l'ICN de demain." data-en="187 colleagues, 22 teams, one day to shape the future of ICN.">187 collaborateurs, 22 equipes, une journee pour imaginer l'ICN de demain.</p>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
     <div onclick="switchTab('agenda')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128197;</div>
       <div style="font-weight:700;font-size:0.82em;color:#0D47A1;">Agenda</div>
-      <div style="font-size:0.68em;color:#607D8B;">Le programme heure par heure</div>
+      <div style="font-size:0.68em;color:#607D8B;">The schedule / Le programme</div>
     </div>
     <div onclick="switchTab('polls')" style="background:#FFF3E0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128172;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#E65100;">Sondages</div>
-      <div style="font-size:0.68em;color:#607D8B;">Donnez votre avis en live</div>
+      <div style="font-weight:700;font-size:0.82em;color:#E65100;">Sondages / Polls</div>
+      <div style="font-size:0.68em;color:#607D8B;">Donne ton avis / Share your voice</div>
     </div>
     <div onclick="switchTab('equipes')" style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128101;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;">Mon equipe</div>
-      <div style="font-size:0.68em;color:#607D8B;">Trouvez vos coequipiers</div>
+      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;">Mon equipe / My team</div>
+      <div style="font-size:0.68em;color:#607D8B;">Trouve tes coequipiers / Find your teammates</div>
     </div>
     <div onclick="switchTab('phase1')" style="background:#F3E5F5;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127970;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#7B1FA2;">Ma salle</div>
-      <div style="font-size:0.68em;color:#607D8B;">Plan des salles par etage</div>
+      <div style="font-weight:700;font-size:0.82em;color:#7B1FA2;">Ma salle / My room</div>
+      <div style="font-size:0.68em;color:#607D8B;">Ou aller ? / Where to go?</div>
     </div>
     <div onclick="switchTab('phase2')" style="background:#E0F7FA;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127963;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#00838F;">Mon village</div>
-      <div style="font-size:0.68em;color:#607D8B;">5 villages pour les pitchs</div>
+      <div style="font-weight:700;font-size:0.82em;color:#00838F;">Mon village / My village</div>
+      <div style="font-size:0.68em;color:#607D8B;">Pour les pitchs / For the pitches</div>
     </div>
     <div onclick="switchTab('finale')" style="background:#FFF8E1;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127942;</div>
       <div style="font-weight:700;font-size:0.82em;color:#F57F17;">Pitch Final</div>
-      <div style="font-size:0.68em;color:#607D8B;">Les finalistes devant tous</div>
+      <div style="font-size:0.68em;color:#607D8B;">The final showdown</div>
     </div>
   </div>
   <div style="background:#ECEFF1;border-radius:12px;padding:14px;font-size:0.8em;color:#455A64;text-align:center;line-height:1.5;">
-    <strong>Besoin d'aide ?</strong> Utilisez le bouton <span style="background:#1565C0;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.85em;">&#128269; Ou suis-je ?</span> en bas a droite pour trouver votre salle et votre equipe en un clic.
+    <span data-fr="Perdu ? Clique sur le bouton orange en bas a droite pour trouver ta salle et ton equipe." data-en="Lost? Tap the orange button below to find your room and team.">Perdu ? Clique sur le bouton orange en bas a droite pour trouver ta salle et ton equipe.</span>
   </div>
   </div>`;
 }
@@ -465,8 +466,8 @@ function buildPolls(){
   // Waiting screen
   html += `<div class="poll-waiting" id="pollWaiting">
     <div class="pw-icon">&#9997;</div>
-    <div class="pw-title">Les sondages arrivent...</div>
-    <div class="pw-sub">Waiting for polls to start...<br>Restez sur cette page.</div>
+    <div class="pw-title" data-fr="Les sondages arrivent..." data-en="Polls are coming...">Les sondages arrivent...</div>
+    <div class="pw-sub" data-fr="Reste sur cette page, ca va commencer." data-en="Stay on this page, it's about to start.">Reste sur cette page, ca va commencer.</div>
   </div>`;
 
   POLL_QUESTIONS.forEach(q=>{
@@ -563,7 +564,7 @@ function buildAgenda(){
   return `<div class="pnl" id="p-agenda">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
     <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Agenda — 28 mars 2026</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;">Le programme complet de la journee. Matinee en amphitheatre, apres-midi en equipes pour un Design Sprint.</p>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;" data-fr="Le programme complet de ta journee. Matinee en amphi, apres-midi en equipe." data-en="Your full day schedule. Morning in the auditorium, afternoon in teams.">Le programme complet de ta journee. Matinee en amphi, apres-midi en equipe.</p>
   </div>
   <div class="sec"><div class="sec-h" style="background:#0D47A1;">Matinee — Amphitheatre<span class="bdg">10h-12h</span></div>
     ${morning.map(agendaRow).join("")}
@@ -599,8 +600,8 @@ function buildPhase1(){
 
   return `<div class="pnl" id="p-phase1">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Ma salle</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">9 salles sur 2 etages, 5 facilitateurs. Cherchez votre nom pour trouver votre salle instantanement.</p>
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;" data-fr="Ma salle" data-en="My room">Ma salle</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;" data-fr="9 salles sur 2 etages. Tape ton nom pour trouver ta salle." data-en="9 rooms on 2 floors. Type your name to find your room.">9 salles sur 2 etages. Tape ton nom pour trouver ta salle.</p>
     <input type="text" id="roomSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
   </div>
   <div class="sec"><div class="sec-h">1er Etage — 12 equipes<span class="bdg">110 pers.</span></div>
@@ -618,8 +619,8 @@ function buildPhase1(){
 function buildPhase2(){
   let html = `<div class="pnl" id="p-phase2">
   <div style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#7B1FA2;margin-bottom:6px;">Mon village</h2>
-    <p style="font-size:0.8em;color:#4A148C;line-height:1.4;">5 villages, 5 couleurs. Apres le Design Sprint, votre equipe rejoint son village pour les pitchs. Decouvrez vos voisins.</p>
+    <h2 style="font-size:1.05em;color:#7B1FA2;margin-bottom:6px;" data-fr="Mon village" data-en="My village">Mon village</h2>
+    <p style="font-size:0.8em;color:#4A148C;line-height:1.4;" data-fr="5 villages, 5 couleurs. Apres le Sprint, ton equipe rejoint son village pour les pitchs." data-en="5 villages, 5 colors. After the Sprint, your team joins its village for the pitches.">5 villages, 5 couleurs. Apres le Sprint, ton equipe rejoint son village pour les pitchs.</p>
   </div>
   <div class="vg">`;
   for(const [vk,v] of Object.entries(VILLAGES)){
@@ -642,8 +643,8 @@ function buildPhase2(){
 function buildEquipes(){
   let html = `<div class="pnl" id="p-equipes">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Trouve ton equipe</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">Tape ton nom pour trouver ta salle et tes coequipiers. Tu peux aussi chercher un nom de ville.</p>
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;" data-fr="Trouve ton equipe" data-en="Find your team">Trouve ton equipe</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;" data-fr="Tape ton nom pour trouver ta salle et tes coequipiers." data-en="Type your name to find your room and teammates.">Tape ton nom pour trouver ta salle et tes coequipiers.</p>
     <input type="text" id="eqSearch" placeholder="&#128269; Ton nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
   </div>
   <div class="eq-grid" id="eqGrid">`;
@@ -677,7 +678,7 @@ function buildFinale(){
   return `<div class="pnl" id="p-finale">
   <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:14px;padding:16px;margin-bottom:14px;">
     <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;">Pitch Final</h2>
-    <p style="font-size:0.8em;color:#795548;line-height:1.4;margin-bottom:12px;">Les 8 equipes finalistes pitchent 90 secondes devant les 200 personnes. Francois selectionne les projets qu'il veut financer.</p>
+    <p style="font-size:0.8em;color:#795548;line-height:1.4;margin-bottom:12px;" data-fr="Les 8 finalistes pitchent 90 secondes devant tout le monde. Francois selectionne les projets a financer." data-en="8 finalists pitch 90 seconds in front of everyone. Francois selects the projects to fund.">Les 8 finalistes pitchent 90 secondes devant tout le monde. Francois selectionne les projets a financer.</p>
     <input type="text" id="finaleSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #FFE082;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#E65100'" onblur="this.style.borderColor='#FFE082'">
   </div>
   <div class="sec"><div class="sec-h">Deroulement</div><div style="padding:12px;font-size:0.85em;line-height:1.8;color:#555;">
@@ -1118,9 +1119,31 @@ if(window.location.search.includes("presenter")){
   document.body.classList.add("presenter");
 }
 
+// ============ LANG ============
+let currentLang = "fr";
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem("icn_lang", lang);
+  document.getElementById("langFr").style.background = lang==="fr" ? "rgba(255,255,255,.9)" : "transparent";
+  document.getElementById("langFr").style.color = lang==="fr" ? "#0D47A1" : "rgba(255,255,255,.7)";
+  document.getElementById("langEn").style.background = lang==="en" ? "rgba(255,255,255,.9)" : "transparent";
+  document.getElementById("langEn").style.color = lang==="en" ? "#0D47A1" : "rgba(255,255,255,.7)";
+  document.querySelectorAll("[data-"+lang+"]").forEach(el=>{
+    el.textContent = el.dataset[lang];
+  });
+  // Update chatbot button
+  document.getElementById("chatBtn").innerHTML = lang==="fr" ? "&#128269; Ou suis-je ?" : "&#128269; Where am I?";
+  // Update chat placeholder
+  const ci = document.getElementById("chatIn");
+  if(ci) ci.placeholder = lang==="fr" ? "Ton nom ou equipe..." : "Your name or team...";
+}
+
 // ============ INIT ============
 init();
 initFirebase();
+// Restore language
+const savedLang = localStorage.getItem("icn_lang");
+if(savedLang) setLang(savedLang);
 </script>
 </body>
 </html>
