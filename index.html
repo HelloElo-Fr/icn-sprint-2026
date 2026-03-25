@@ -6,183 +6,157 @@
 <title>ICN Design Sprint — 28 mars 2026</title>
 <style>
 :root {
-  --blue:#1565C0; --bluel:#E3F2FD;
-  --green:#2E7D32; --greenl:#E8F5E9;
-  --purple:#7B1FA2; --purplel:#F3E5F5;
-  --orange:#E65100; --orangel:#FFF3E0;
+  --green:#2E7D32; --gl:#E8F5E9;
+  --purple:#7B1FA2; --pl:#F3E5F5;
+  --orange:#E65100; --ol:#FFF3E0;
+  --pink:#C2185B; --pkl:#FCE4EC;
+  --cyan:#00838F; --cl:#E0F7FA;
+  --blue:#1565C0; --bl:#E3F2FD;
   --gold:#F9A825;
   --dark:#263238; --gray:#607D8B;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;-webkit-tap-highlight-color:transparent;}
 
 /* Header */
-.hdr{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:18px 16px;text-align:center;}
-.hdr h1{font-size:1.3em;margin-bottom:3px;letter-spacing:.5px;}
-.hdr .sub{font-size:0.8em;opacity:0.85;}
+.hdr{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:16px;text-align:center;position:relative;}
+.hdr h1{font-size:1.2em;margin-bottom:2px;}
+.hdr .sub{font-size:0.78em;opacity:0.85;}
 
 /* Tabs */
-.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;position:sticky;top:0;z-index:90;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;}
-.tabs::-webkit-scrollbar{display:none;}
-.tabs .tb{flex:0 0 auto;padding:11px 14px;text-align:center;cursor:pointer;font-weight:600;font-size:0.78em;border-bottom:3px solid transparent;color:#888;white-space:nowrap;transition:all .2s;scroll-snap-align:start;min-width:0;}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;position:sticky;top:0;z-index:90;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tabs .tb{flex:0 0 auto;padding:10px 12px;text-align:center;cursor:pointer;font-weight:600;font-size:0.75em;border-bottom:3px solid transparent;color:#888;white-space:nowrap;transition:all .2s;min-width:0;}
 .tabs .tb.act{border-bottom-color:#1565C0;color:#1565C0;background:#E3F2FD;}
 .tabs .tb:active{background:#f0f0f0;}
 
 /* Panels */
-.pnl{display:none;max-width:800px;margin:0 auto;padding:16px;}
+.pnl{display:none;max-width:1100px;margin:0 auto;padding:14px;}
 .pnl.act{display:block;}
 
 /* Stats */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.st{background:#fff;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);}
-.st .n{font-size:1.5em;font-weight:700;color:#1565C0;}
-.st .l{font-size:0.68em;color:#607D8B;margin-top:2px;}
+.st{background:#fff;border-radius:10px;padding:10px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.st .n{font-size:1.4em;font-weight:700;color:#1565C0;}
+.st .l{font-size:0.65em;color:#607D8B;}
 
 /* Section */
-.sec{background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 1px 6px rgba(0,0,0,.06);overflow:hidden;}
-.sec-h{background:var(--dark);color:#fff;padding:12px 16px;font-size:0.9em;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+.sec{background:#fff;border-radius:12px;margin-bottom:14px;box-shadow:0 1px 6px rgba(0,0,0,.06);overflow:hidden;}
+.sec-h{background:var(--dark);color:#fff;padding:10px 14px;font-size:0.88em;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
 .sec-h .bdg{background:rgba(255,255,255,.2);padding:2px 10px;border-radius:12px;font-size:0.75em;}
 
-/* Timeline */
-.tl{position:relative;padding-left:26px;margin:14px 0;}
-.tl::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:3px;background:linear-gradient(#1565C0,#7B1FA2,#E65100,#2E7D32);border-radius:2px;}
-.tl-i{position:relative;margin-bottom:16px;}
-.tl-d{position:absolute;left:-20px;top:3px;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px #1565C0;}
-.tl-i h4{font-size:0.88em;margin-bottom:3px;}
-.tl-i p{font-size:0.78em;color:#555;line-height:1.5;}
+/* Fac zone */
+.fz{border-left:4px solid #1565C0;margin:10px 12px;padding:6px 10px;background:#FAFAFA;border-radius:0 8px 8px 0;}
+.fz h3{font-size:0.82em;margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.fb{color:#fff;padding:2px 8px;border-radius:10px;font-size:0.68em;white-space:nowrap;}
 
 /* Room */
-.rm{border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:8px;}
-.rm-n{background:#ECEFF1;padding:6px 10px;font-weight:600;font-size:0.8em;display:flex;justify-content:space-between;}
+.rm{border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.rm-n{background:#ECEFF1;padding:5px 8px;font-weight:600;font-size:0.78em;display:flex;justify-content:space-between;}
 .rm-n .c{font-size:0.72em;color:#607D8B;}
-.rm .tms{padding:6px 10px;}
+.rm .tms{padding:4px 8px;}
 
-/* Team row */
-.tr{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:0.82em;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .15s;}
+/* Team row (clickable) */
+.tr{padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:0.78em;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s;}
 .tr:last-child{border-bottom:none;}
 .tr:active,.tr:hover{background:#E3F2FD;}
 .tn{font-weight:600;}
 .tc{color:#607D8B;font-size:0.85em;}
-.tt{font-size:0.62em;padding:2px 6px;border-radius:6px;}
+.tt{font-size:0.6em;padding:1px 5px;border-radius:6px;}
 .tt-m{background:#E3F2FD;color:#1565C0;}
 .tt-f{background:#FFF3E0;color:#E65100;}
-.tt-c{background:#FCE4EC;color:#C2185B;}
 .tt-b{background:#E8F5E9;color:#2E7D32;}
+.tt-c{background:#FCE4EC;color:#C2185B;}
 .tr .arrow{margin-left:auto;color:#bbb;font-size:0.9em;}
 
 /* Village card */
-.vg{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:16px;}
-.vc{border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);}
-.vc .vh{padding:12px 14px;color:#fff;display:flex;justify-content:space-between;align-items:center;}
-.vc .vh h3{font-size:0.92em;}
-.vc .vh .vi{font-size:0.7em;opacity:.9;text-align:right;}
-.vc .vb{background:#fff;padding:10px 14px;}
-.vc .vt{padding:5px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;font-size:0.82em;cursor:pointer;}
+.vg{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+.vc{border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.vc .vh{padding:10px 12px;color:#fff;display:flex;justify-content:space-between;align-items:center;}
+.vc .vh h3{font-size:0.88em;}
+.vc .vh .vi{font-size:0.68em;opacity:.9;text-align:right;}
+.vc .vb{background:#fff;padding:8px 12px;}
+.vc .vt{padding:4px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;font-size:0.8em;}
 .vc .vt:last-child{border-bottom:none;}
-.vc .vt:active{background:#f8f8f8;}
+.vc .vl{padding:6px 10px;font-size:0.72em;background:#FAFAFA;border-top:1px solid #eee;}
+.mv{font-size:0.62em;padding:1px 5px;border-radius:6px;background:#FFF8E1;color:#F57F17;}
+.sy{font-size:0.62em;padding:1px 5px;border-radius:6px;background:#E8F5E9;color:#2E7D32;}
+.fl{font-size:0.62em;padding:1px 5px;border-radius:6px;background:#FFEBEE;color:#C62828;}
 
-/* Equipes */
-.eq-grid{display:grid;grid-template-columns:1fr;gap:10px;}
-.eq-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;transition:transform .1s;}
+/* Equipes list */
+.eq-grid{display:grid;grid-template-columns:1fr;gap:8px;}
+.eq-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;transition:transform .1s;}
 .eq-card:active{transform:scale(.98);}
-.eq-top{padding:10px 14px;color:#fff;display:flex;justify-content:space-between;align-items:center;}
-.eq-top h4{font-size:0.9em;}
-.eq-top .eq-info{font-size:0.72em;opacity:.9;}
-.eq-members{padding:10px 14px;display:none;}
+.eq-top{padding:8px 12px;color:#fff;display:flex;justify-content:space-between;align-items:center;}
+.eq-top h4{font-size:0.88em;}
+.eq-top .eq-info{font-size:0.7em;opacity:.9;}
+.eq-members{padding:8px 12px;display:none;}
 .eq-card.open .eq-members{display:block;}
-.eq-m{font-size:0.82em;padding:3px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;}
+.eq-m{font-size:0.78em;padding:2px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;}
 .eq-m:last-child{border-bottom:none;}
 
-/* Fac zone */
-.fz{border-left:4px solid #1565C0;margin:10px 14px;padding:8px 12px;background:#FAFAFA;border-radius:0 10px 10px 0;}
-.fz h3{font-size:0.85em;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.fb{color:#fff;padding:3px 10px;border-radius:10px;font-size:0.7em;white-space:nowrap;}
+/* Timeline */
+.tl{position:relative;padding-left:24px;margin:12px 0;}
+.tl::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:3px;background:linear-gradient(#1565C0,#7B1FA2,#E65100);border-radius:2px;}
+.tl-i{position:relative;margin-bottom:14px;}
+.tl-d{position:absolute;left:-19px;top:3px;width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px #1565C0;}
+.tl-i h4{font-size:0.85em;margin-bottom:2px;}
+.tl-i p{font-size:0.75em;color:#555;line-height:1.4;}
 
 /* Finale */
-.fin{background:linear-gradient(135deg,#FFFDE7,#FFF8E1);border:2px solid #F9A825;border-radius:14px;padding:18px;margin-bottom:16px;text-align:center;}
-.fin h3{color:#E65100;font-size:1.05em;margin-bottom:6px;}
-.fin p{font-size:0.85em;color:#555;}
+.fin{background:linear-gradient(135deg,#FFFDE7,#FFF8E1);border:2px solid #F9A825;border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;}
+.fin h3{color:#E65100;font-size:1em;margin-bottom:6px;}
+.fin p{font-size:0.82em;color:#555;}
 
 /* Table */
-.stbl{width:100%;border-collapse:collapse;font-size:0.78em;}
-.stbl th{background:#ECEFF1;padding:7px 8px;text-align:left;font-weight:600;}
-.stbl td{padding:5px 8px;border-bottom:1px solid #f0f0f0;}
+.stbl{width:100%;border-collapse:collapse;font-size:0.76em;}
+.stbl th{background:#ECEFF1;padding:6px 8px;text-align:left;font-weight:600;}
+.stbl td{padding:4px 8px;border-bottom:1px solid #f0f0f0;}
 
 /* Move items */
-.mi{display:flex;align-items:center;gap:4px;padding:5px 0;border-bottom:1px solid #f5f5f5;font-size:0.82em;flex-wrap:wrap;}
+.mi{display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #f5f5f5;font-size:0.8em;flex-wrap:wrap;}
 .mi:last-child{border-bottom:none;}
 .ma{color:#F57F17;font-weight:700;}
+.tf{background:#FFEBEE;padding:1px 6px;border-radius:6px;color:#C62828;font-size:0.7em;font-weight:600;}
+.ts{background:#E8F5E9;padding:1px 6px;border-radius:6px;color:#2E7D32;font-size:0.7em;font-weight:600;}
 
-/* Home chatbot */
-.home-chat{background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(0,0,0,.1);margin-bottom:18px;overflow:hidden;}
-.home-chat-hdr{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:18px 20px;display:flex;align-items:center;gap:14px;}
-.home-chat-hdr .hc-icon{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.5em;flex-shrink:0;}
-.home-chat-hdr .hc-text h3{font-size:1.05em;margin-bottom:3px;}
-.home-chat-hdr .hc-text p{font-size:0.8em;opacity:.85;}
-.home-chat-body{padding:16px;}
-.hc-input-wrap{display:flex;gap:8px;}
-.hc-input{flex:1;border:2px solid #e0e0e0;border-radius:14px;padding:13px 16px;font-size:1em;outline:none;transition:border-color .2s;}
-.hc-input:focus{border-color:#1565C0;}
-.hc-send{background:#1565C0;color:#fff;border:none;border-radius:14px;padding:0 20px;cursor:pointer;font-size:1.1em;transition:background .2s;min-height:48px;}
-.hc-send:active{background:#0D47A1;}
-.hc-quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
-.hc-quick button{background:#E3F2FD;color:#1565C0;border:1px solid #BBDEFB;border-radius:20px;padding:7px 14px;font-size:0.8em;cursor:pointer;font-weight:500;transition:all .15s;}
-.hc-quick button:active{background:#1565C0;color:#fff;}
-.hc-result{margin-top:14px;display:none;}
-.hc-result.show{display:block;}
-.hc-result-card{background:linear-gradient(135deg,#f0f4f8,#e8edf2);border-radius:14px;padding:16px 18px;font-size:0.9em;line-height:1.8;}
-.hc-result-card strong{color:#0D47A1;}
-
-/* Floating chat */
-.chat-btn{position:fixed;bottom:18px;right:18px;width:54px;height:54px;border-radius:50%;background:#1565C0;color:#fff;border:none;font-size:1.4em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:200;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+/* Chatbot */
+.chat-btn{position:fixed;bottom:16px;right:16px;width:52px;height:52px;border-radius:50%;background:#1565C0;color:#fff;border:none;font-size:1.4em;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:200;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
 .chat-btn:active{transform:scale(.9);}
-.chat-box{position:fixed;bottom:80px;right:12px;width:calc(100vw - 24px);max-width:380px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:200;display:none;overflow:hidden;max-height:70vh;flex-direction:column;}
+.chat-box{position:fixed;bottom:76px;right:12px;width:calc(100vw - 24px);max-width:360px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:200;display:none;overflow:hidden;max-height:70vh;flex-direction:column;}
 .chat-box.open{display:flex;}
-.chat-hdr{background:#1565C0;color:#fff;padding:12px 16px;font-weight:600;font-size:0.9em;display:flex;justify-content:space-between;align-items:center;}
-.chat-hdr .close{cursor:pointer;font-size:1.2em;opacity:.8;padding:4px;}
+.chat-hdr{background:#1565C0;color:#fff;padding:12px 16px;font-weight:600;font-size:0.88em;display:flex;justify-content:space-between;align-items:center;}
+.chat-hdr .close{cursor:pointer;font-size:1.2em;opacity:.8;}
 .chat-msgs{flex:1;overflow-y:auto;padding:12px;min-height:200px;max-height:50vh;}
-.chat-msg{margin-bottom:10px;font-size:0.85em;line-height:1.6;}
-.chat-msg.bot{background:#f0f4f8;padding:10px 14px;border-radius:14px 14px 14px 2px;max-width:90%;}
-.chat-msg.user{background:#1565C0;color:#fff;padding:10px 14px;border-radius:14px 14px 2px 14px;max-width:80%;margin-left:auto;}
-.chat-input{display:flex;border-top:1px solid #eee;padding:10px;}
-.chat-input input{flex:1;border:1px solid #ddd;border-radius:20px;padding:10px 16px;font-size:0.88em;outline:none;}
+.chat-msg{margin-bottom:10px;font-size:0.82em;line-height:1.5;}
+.chat-msg.bot{background:#f0f4f8;padding:8px 12px;border-radius:12px 12px 12px 2px;max-width:90%;}
+.chat-msg.user{background:#1565C0;color:#fff;padding:8px 12px;border-radius:12px 12px 2px 12px;max-width:80%;margin-left:auto;}
+.chat-input{display:flex;border-top:1px solid #eee;padding:8px;}
+.chat-input input{flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 14px;font-size:0.85em;outline:none;}
 .chat-input input:focus{border-color:#1565C0;}
-.chat-input button{margin-left:8px;background:#1565C0;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:1em;}
+.chat-input button{margin-left:6px;background:#1565C0;color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1em;}
 
-/* Modal */
+/* Modal overlay */
 .modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;}
 .modal-bg.open{display:flex;}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:420px;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.25);}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.25);}
 .modal-h{padding:14px 16px;color:#fff;display:flex;justify-content:space-between;align-items:center;border-radius:16px 16px 0 0;}
-.modal-h h3{font-size:1em;}
+.modal-h h3{font-size:0.95em;}
 .modal-h .mx{cursor:pointer;font-size:1.2em;opacity:.8;padding:4px 8px;}
-.modal-body{padding:14px 16px;}
-.modal-info{font-size:0.82em;color:#607D8B;margin-bottom:10px;line-height:1.7;}
-.modal-member{font-size:0.85em;padding:5px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;}
+.modal-body{padding:12px 16px;}
+.modal-info{font-size:0.78em;color:#607D8B;margin-bottom:8px;line-height:1.6;}
+.modal-member{font-size:0.82em;padding:4px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;}
 .modal-member:last-child{border-bottom:none;}
 
 /* Responsive */
-@media(max-width:374px){
-  .hdr h1{font-size:1.05em;}
-  .tabs .tb{padding:9px 9px;font-size:0.7em;}
-  .home-chat-hdr .hc-icon{width:38px;height:38px;font-size:1.2em;}
-  .home-chat-hdr .hc-text h3{font-size:0.9em;}
-  .hc-input{padding:10px 12px;font-size:0.9em;}
-}
 @media(min-width:600px){
-  .stats{grid-template-columns:repeat(4,1fr);}
+  .stats{grid-template-columns:repeat(6,1fr);}
   .vg{grid-template-columns:1fr 1fr;}
   .eq-grid{grid-template-columns:1fr 1fr;}
   .rm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 }
 @media(min-width:900px){
+  .vg{grid-template-columns:repeat(3,1fr);}
   .eq-grid{grid-template-columns:repeat(3,1fr);}
-  .pnl{padding:24px;}
-  .home-chat{max-width:600px;margin-left:auto;margin-right:auto;}
-}
-@supports(padding-bottom:env(safe-area-inset-bottom)){
-  .chat-btn{bottom:calc(18px + env(safe-area-inset-bottom));}
-  .chat-box{bottom:calc(80px + env(safe-area-inset-bottom));}
 }
 </style>
 </head>
@@ -190,28 +164,31 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 
 <div class="hdr">
   <h1>ICN DESIGN SPRINT</h1>
-  <div class="sub">28 mars 2026 \u2022 187 participants \u2022 22 \u00e9quipes</div>
+  <div class="sub">28 mars 2026 — 187 participants — 22 equipes</div>
 </div>
 
 <div class="tabs" id="tabs"></div>
 <div id="panels"></div>
 
+<!-- Chat button -->
 <button class="chat-btn" id="chatBtn" title="Ou suis-je ?">?</button>
 
+<!-- Chat box -->
 <div class="chat-box" id="chatBox">
   <div class="chat-hdr">
-    <span>O\u00f9 suis-je ?</span>
+    <span>Ou suis-je ?</span>
     <span class="close" id="chatClose">&#10005;</span>
   </div>
   <div class="chat-msgs" id="chatMsgs">
-    <div class="chat-msg bot">Salut ! Tape ton <strong>nom</strong> ou ton <strong>\u00e9quipe</strong> et je te dis direct o\u00f9 aller. Tu peux aussi me poser une question : <em>horaires, wifi, d\u00e9jeuner, village...</em></div>
+    <div class="chat-msg bot">Bonjour ! Tape ton <strong>nom</strong> ou un <strong>nom d'equipe</strong> et je te dis ou aller.</div>
   </div>
   <div class="chat-input">
-    <input type="text" id="chatIn" placeholder="Ton nom, equipe ou question..." autocomplete="off">
+    <input type="text" id="chatIn" placeholder="Ton nom ou equipe..." autocomplete="off">
     <button id="chatSend">&#10148;</button>
   </div>
 </div>
 
+<!-- Modal -->
 <div class="modal-bg" id="modalBg">
   <div class="modal" id="modal">
     <div class="modal-h" id="modalH"><h3 id="modalTitle"></h3><span class="mx" id="modalClose">&#10005;</span></div>
@@ -220,182 +197,63 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 </div>
 
 <script>
-// ============ DATA (source: Notion, mis a jour 24 mars) ============
+// ============ DATA ============
 const TEAMS = [
-  {name:"TOKYO",type:"MIXTE",village:"A",vColor:"#1565C0",room:"Salle du Conseil",table:"T1",
-   members:[["Melissa","GUERICOLAS","Nancy"],["Catherine","JUNGMANN","Nancy"],["Maxime","LACQUIT","Nancy"],["Xavier","LOPPARELLI","Nancy"],["Anne Laure","MARTIN","Paris"],["Hareesh","MAVOORI","Nancy"],["Francois","MILAZZO","Nancy"],["Christophe","RETHORE","Paris"],["Benjamin","VANZO","Nancy"]]},
-  {name:"BARCELONA",type:"MIXTE",village:"A",vColor:"#1565C0",room:"Salle du Conseil",table:"T2",
-   members:[["Hicham","ABDALLAH","Paris"],["Eskedar","BEKELE","Nancy"],["Parisa","DOLATINEGHABADI","Paris"],["Renato","GUIMARAES","Nancy"],["Melisande","HANS","Nancy"],["Chloe","KONGOLO","Nancy"],["Viktoriia","KSHNIASKINA","Berlin"],["Thibaud","MANGIN","Nancy"],["Simon","PELARD-HECKLER","Nancy"]]},
-  {name:"MONTREAL",type:"MIXTE",village:"A",vColor:"#1565C0",room:"Salle du Conseil",table:"T3",
-   members:[["Hakim","BEN OTHMAN","Nancy"],["Messaoud","CHIBANE","Paris"],["Pierre","CLIVIO","Nancy"],["Anja","DIESEL","Berlin"],["Nicolas","GADEK-BEAUPREZ","Nancy"],["Madeleine","OSTROWSKI","Nancy"],["Anais","ROSINSKI","Nancy"],["Jean Francois","STICH","Nancy"],["Erik Ernesto","VAZQUEZ HERNANDEZ","Paris"]]},
-  {name:"NAIROBI",type:"MIXTE",village:"A",vColor:"#1565C0",room:"Salle du Conseil",table:"T4",
-   members:[["Saliha","DORIAC","Nancy"],["Aude","GACHET","Paris"],["Silvester","IVANAJ","Nancy"],["Haitham","KSENTINI","Nancy"],["Myriam","MAUROY","Nancy"],["Patricia","NZENGO","Paris"],["Charlotte","PERRIN","Nancy"],["Catherine","SCHWARTZ","Nancy"],["Volker","SEILER","Berlin"]]},
-  {name:"MARSEILLE",type:"FR PUR",village:"A",vColor:"#1565C0",room:"104 Simone de Beauvoir",table:"",
-   members:[["Nadine","BIQUELIN","Nancy"],["Helene","CHOCQUET","Paris"],["Christophe","CORDIER","Nancy"],["Valerie","COUTAL","Nancy"],["Michael","DAHBI","Nancy"],["Khedidja","HAQUI","Nancy"],["Pauline","KUNCA","Nancy"],["Fanny","STOCARD","Nancy"]]},
-  {name:"COMEX",type:"COMEX",village:"A",vColor:"#1565C0",room:"107 Charles Darwin",table:"",
-   members:[["Philippe","ALBANI","Nancy"],["Ann","GERARD","Paris"],["Christine","KRATZ","Nancy"],["Cecile","PALLOT","Nancy"],["Kushal","SHARMA","Nancy"],["Francois","THERIN","Nancy"]]},
-  {name:"AMSTERDAM",type:"MIXTE",village:"B",vColor:"#2E7D32",room:"207 Bobby Fisher",table:"T1",
-   members:[["Gregory","ABBONDANZA","Paris"],["Stephanie","BAYSANG","Nancy"],["Valentine","BUCHLER","Nancy"],["Rene","DIAZ PICHARDO","Nancy"],["Laurence","FINET","Nancy"],["Amandine","MANTEAU","Paris"],["Paola","RAVELOJAONA","Nancy"],["Elisa","SANTARELLI","Nancy"],["Muhammad","UMER","Nancy"]]},
-  {name:"SYDNEY",type:"MIXTE",village:"B",vColor:"#2E7D32",room:"207 Bobby Fisher",table:"T2",
-   members:[["Agnes","CECCARELLI","Nancy"],["Flavia","DUMONT","Nancy"],["Ewa","EL BERGUI","Nancy"],["Asli","KOZAN","Paris"],["Emma","LE HECHO","Nancy"],["Margot","MOINARD","Paris"],["Marion","PHILIPPOT","Nancy"],["Krishanu","RAKSHIT","Nancy"],["Maria","RODRIGUEZ","Nancy"]]},
-  {name:"MUMBAI",type:"MIXTE",village:"B",vColor:"#2E7D32",room:"207 Bobby Fisher",table:"T3",
-   members:[["Valentin","AUBERTIN","Nancy"],["Severine","DELCROIX","Nancy"],["Benedicte","KINENGUE","Nancy"],["Marc","KOUZEZ","Paris"],["Pauline","MOTHU","Paris"],["Severine","MYLY","Nancy"],["Klaus-Peter","SCHULZ","Nancy"],["Theo","SCHMITT","Nancy"],["Thibaud","WEIDMANN","Nancy"]]},
-  {name:"LISBONNE",type:"BILINGUE",village:"B",vColor:"#2E7D32",room:"205 Emile Galle",table:"",
-   members:[["Estelle","BERNARD","Nancy"],["Clarice","BERTIN","Nancy"],["Pauline","CHOPINEAUX","Paris"],["Geoffroy","DE CHASSEY","Paris"],["Fanny","EL BARWANE","Nancy"],["Benjamin","LEROGNON","Nancy"],["Tracey-Lynn","SCHNEIDER","Nancy"],["Carine","SONNTAG","Nancy"],["Sebastien","WECKERING","Nancy"]]},
-  {name:"DUBLIN",type:"BILINGUE",village:"B",vColor:"#2E7D32",room:"206 Jean Prouve",table:"",
-   members:[["Sonia","AKKOUCHE","Nancy"],["Remy","FRINGANT","Nancy"],["Nicolas","HUCK","Nancy"],["Yacine","KASMI","Nancy"],["Jeanne","LEROY","Paris"],["Laura","RECUERO VIRTO","Paris"],["Sroucho","SAHAKIAN","Nancy"],["Edgar","SCHERER","Nancy"]]},
-  {name:"LYON",type:"FR PUR",village:"B",vColor:"#2E7D32",room:"202 Rosa Parks",table:"",
-   members:[["Mohammed-Amine","BADECHE","Nancy"],["Jean-Pierre","CARPENTIER-MANSUY","Nancy"],["Julie","CORVISIER","Nancy"],["Cyril","GAUBIN","Nancy"],["Celine","GRENEZ","Nancy"],["Sophie","PAQUOT","Nancy"],["Stephanie","STOLF","Nancy"]]},
-  {name:"SAN FRANCISCO",type:"MIXTE",village:"C",vColor:"#7B1FA2",room:"112 Dorothy Vaughan",table:"T1",
-   members:[["Oumaima","AMAZAL","Paris"],["Laura","ARBILLOT","Nancy"],["Stephane","BLANC","Nancy"],["Leonhardt","GEBHARDT","Berlin"],["Sandrine","GIROD","Nancy"],["Erwan","LE BRETON","Paris"],["Francesc","RELANO","Nancy"],["Stephanie","THIERY-DUBUISSON","Nancy"],["Yannick","WELLENREITER",""]]},
-  {name:"BERLIN",type:"MIXTE",village:"C",vColor:"#7B1FA2",room:"112 Dorothy Vaughan",table:"T2",
-   members:[["Acil","ABDUL HADI","Paris"],["Zineb","AOUNI","Nancy"],["Cristiane","BENETTI","Nancy"],["Morgane","LEONARD","Nancy"],["William","MALENFERT-GERARD","Nancy"],["Estelle","RECCHIA","Nancy"],["Christophe","STALLA-BOURDILLON","Paris"],["Sophie","THIREAU","Nancy"],["Hendrik","WACHE","Paris"]]},
-  {name:"SINGAPOUR",type:"MIXTE",village:"C",vColor:"#7B1FA2",room:"112 Dorothy Vaughan",table:"T3",
-   members:[["Jean-Philippe","CHAMPAGNE","Paris"],["Yves","HABRAN","Nancy"],["Tilo","HALASZOVICH","Nancy"],["Vanessa","JACQUEMIN","Nancy"],["Fatoumata","MAGASSOUBA","Paris"],["Kamel","MNISRI","Nancy"],["Nedjma","RABAH-QUIVOGNE","Nancy"],["Arnaud","RAGOT","Nancy"],["Virginie","THOMASSIN","Nancy"]]},
-  {name:"VANCOUVER",type:"BILINGUE",village:"C",vColor:"#7B1FA2",room:"Salle du Conseil",table:"T6",
-   members:[["Elisabeth Jane","ASCHERL","Nancy"],["Julien","BILLION","Paris"],["Alejandra","DUENAS","Nancy"],["Edgar","GRIZZI","Nancy"],["Christelle","HEULARD","Nancy"],["Aurelien","QUIGNON","Paris"],["Remi","SCHILLE","Nancy"],["Marie-Odile","SOSNOWSKI","Nancy"],["Theo","STENGELHOFEN","Nancy"]]},
-  {name:"BUENOS AIRES",type:"BILINGUE",village:"C",vColor:"#7B1FA2",room:"Salle du Conseil",table:"T7",
-   members:[["Loic","ABEL","Nancy"],["Elisabeth","AGUILAR-ANTUNEZ","Nancy"],["Chloe","BARBIER","Nancy"],["Gerald","DUFFING","Nancy"],["Maxime","KOROMYSLOV","Nancy"],["Anne Sophie","LENS","Nancy"],["Jennifer","MALGOUVERNE","Nancy"],["Alena","PAUTOVA","Paris"],["Jeremy","SARMENTO","Nancy"]]},
-  {name:"SEOUL",type:"MIXTE",village:"D",vColor:"#E65100",room:"101 Marie Curie",table:"T1",
-   members:[["Mihaela","BRICE","Nancy"],["Lorine","GUIOT","Paris"],["Ahmet","KILINC","Nancy"],["Jordan","LALLEMAND","Nancy"],["Frederique","LE MEITOUR","Nancy"],["Alexandre","MELNIK","Paris"],["Rafiu","OMOLOYE","Nancy"],["Oriane","SCHNEIDER","Nancy"],["Stefan","SONNENBURG","Berlin"]]},
-  {name:"MARRAKECH",type:"BILINGUE",village:"D",vColor:"#E65100",room:"101 Marie Curie",table:"T2",
-   members:[["Christelle","COLEIN","Nancy"],["Edina","EBERHARDT","Nancy"],["Brahim","GAIES","Paris"],["Philippe","MAIRESSE","Nancy"],["Samantha","NGUYEN","Nancy"],["Aicha","OUMESSAOUD","Nancy"],["Elisabeth","PAULET","Nancy"],["Nicolas","RAINERI","Nancy"]]},
-  {name:"LE CAP",type:"BILINGUE",village:"D",vColor:"#E65100",room:"101 Marie Curie",table:"T3",
-   members:[["Heidi","ALTAMAR JULIO","Nancy"],["Frederique","BOUTIN","Nancy"],["Isotilia","COSTA MELO","Paris"],["Florian","GOBERT","Nancy"],["Thierry","HOUE","Nancy"],["Alexandra","HOUY","Nancy"],["Rebecca","STEKELORUM","Nancy"],["Emma","TUSITHIPHONEXAY","Nancy"]]},
-  {name:"HELSINKI",type:"BILINGUE",village:"D",vColor:"#E65100",room:"Salle du Conseil",table:"T5",
-   members:[["Cecile","COPIER","Nancy"],["Jeremy","GARCIA SANCHEZ","Paris"],["Khaled","LAHLOUH","Nancy"],["Chloe","LE BRIS","Nancy"],["Cyrille","MARC","Nancy"],["Emma","NOGAL","Nancy"],["Constance","PIERREZ","Nancy"],["Nataliia","SOKOLOVA","Nancy"]]},
-  {name:"RIO",type:"BILINGUE",village:"D",vColor:"#E65100",room:"Salle du Conseil",table:"T8",
-   members:[["Monique","BEGUIN","Nancy"],["Nacera","BERBARA","Nancy"],["Francoise","BRODT","Nancy"],["Deborah","DA SILVA","Nancy"],["Nela","HIMA","Paris"],["Bruno","PECCHIOLI","Nancy"],["Alia","SELAMI","Nancy"],["Bruno","VANCON","Nancy"]]}
+  {name:"TOKYO",type:"MIXTE",village:"V2",vColor:"#7B1FA2",p1Room:"Conseil",p2Room:"112",fac:"Fac 3",
+   members:[["Melissa","GUERICOLAS","Nancy","FR & EN"],["Catherine","JUNGMANN","Nancy","FR & EN"],["Maxime","LACQUIT","Nancy","FR & EN"],["Xavier","LOPPARELLI","Nancy","FR & EN"],["Anne Laure","MARTIN","Paris","FR & EN"],["Hareesh","MAVOORI","Nancy","EN"],["Francois","MILAZZO","Nancy","FR & EN"],["Christophe","RETHORE","Paris","FR & EN"],["Benjamin","VANZO","Nancy","FR & EN"]]},
+  {name:"BARCELONA",type:"MIXTE",village:"V5",vColor:"#00838F",p1Room:"Conseil",p2Room:"206",fac:"Fac 1",
+   members:[["Hicham","ABDALLAH","Paris","FR & EN"],["Eskedar","BEKELE","Nancy","FR & EN"],["Parisa","DOLATINEGHABADI","Paris","FR & EN"],["Renato","GUIMARAES","Nancy","FR & EN"],["Melisande","HANS","Nancy","FR & EN"],["Chloe","KONGOLO","Nancy","FR & EN"],["Viktoriia","KSHNIASKINA","Berlin","EN"],["Thibaud","MANGIN","Nancy","FR & EN"],["Simon","PELARD-HECKLER","Nancy","FR & EN"]]},
+  {name:"MONTREAL",type:"MIXTE",village:"V1",vColor:"#2E7D32",p1Room:"Conseil",p2Room:"207",fac:"Fac 4",
+   members:[["Hakim","BEN OTHMAN","Nancy","FR & EN"],["Messaoud","CHIBANE","Paris","FR & EN"],["Pierre","CLIVIO","Nancy","FR & EN"],["Anja","DIESEL","Berlin","EN"],["Nicolas","GADEK-BEAUPREZ","Nancy","FR & EN"],["Madeleine","OSTROWSKI","Nancy","FR & EN"],["Anais","ROSINSKI","Nancy","FR & EN"],["Jean Francois","STICH","Nancy","FR & EN"],["Erik Ernesto","VAZQUEZ HERNANDEZ","Paris","FR & EN"]]},
+  {name:"NAIROBI",type:"MIXTE",village:"V3",vColor:"#E65100",p1Room:"Conseil",p2Room:"101",fac:"Fac 2",
+   members:[["Saliha","DORIAC","Nancy","FR & EN"],["Aude","GACHET","Paris","FR & EN"],["Silvester","IVANAJ","Nancy","FR & EN"],["Haitham","KSENTINI","Nancy","FR & EN"],["Myriam","MAUROY","Nancy","FR & EN"],["Patricia","NZENGO","Paris","FR & EN"],["Charlotte","PERRIN","Nancy","FR & EN"],["Catherine","SCHWARTZ","Nancy","FR & EN"],["Volker","SEILER","Berlin","EN"]]},
+  {name:"MARSEILLE",type:"FR PUR",village:"V2",vColor:"#7B1FA2",p1Room:"104",p2Room:"112",fac:"Fac 3",
+   members:[["Nadine","BIQUELIN","Nancy","FR"],["Helene","CHOCQUET","Paris","FR"],["Christophe","CORDIER","Nancy","FR"],["Valerie","COUTAL","Nancy","FR"],["Michael","DAHBI","Nancy","FR"],["Khedidja","HAQUI","Nancy","FR"],["Pauline","KUNCA","Nancy","FR"],["Fanny","STOCARD","Nancy","FR"]]},
+  {name:"COMEX",type:"COMEX",village:"V3",vColor:"#E65100",p1Room:"107",p2Room:"101",fac:"Fac 2",
+   members:[["Philippe","ALBANI","Nancy","FR & EN"],["Ann","GERARD","Paris","FR & EN"],["Christine","KRATZ","Nancy","FR & EN"],["Cecile","PALLOT","Nancy","FR & EN"],["Kushal","SHARMA","Nancy","EN"],["Francois","THERIN","Nancy","FR & EN"]]},
+  {name:"AMSTERDAM",type:"MIXTE",village:"V1",vColor:"#2E7D32",p1Room:"207",p2Room:"207",fac:"Fac 4",
+   members:[["Gregory","ABBONDANZA","Paris","FR & EN"],["Stephanie","BAYSANG","Nancy","FR & EN"],["Valentine","BUCHLER","Nancy","FR & EN"],["Rene","DIAZ PICHARDO","Nancy","FR & EN"],["Laurence","FINET","Nancy","FR & EN"],["Amandine","MANTEAU","Paris","FR & EN"],["Paola","RAVELOJAONA","Nancy","FR & EN"],["Elisa","SANTARELLI","Nancy","FR & EN"],["Muhammad","UMER","Nancy","EN"]]},
+  {name:"SYDNEY",type:"MIXTE",village:"V1",vColor:"#2E7D32",p1Room:"207",p2Room:"207",fac:"Fac 4",
+   members:[["Agnes","CECCARELLI","Nancy","FR & EN"],["Flavia","DUMONT","Nancy","FR & EN"],["Ewa","EL BERGUI","Nancy","FR & EN"],["Asli","KOZAN","Paris","FR & EN"],["Emma","LE HECHO","Nancy","FR & EN"],["Margot","MOINARD","Paris","FR & EN"],["Marion","PHILIPPOT","Nancy","FR & EN"],["Krishanu","RAKSHIT","Nancy","EN"],["Maria","RODRIGUEZ","Nancy","FR & EN"]]},
+  {name:"MUMBAI",type:"MIXTE",village:"V1",vColor:"#2E7D32",p1Room:"207",p2Room:"207",fac:"Fac 4",
+   members:[["Valentin","AUBERTIN","Nancy","FR & EN"],["Severine","DELCROIX","Nancy","FR & EN"],["Benedicte","KINENGUE","Nancy","FR & EN"],["Marc","KOUZEZ","Paris","FR & EN"],["Pauline","MOTHU","Paris","FR & EN"],["Severine","MYLY","Nancy","FR & EN"],["Klaus-Peter","SCHULZ","Nancy","EN"],["Theo","SCHMITT","Nancy","FR & EN"],["Thibaud","WEIDMANN","Nancy","FR & EN"]]},
+  {name:"LISBONNE",type:"BILINGUE",village:"V4",vColor:"#C2185B",p1Room:"205",p2Room:"205",fac:"Fac 5",
+   members:[["Estelle","BERNARD","Nancy","FR & EN"],["Clarice","BERTIN","Nancy","FR & EN"],["Pauline","CHOPINEAUX","Paris","FR & EN"],["Geoffroy","DE CHASSEY","Paris","FR & EN"],["Fanny","EL BARWANE","Nancy","FR & EN"],["Benjamin","LEROGNON","Nancy","FR & EN"],["Tracey-Lynn","SCHNEIDER","Nancy","FR & EN"],["Carine","SONNTAG","Nancy","FR & EN"],["Sebastien","WECKERING","Nancy","FR & EN"]]},
+  {name:"DUBLIN",type:"BILINGUE",village:"V5",vColor:"#00838F",p1Room:"206",p2Room:"206",fac:"Fac 1",
+   members:[["Sonia","AKKOUCHE","Nancy","FR & EN"],["Remy","FRINGANT","Nancy","FR & EN"],["Nicolas","HUCK","Nancy","FR & EN"],["Yacine","KASMI","Nancy","FR & EN"],["Jeanne","LEROY","Paris","FR & EN"],["Laura","RECUERO VIRTO","Paris","FR & EN"],["Sroucho","SAHAKIAN","Nancy","FR & EN"],["Edgar","SCHERER","Nancy","FR & EN"]]},
+  {name:"LYON",type:"FR PUR",village:"V5",vColor:"#00838F",p1Room:"202",p2Room:"206",fac:"Fac 1",
+   members:[["Mohammed-Amine","BADECHE","Nancy","FR"],["Jean-Pierre","CARPENTIER-MANSUY","Nancy","FR"],["Julie","CORVISIER","Nancy","FR"],["Cyril","GAUBIN","Nancy","FR"],["Celine","GRENEZ","Nancy","FR"],["Sophie","PAQUOT","Nancy","FR"],["Stephanie","STOLF","Nancy","FR"]]},
+  {name:"SAN FRANCISCO",type:"MIXTE",village:"V2",vColor:"#7B1FA2",p1Room:"112",p2Room:"112",fac:"Fac 3",
+   members:[["Oumaima","AMAZAL","Paris","FR & EN"],["Laura","ARBILLOT","Nancy","FR & EN"],["Stephane","BLANC","Nancy","FR & EN"],["Leonhardt","GEBHARDT","Berlin","EN"],["Sandrine","GIROD","Nancy","FR & EN"],["Erwan","LE BRETON","Paris","FR & EN"],["Francesc","RELANO","Nancy","FR & EN"],["Stephanie","THIERY-DUBUISSON","Nancy","FR & EN"],["Yannick","WELLENREITER","","FR & EN"]]},
+  {name:"BERLIN",type:"MIXTE",village:"V2",vColor:"#7B1FA2",p1Room:"112",p2Room:"112",fac:"Fac 3",
+   members:[["Acil","ABDUL HADI","Paris","FR & EN"],["Zineb","AOUNI","Nancy","FR & EN"],["Cristiane","BENETTI","Nancy","FR & EN"],["Morgane","LEONARD","Nancy","FR & EN"],["William","MALENFERT-GERARD","Nancy","FR & EN"],["Estelle","RECCHIA","Nancy","FR & EN"],["Christophe","STALLA-BOURDILLON","Paris","FR & EN"],["Sophie","THIREAU","Nancy","FR & EN"],["Hendrik","WACHE","Paris","EN"]]},
+  {name:"SINGAPOUR",type:"MIXTE",village:"V2",vColor:"#7B1FA2",p1Room:"112",p2Room:"112",fac:"Fac 3",
+   members:[["Jean-Philippe","CHAMPAGNE","Paris","FR & EN"],["Yves","HABRAN","Nancy","FR & EN"],["Tilo","HALASZOVICH","Nancy","EN"],["Vanessa","JACQUEMIN","Nancy","FR & EN"],["Fatoumata","MAGASSOUBA","Paris","FR & EN"],["Kamel","MNISRI","Nancy","FR & EN"],["Nedjma","RABAH-QUIVOGNE","Nancy","FR & EN"],["Arnaud","RAGOT","Nancy","FR & EN"],["Virginie","THOMASSIN","Nancy","FR & EN"]]},
+  {name:"VANCOUVER",type:"BILINGUE",village:"V4",vColor:"#C2185B",p1Room:"205",p2Room:"205",fac:"Fac 5",
+   members:[["Elisabeth Jane","ASCHERL","Nancy","FR & EN"],["Julien","BILLION","Paris","FR & EN"],["Alejandra","DUENAS","Nancy","FR & EN"],["Edgar","GRIZZI","Nancy","FR & EN"],["Christelle","HEULARD","Nancy","FR & EN"],["Aurelien","QUIGNON","Paris","FR & EN"],["Remi","SCHILLE","Nancy","FR & EN"],["Marie-Odile","SOSNOWSKI","Nancy","FR & EN"],["Theo","STENGELHOFEN","Nancy","FR & EN"]]},
+  {name:"BUENOS AIRES",type:"BILINGUE",village:"V5",vColor:"#00838F",p1Room:"206",p2Room:"206",fac:"Fac 1",
+   members:[["Loic","ABEL","Nancy","FR & EN"],["Elisabeth","AGUILAR-ANTUNEZ","Nancy","FR & EN"],["Chloe","BARBIER","Nancy","FR & EN"],["Gerald","DUFFING","Nancy","FR & EN"],["Maxime","KOROMYSLOV","Nancy","FR & EN"],["Anne Sophie","LENS","Nancy","FR & EN"],["Jennifer","MALGOUVERNE","Nancy","FR & EN"],["Alena","PAUTOVA","Paris","FR & EN"],["Jeremy","SARMENTO","Nancy","FR & EN"]]},
+  {name:"SEOUL",type:"MIXTE",village:"V3",vColor:"#E65100",p1Room:"101",p2Room:"101",fac:"Fac 2",
+   members:[["Mihaela","BRICE","Nancy","FR & EN"],["Lorine","GUIOT","Paris","FR & EN"],["Ahmet","KILINC","Nancy","FR & EN"],["Jordan","LALLEMAND","Nancy","FR & EN"],["Frederique","LE MEITOUR","Nancy","FR & EN"],["Alexandre","MELNIK","Paris","FR & EN"],["Rafiu","OMOLOYE","Nancy","FR & EN"],["Oriane","SCHNEIDER","Nancy","FR & EN"],["Stefan","SONNENBURG","Berlin","EN"]]},
+  {name:"MARRAKECH",type:"BILINGUE",village:"V3",vColor:"#E65100",p1Room:"101",p2Room:"101",fac:"Fac 2",
+   members:[["Christelle","COLEIN","Nancy","FR & EN"],["Edina","EBERHARDT","Nancy","FR & EN"],["Brahim","GAIES","Paris","FR & EN"],["Philippe","MAIRESSE","Nancy","FR & EN"],["Samantha","NGUYEN","Nancy","FR & EN"],["Aicha","OUMESSAOUD","Nancy","FR & EN"],["Elisabeth","PAULET","Nancy","FR & EN"],["Nicolas","RAINERI","Nancy","FR & EN"]]},
+  {name:"LE CAP",type:"BILINGUE",village:"V3",vColor:"#E65100",p1Room:"101",p2Room:"101",fac:"Fac 2",
+   members:[["Heidi","ALTAMAR JULIO","Nancy","FR & EN"],["Frederique","BOUTIN","Nancy","FR & EN"],["Isotilia","COSTA MELO","Paris","FR & EN"],["Florian","GOBERT","Nancy","FR & EN"],["Thierry","HOUE","Nancy","FR & EN"],["Alexandra","HOUY","Nancy","FR & EN"],["Rebecca","STEKELORUM","Nancy","FR & EN"],["Emma","TUSITHIPHONEXAY","Nancy","FR & EN"]]},
+  {name:"HELSINKI",type:"BILINGUE",village:"V4",vColor:"#C2185B",p1Room:"202",p2Room:"205",fac:"Fac 5",
+   members:[["Cecile","COPIER","Nancy","FR & EN"],["Jeremy","GARCIA SANCHEZ","Paris","FR & EN"],["Khaled","LAHLOUH","Nancy","FR & EN"],["Chloe","LE BRIS","Nancy","FR & EN"],["Cyrille","MARC","Nancy","FR & EN"],["Emma","NOGAL","Nancy","FR & EN"],["Constance","PIERREZ","Nancy","FR & EN"],["Nataliia","SOKOLOVA","Nancy","FR & EN"]]},
+  {name:"RIO",type:"BILINGUE",village:"V1",vColor:"#2E7D32",p1Room:"207",p2Room:"207",fac:"Fac 4",
+   members:[["Monique","BEGUIN","Nancy","FR & EN"],["Nacera","BERBARA","Nancy","FR & EN"],["Francoise","BRODT","Nancy","FR & EN"],["Deborah","DA SILVA","Nancy","FR & EN"],["Nela","HIMA","Paris","FR & EN"],["Bruno","PECCHIOLI","Nancy","FR & EN"],["Alia","SELAMI","Nancy","FR & EN"],["Bruno","VANCON","Nancy","FR & EN"],["Yannick","WELLENREITER","Nancy","FR & EN"]]}
 ];
 
 const VILLAGES = {
-  A:{name:"Village A",color:"#1565C0",label:"bleu",pitchRoom:"Salle du Conseil",teams:["TOKYO","BARCELONA","MONTREAL","NAIROBI","MARSEILLE","COMEX"]},
-  B:{name:"Village B",color:"#2E7D32",label:"vert",pitchRoom:"207 Bobby Fisher",teams:["AMSTERDAM","SYDNEY","MUMBAI","LISBONNE","DUBLIN","LYON"]},
-  C:{name:"Village C",color:"#7B1FA2",label:"violet",pitchRoom:"112 Dorothy Vaughan",teams:["SAN FRANCISCO","BERLIN","SINGAPOUR","VANCOUVER","BUENOS AIRES"]},
-  D:{name:"Village D",color:"#E65100",label:"orange",pitchRoom:"101 Marie Curie",teams:["SEOUL","MARRAKECH","LE CAP","HELSINKI","RIO"]}
+  V1:{name:"Village 1 Vert",color:"#2E7D32",room:"207 Bobby Fisher",cap:55},
+  V2:{name:"Village 2 Violet",color:"#7B1FA2",room:"112 Dorothy Vaughan",cap:37},
+  V3:{name:"Village 3 Orange",color:"#E65100",room:"101 Marie Curie",cap:30},
+  V4:{name:"Village 4 Rose",color:"#C2185B",room:"205 Emile Galle",cap:25},
+  V5:{name:"Village 5 Cyan",color:"#00838F",room:"206 Jean Prouve",cap:25}
 };
 
-const ROOM_NAMES = {
-  "Salle du Conseil":"Salle du Conseil (1er etage)",
-  "101 Marie Curie":"101 Marie Curie (1er etage)",
-  "107 Charles Darwin":"107 Charles Darwin (1er etage)",
-  "112 Dorothy Vaughan":"112 Dorothy Vaughan (1er etage)",
-  "104 Simone de Beauvoir":"104 Simone de Beauvoir (1er etage)",
-  "207 Bobby Fisher":"207 Bobby Fisher (2eme etage)",
-  "205 Emile Galle":"205 Emile Galle (2eme etage)",
-  "206 Jean Prouve":"206 Jean Prouve (2eme etage)",
-  "202 Rosa Parks":"202 Rosa Parks (2eme etage)"
-};
-
-// ============ FAQ KNOWLEDGE BASE (participant-facing only) ============
-const FAQ = [
-  {q:["pourquoi","ici","but","objectif","raison","on fait quoi","sens","a quoi ca sert","c'est quoi cette journee","why"],
-   a:`Aujourd'hui on est 187, c'est la premi\u00e8re fois que tout ICN est r\u00e9uni. Le matin tu partages ce qui te pose probl\u00e8me au quotidien. L'apr\u00e8s-midi tu imagines des solutions concr\u00e8tes en \u00e9quipe et tu les pitches. Fran\u00e7ois \u00e9coute tout et d\u00e9cide quels projets seront lanc\u00e9s. Tes id\u00e9es comptent vraiment.`},
-  {q:["design sprint","c'est quoi","sprint c'est quoi","quoi un sprint","kesako","definition","expliquer"],
-   a:`Le <strong>Design Sprint</strong> c'est une m\u00e9thode de travail en \u00e9quipe, n\u00e9e chez Google, pour r\u00e9soudre un probl\u00e8me concret en un temps tr\u00e8s court. Tu travailles d'abord seul en silence, puis tu partages, tu votes, tu construis. En 2h tu passes d'un probl\u00e8me \u00e0 un projet pr\u00eat \u00e0 pitcher. Pas besoin d'exp\u00e9rience, les fiches sur ta table te guident \u00e9tape par \u00e9tape.`},
-  {q:["quoi apporter","ramener","preparer","preparation","materiel","stylo","papier","besoin"],
-   a:`<strong>Rien \u00e0 pr\u00e9parer, rien \u00e0 apporter.</strong> Tout le mat\u00e9riel est sur ta table : post-its, marqueurs, gommettes, feuilles. Viens juste avec ton t\u00e9l\u00e9phone charg\u00e9 pour Klaxoon le matin.`},
-  {q:["aide","help","perdu","lost","comprends pas","je sais pas","besoin d'aide","question"],
-   a:`Pas de panique ! Le capitaine de ta table a les fiches avec toutes les instructions. Les facilitateurs circulent dans les salles pour t'aider. Et tu peux toujours revenir ici me poser une question.`},
-  {q:["sprint question","question sprint","sujet","theme","thematique","topic","on travaille sur quoi"],
-   a:`Chaque table re\u00e7oit une <strong>Sprint Question</strong> \u00e0 13h. C'est la question que ton \u00e9quipe doit r\u00e9soudre pendant l'apr\u00e8s-midi. Elle est construite \u00e0 partir des irritants que vous aurez partag\u00e9s le matin. Tous les exercices tournent autour de cette question.`},
-  {q:["silence","parler","discuter","debat","discussion"],
-   a:`Plusieurs exercices se font <strong>en silence</strong>, c'est voulu. \u00c7a permet \u00e0 tout le monde de r\u00e9fl\u00e9chir, pas seulement les plus \u00e0 l'aise \u00e0 l'oral. Les moments de discussion arrivent apr\u00e8s, dans l'\u00e9change libre de la Fiche 4 et pendant la construction du pitch.`},
-  {q:["ia","intelligence artificielle","ai","robot","chatbot","technologie","tech"],
-   a:`L'IA est utilis\u00e9e en live pendant la journ\u00e9e pour synth\u00e9tiser vos id\u00e9es, g\u00e9n\u00e9rer des visuels et cr\u00e9er la fresque de cl\u00f4ture. Tu n'as rien \u00e0 faire de technique, c'est l'\u00e9quipe de facilitation qui s'en occupe.`},
-  {q:["resultat","apres","suite","projet retenu","ensuite","module 2","prototyp"],
-   a:`Les projets s\u00e9lectionn\u00e9s par Fran\u00e7ois seront lanc\u00e9s pour de vrai. Il y aura un Module 2 pour les d\u00e9velopper. Ce n'est pas un exercice th\u00e9orique, c'est du concret.`},
-  {q:["equipe","team","avec qui","groupe","table","place","assis","assoir","assise"],
-   a:`Tu es dans une \u00e9quipe de 6 \u00e0 9 personnes. Tape ton nom dans la barre de recherche et je te dis ton \u00e9quipe, ta salle et ta table. Les \u00e9quipes m\u00e9langent expres les campus, les fonctions et les langues.`},
-  {q:["langue","anglais","english","francais","bilingue","fr pur","mixte","parler anglais","speak"],
-   a:`Certaines \u00e9quipes sont <strong>100% fran\u00e7ais</strong>, d'autres sont <strong>bilingues</strong> ou <strong>mixtes</strong> (avec des coll\u00e8gues anglophones). Tape le nom de ton \u00e9quipe pour voir son type. Les fiches existent en FR et EN.`},
-  {q:["stress","peur","anxieux","j'ai peur","intimidant","complique","difficile","dur","nul en"],
-   a:`Z\u00e9ro pression. Tu n'as pas besoin d'\u00eatre cr\u00e9atif, bon en dessin ou \u00e0 l'aise \u00e0 l'oral. Les exercices sont con\u00e7us pour que tout le monde contribue, y compris les plus discrets. Les fiches te guident pas \u00e0 pas.`},
-  {q:["dessin","dessiner","draw","schema","je sais pas dessiner","artistique"],
-   a:`Le Solution Sketch ce n'est pas un concours de dessin. Des b\u00e2tons, des fl\u00e8ches, des mots : c'est largement suffisant. L'id\u00e9e compte, pas le coup de crayon.`},
-  {q:["combien de temps","duree","long","court","rapide","ca dure"],
-   a:`L'apr\u00e8s-midi Sprint dure <strong>environ 3h</strong> (13h \u00e0 16h). Chaque exercice est chrono : 10 \u00e0 30 min. \u00c7a va vite, c'est le principe. La contrainte de temps force \u00e0 aller \u00e0 l'essentiel.`},
-  {q:["lundi","action","concret","apres le sprint","et maintenant","next step"],
-   a:`Le Pitch Canvas te demande une <strong>"Premi\u00e8re action lundi"</strong>. Qui fait quoi, d\u00e8s la semaine prochaine. Les projets retenus par Fran\u00e7ois seront suivis. C'est pas du brainstorming en l'air.`},
-  {q:["facilitat","animat","elodie","anne","zeenat","heloise","john","nash","organisat"],
-   a:`L'\u00e9quipe de facilitation est l\u00e0 pour vous accompagner. Ils circulent dans les salles, d\u00e9bloquent quand c'est n\u00e9cessaire, et chacun pilote un village pour les pitchs.`},
-  {q:["horaire","heure","planning","programme","quand","timing","agenda","schedule"],
-   a:`<strong>Ta journee en resume :</strong><br>
-   10h00 Cafe d'accueil, amphi<br>
-   10h15 Francois Therin lance la journee<br>
-   10h35 Tu notes tes irritants sur Klaxoon<br>
-   11h05 Francois reagit a chaud<br>
-   11h20 On t'explique le Design Sprint<br>
-   11h35 Ice-breaker pour se connaitre<br>
-   11h55 Dejeuner partage<br>
-   13h00 C'est parti : 5 exercices en equipe<br>
-   14h55 Pitchs en villages<br>
-   15h30 Les 8 finalistes pitchent devant tout le monde<br>
-   15h50 Closing, Francois annonce les projets retenus<br>
-   16h30 Photo de groupe<br>
-   17h00 Fin au plus tard`},
-  {q:["dejeuner","manger","lunch","repas","midi","pot luck","potluck","faim"],
-   a:`<strong>Dejeuner partage</strong> de 11h55 a 13h00 dans l'amphi. On mange ensemble, on fait connaissance. A 13h on attaque le Sprint.`},
-  {q:["pause","cafe","coffee","break"],
-   a:`<strong>Pauses cafe :</strong><br>10h00 a l'accueil<br>10h45 pendant 20 min<br>14h15 pendant 15 min`},
-  {q:["wifi","internet","connexion","reseau","network"],
-   a:`<strong>WiFi :</strong> Les identifiants ICN seront affiches a l'accueil. Tu en auras besoin pour Klaxoon.`},
-  {q:["village","pitch","finale","finaliste","vote","gommette"],
-   a:`<strong>Les 4 villages :</strong><br>
-   A (bleu) Salle du Conseil : Tokyo, Barcelona, Montreal, Nairobi, Marseille, Comex<br>
-   B (vert) 207 Bobby Fisher : Amsterdam, Sydney, Mumbai, Lisbonne, Dublin, Lyon<br>
-   C (violet) 112 Dorothy Vaughan : San Francisco, Berlin, Singapour, Vancouver, Buenos Aires<br>
-   D (orange) 101 Marie Curie : Seoul, Marrakech, Le Cap, Helsinki, Rio<br><br>
-   A 14h55 tu pitches 2 min devant ton village. Chaque village garde ses 2 meilleurs projets. Les 8 finalistes passent ensuite devant tout le monde.`},
-  {q:["exercice","fiche","sprint","lightning","hmw","crazy","sketch","canvas","comment ca marche","methode","quoi faire"],
-   a:`<strong>5 exercices, tout est guide par les fiches sur ta table :</strong><br>
-   1. <strong>Lightning Demos</strong> (15 min) Tu partages un truc inspirant vu ailleurs<br>
-   2. <strong>HMW + Vote</strong> (15 min) Tu ecris 3 "Comment pourrait-on..." puis vote gommettes<br>
-   3. <strong>Solution Sketch</strong> (11 min) Tu dessines ton projet sur une feuille A4 pliee en 4<br>
-   4. <strong>Echange + Vote</strong> (24 min) Tour de table, discussion, puis vote<br>
-   5. <strong>Pitch Canvas</strong> (30 min) Poster A2 en equipe : Probleme, Solution, Benefice, Action lundi<br><br>
-   Le capitaine de ta table lit les fiches et chronometre. Toi tu suis le mouvement.`},
-  {q:["capitaine","captain","fiche","tuto","role"],
-   a:`<strong>Le capitaine de table</strong> lit les fiches d'instructions a voix haute et lance le timer a chaque etape. Pas besoin d'etre un pro, les fiches sont claires. Tu suis les consignes, c'est tout.`},
-  {q:["salle","room","plan","etage","floor","ou","where","batiment","station"],
-   a:`<strong>Les salles :</strong><br>
-   <u>1er etage</u> Salle du Conseil (90 pl.), 101 Marie Curie, 104 Simone de Beauvoir, 107 Charles Darwin, 112 Dorothy Vaughan<br>
-   <u>2eme etage</u> 207 Bobby Fisher, 205 Emile Galle, 206 Jean Prouve, 202 Rosa Parks<br><br>
-   Tape le nom de ton equipe pour savoir ta salle exacte.`},
-  {q:["klaxoon","post-it","post it","irritant","pain point","probleme"],
-   a:`<strong>Klaxoon (10h35) :</strong> On te demande de noter ce qui te pose probleme au quotidien. 1 irritant par post-it, tu en mets autant que tu veux. En silence, chacun pour soi. C'est anonyme et ca prend 10 minutes.`},
-  {q:["photo","groupe","fin","cloture","closing"],
-   a:`<strong>16h30</strong> photo de groupe, mot de la fin. On se lib\u00e8re vers <strong>17h max</strong>.`},
-  {q:["ice","breaker","icebreaker","jeu","art"],
-   a:`<strong>Ice-breaker a 11h35 :</strong> Par groupes de 4-5 personnes pres de toi. Le theme : "Si j'etais une oeuvre d'art, je serais... parce que..." C'est leger, ca permet de se connaitre avant de bosser ensemble.`},
-  {q:["gommette","vote","comment voter","sticker","dot"],
-   a:`<strong>Le vote par gommettes</strong> c'est simple : tu colles tes gommettes sur les idees qui te parlent le plus. Pas de debat, pas de lobbying. Ta gommette vaut autant que celle de ton voisin. C'est ca qui rend le truc juste.`},
-  {q:["francois","therin","dg","directeur"],
-   a:`<strong>Francois Therin</strong>, Directeur General d'ICN, ouvre la journee a 10h15. C'est lui qui choisit les projets finalistes a la fin. Il sera la toute la journee.`},
-  {q:["combien","participant","nombre","effectif","personne"],
-   a:`On est <strong>187</strong>, repartis en <strong>22 equipes</strong> et <strong>4 villages</strong>. C'est la premiere fois que tout le monde est reuni.`},
-  {q:["train","paris","arrivee","transport"],
-   a:`Le train Paris arrive vers <strong>10h</strong>. Le cafe d'accueil est a 10h en amphi, tu as le temps de t'installer.`},
-  {q:["apres-midi","afternoon","pm","13h","14h","15h"],
-   a:`<strong>L'apres-midi en resume :</strong><br>
-   13h00 Brief + Sprint Questions<br>
-   13h10 a 14h15 Les 5 exercices du Sprint en equipe<br>
-   14h15 Pause cafe<br>
-   14h30 Construction du Pitch Canvas<br>
-   14h55 Pitchs en villages, 2 projets retenus par village<br>
-   15h30 8 pitchs finaux devant tout le monde<br>
-   15h50 Closing<br>
-   16h20 Photo de groupe`},
-  {q:["matin","morning","amphi","amphitheatre","10h","11h"],
-   a:`<strong>La matinee (10h-12h) c'est en amphi :</strong><br>
-   10h00 Cafe d'accueil<br>
-   10h15 Francois Therin lance la journee<br>
-   10h35 Tu notes tes irritants sur Klaxoon<br>
-   11h05 Francois reagit<br>
-   11h20 On presente le Sprint de l'apres-midi<br>
-   11h35 Ice-breaker<br>
-   11h55 Dejeuner`}
-];
+const ROOM_NAMES = {"Conseil":"Salle du Conseil (1er)","101":"101 Marie Curie (1er)","107":"107 Charles Darwin (1er)","112":"112 Dorothy Vaughan (1er)","104":"104 Simone de Beauvoir (1er)","207":"207 Bobby Fisher (2eme)","205":"205 Emile Galle (2eme)","206":"206 Jean Prouve (2eme)","202":"202 Rosa Parks (2eme)"};
 
 // ============ BUILD INDEX ============
 const nameIndex = {};
@@ -407,76 +265,14 @@ TEAMS.forEach(t => {
   });
 });
 
-// ============ CHATBOT SEARCH ============
-function chatSearch(query){
-  const q = query.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  if(!q) return "Tape ton nom de famille ou le nom de ton equipe, je te trouve en 2 secondes.";
-
-  // FAQ match
-  for(const faq of FAQ){
-    if(faq.q.some(kw => q.includes(kw))){
-      return faq.a;
-    }
-  }
-
-  // Team name match
-  const teamMatch = TEAMS.find(t => {
-    const tn = t.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-    return tn === q || tn.includes(q);
-  });
-  if(teamMatch){
-    const v = VILLAGES[teamMatch.village];
-    return `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length} pers.)<br>
-      Salle : <strong>${ROOM_NAMES[teamMatch.room] || teamMatch.room}</strong>${teamMatch.table ? " — "+teamMatch.table : ""}<br>
-      Village : <strong>${v.name} (${v.label})</strong><br>
-      Pitch village : <strong>${v.pitchRoom}</strong><br>
-      Pitch final : <strong>Salle du Conseil</strong>`;
-  }
-
-  // Person match
-  let found = [];
-  const qNorm = q;
-  TEAMS.forEach(t => {
-    t.members.forEach(m => {
-      const full = (m[0]+" "+m[1]).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-      const last = m[1].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-      const first = m[0].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-      if(full.includes(qNorm) || last.includes(qNorm) || first.includes(qNorm)){
-        found.push({person:m, team:t});
-      }
-    });
-  });
-
-  if(found.length === 1){
-    const {person:m, team:t} = found[0];
-    const v = VILLAGES[t.village];
-    return `<strong>${m[0]} ${m[1]}</strong><br>
-      Equipe : <strong>${t.name}</strong><br>
-      Salle : <strong>${ROOM_NAMES[t.room] || t.room}</strong>${t.table ? " — "+t.table : ""}<br>
-      Village : <strong>${v.name} (${v.label})</strong><br>
-      Pitch village : <strong>${v.pitchRoom}</strong><br>
-      Pitch final : <strong>Salle du Conseil</strong>`;
-  }
-  if(found.length > 1 && found.length <= 8){
-    return `${found.length} resultats :<br>` + found.map(f =>
-      `&#8226; <strong>${f.person[0]} ${f.person[1]}</strong> — equipe ${f.team.name} (${f.team.room})`
-    ).join("<br>");
-  }
-  if(found.length > 8){
-    return `${found.length} personnes correspondent. Donne-moi ton nom de famille complet pour que je te trouve.`;
-  }
-
-  return `Je ne trouve rien pour "${query}".<br>Quelques pistes :<br>&#8226; Ton <strong>nom de famille</strong> (ex : Dupont)<br>&#8226; Le nom de ton equipe (ex : Tokyo, Seoul)<br>&#8226; Une question : <em>horaires, wifi, dejeuner, village, exercice</em>`;
-}
-
 // ============ RENDER ============
 const tabDefs = [
   {id:"overview",label:"Accueil"},
-  {id:"planning",label:"Planning"},
-  {id:"exercices",label:"Exercices"},
-  {id:"villages",label:"Villages"},
-  {id:"equipes",label:"\u00C9quipes"},
-  {id:"salles",label:"Salles"}
+  {id:"phase1",label:"Phase 1"},
+  {id:"phase2",label:"Villages"},
+  {id:"equipes",label:"Equipes"},
+  {id:"finale",label:"Pitch Final"},
+  {id:"transition",label:"Transitions"}
 ];
 
 function init(){
@@ -490,7 +286,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildPlanning() + buildExercices() + buildVillages() + buildEquipes() + buildSalles();
+  panelsEl.innerHTML = buildOverview() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + buildTransition();
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -504,167 +300,95 @@ function switchTab(id){
   document.querySelectorAll(".pnl").forEach(p => p.classList.toggle("act", p.id==="p-"+id));
 }
 
+function teamRow(t, showMove){
+  const typeClass = t.type==="MIXTE"?"tt-m":t.type==="FR PUR"?"tt-f":t.type==="COMEX"?"tt-c":"tt-b";
+  let badge = "";
+  if(showMove){
+    if(t.p1Room===t.p2Room) badge = `<span class="sy">reste</span>`;
+    else if(["Conseil"].includes(t.p1Room) && ["207","205","206"].includes(t.p2Room)) badge = `<span class="fl">${t.p1Room} &#8594; ${t.p2Room}</span>`;
+    else badge = `<span class="mv">${t.p1Room} &#8594; ${t.p2Room}</span>`;
+  }
+  return `<div class="tr team-click" data-team="${t.name}"><span class="tn">${t.name}</span> <span class="tt ${typeClass}">${t.type}</span> <span class="tc">— ${t.members.length}</span>${badge}<span class="arrow">&#9656;</span></div>`;
+}
+
 function buildOverview(){
   return `<div class="pnl act" id="p-overview">
-  <div class="home-chat">
-    <div class="home-chat-hdr">
-      <div class="hc-icon">&#128269;</div>
-      <div class="hc-text"><h3>O\u00f9 dois-je aller ?</h3><p>Tape ton nom ou ton \u00e9quipe, je te r\u00e9ponds direct</p></div>
-    </div>
-    <div class="home-chat-body">
-      <div class="hc-input-wrap">
-        <input type="text" class="hc-input" id="homeSearch" placeholder="Ton nom de famille..." autocomplete="off">
-        <button class="hc-send" id="homeSearchBtn">&#10148;</button>
-      </div>
-      <div class="hc-quick">
-        <button onclick="homeQuick('horaires')">Horaires</button>
-        <button onclick="homeQuick('village')">Villages</button>
-        <button onclick="homeQuick('exercice')">Exercices</button>
-        <button onclick="homeQuick('dejeuner')">D\u00e9jeuner</button>
-        <button onclick="homeQuick('wifi')">WiFi</button>
-      </div>
-      <div class="hc-result" id="homeResult"><div class="hc-result-card" id="homeResultCard"></div></div>
-    </div>
-  </div>
   <div class="stats">
     <div class="st"><div class="n">187</div><div class="l">participants</div></div>
-    <div class="st"><div class="n">22</div><div class="l">\u00e9quipes</div></div>
-    <div class="st"><div class="n">4</div><div class="l">villages</div></div>
-    <div class="st"><div class="n">8</div><div class="l">salles</div></div>
+    <div class="st"><div class="n">22</div><div class="l">equipes</div></div>
+    <div class="st"><div class="n">9</div><div class="l">salles</div></div>
+    <div class="st"><div class="n">5</div><div class="l">facilitateurs</div></div>
+    <div class="st"><div class="n">5</div><div class="l">villages</div></div>
+    <div class="st"><div class="n">3</div><div class="l">phases</div></div>
   </div>
-  <div class="sec"><div class="sec-h">Ta journ\u00e9e en un coup d'\u0153il</div><div style="padding:14px;">
+  <div class="sec"><div class="sec-h">Deroulement</div><div style="padding:14px;">
     <div class="tl">
-      <div class="tl-i"><div class="tl-d" style="background:#1565C0;"></div><h4 style="color:#1565C0;">10h-11h55 \u2022 Matin\u00e9e en amphi</h4><p>Pl\u00e9ni\u00e8re avec Fran\u00e7ois Th\u00e9rin. On pose le cadre de la journ\u00e9e et on fait connaissance.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F9A825;"></div><h4 style="color:#F9A825;">11h55-13h \u2022 D\u00e9jeuner partag\u00e9</h4><p>On mange ensemble, on fait connaissance. \u00c0 13h on attaque le Sprint.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#7B1FA2;"></div><h4 style="color:#7B1FA2;">13h-14h15 \u2022 Design Sprint en \u00e9quipe</h4><p>5 exercices chrono : Lightning Demos, HMW, Solution Sketch, Vote, Pitch Canvas. Le capitaine de ta table te guide avec les fiches.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">14h15 \u2022 Pause caf\u00e9</h4><p>15 minutes pour souffler.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#2E7D32;"></div><h4 style="color:#2E7D32;">14h30 \u2022 Construction du Pitch</h4><p>Tu construis ton pitch en \u00e9quipe : le probl\u00e8me, la solution, ce que \u00e7a change, et ce qu'on fait d\u00e8s lundi.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#E65100;"></div><h4 style="color:#E65100;">14h55 \u2022 Pitchs en villages</h4><p>Tu pitches 2 min devant ton village. Chaque village garde ses 2 meilleurs projets.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#C2185B;"></div><h4 style="color:#C2185B;">15h30 \u2022 8 Pitchs finaux</h4><p>Les 8 finalistes pitchent 90 secondes devant tout le monde. Fran\u00e7ois r\u00e9agit.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F9A825;"></div><h4 style="color:#F9A825;">16h30 \u2022 Photo de groupe + fin</h4><p>Mot de la fin, photo de groupe. Lib\u00e9r\u00e9s vers 17h max.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#1565C0;"></div><h4 style="color:#1565C0;">Phase 1 — Creativite (~2h30)</h4><p>22 equipes dans 9 salles. Lightning Demos, HMW, Crazy 4's.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">Pause (~15 min)</h4><p>8 equipes se deplacent. Le Conseil est reamenage.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#7B1FA2;"></div><h4 style="color:#7B1FA2;">Phase 2 — Villages (~45 min)</h4><p>Pitch Canvas dans 5 salles. Vote par village.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">Regroupement (~10 min)</h4><p>Tout le monde au Conseil.</p></div>
+      <div class="tl-i"><div class="tl-d" style="background:#E65100;"></div><h4 style="color:#E65100;">Pitch Final (Conseil)</h4><p>5 finalistes pitchent devant Francois. Vote final.</p></div>
     </div>
   </div></div>
-  <div class="sec"><div class="sec-h">4 r\u00e8gles du jeu</div><div style="padding:16px;font-size:0.9em;line-height:1.9;color:#444;">
-    <strong>1.</strong> On travaille d'abord <strong>en silence</strong>, puis on partage. Les meilleures id\u00e9es viennent de la r\u00e9flexion individuelle.<br>
-    <strong>2.</strong> On \u00e9crit, on dessine, on produit. Si c'est dit \u00e0 l'oral et pas \u00e9crit, <strong>\u00e7a n'existe pas</strong>.<br>
-    <strong>3.</strong> On vote par <strong>gommettes</strong>, pas par d\u00e9bat. Ta gommette vaut autant que celle de ton voisin.<br>
-    <strong>4.</strong> Quand le timer sonne, <strong>on passe \u00e0 la suite</strong>. M\u00eame si c'est imparfait.
+  <div class="sec"><div class="sec-h">Facilitateurs</div><div style="padding:10px;overflow-x:auto;">
+    <table class="stbl">
+      <tr><th>Fac</th><th>Etage</th><th>Phase 1</th><th>Eq.</th><th>Village</th></tr>
+      <tr><td><strong style="color:#1565C0">Fac 1</strong></td><td>1er</td><td>Conseil</td><td>4</td><td>V5 Cyan (206)</td></tr>
+      <tr><td><strong style="color:#E65100">Fac 2</strong></td><td>1er</td><td>101+107</td><td>4</td><td>V3 Orange (101)</td></tr>
+      <tr><td><strong style="color:#7B1FA2">Fac 3</strong></td><td>1er</td><td>112+104</td><td>4</td><td>V2 Violet (112)</td></tr>
+      <tr><td><strong style="color:#2E7D32">Fac 4</strong></td><td>2eme</td><td>207+202</td><td>5</td><td>V1 Vert (207)</td></tr>
+      <tr><td><strong style="color:#00838F">Fac 5</strong></td><td>2eme</td><td>205+206+202</td><td>5</td><td>V4 Rose (205)</td></tr>
+      <tr style="background:#FFFDE7"><td><strong style="color:#E65100">Elodie</strong></td><td>tous</td><td>volante</td><td>—</td><td>volante</td></tr>
+    </table>
   </div></div>
   </div>`;
 }
 
-function buildPlanning(){
-  return `<div class="pnl" id="p-planning">
-  <h2 style="font-size:1.05em;margin-bottom:14px;color:#0D47A1;">Planning d\u00e9taill\u00e9</h2>
-  <div class="sec"><div class="sec-h">Matin\u00e9e en amphi<span class="bdg">10h-12h</span></div><div style="padding:10px;overflow-x:auto;">
-    <table class="stbl">
-      <tr><th>Heure</th><th>Dur\u00e9e</th><th>Ce qui se passe</th></tr>
-      <tr><td>10h00</td><td>15'</td><td>Caf\u00e9 d'accueil, tu t'installes</td></tr>
-      <tr><td>10h15</td><td>15'</td><td>Fran\u00e7ois Th\u00e9rin ouvre la journ\u00e9e</td></tr>
-      <tr><td>10h30</td><td>5'</td><td>Pr\u00e9sentation de la journ\u00e9e et de l'\u00e9quipe</td></tr>
-      <tr><td>10h35</td><td>10'</td><td>Tu notes tes irritants sur Klaxoon, en silence</td></tr>
-      <tr><td>10h45</td><td>20'</td><td>Pause caf\u00e9</td></tr>
-      <tr><td>11h05</td><td>15'</td><td>Fran\u00e7ois r\u00e9agit aux irritants en live</td></tr>
-      <tr><td>11h20</td><td>15'</td><td>On t'explique le Design Sprint de l'apr\u00e8s-midi</td></tr>
-      <tr><td>11h35</td><td>20'</td><td>Ice-breaker : "Si j'\u00e9tais une \u0153uvre d'art..."</td></tr>
-      <tr><td>11h55</td><td>65'</td><td>D\u00e9jeuner partag\u00e9</td></tr>
-    </table>
-  </div></div>
-  <div class="sec"><div class="sec-h">Apr\u00e8s-midi Design Sprint<span class="bdg">13h-16h30</span></div><div style="padding:10px;overflow-x:auto;">
-    <table class="stbl">
-      <tr><th>Heure</th><th>Dur\u00e9e</th><th>Ce qui se passe</th></tr>
-      <tr><td>13h00</td><td>10'</td><td>Brief + tu re\u00e7ois ta Sprint Question</td></tr>
-      <tr><td>13h10</td><td>15'</td><td>Fiche 1 : Lightning Demos</td></tr>
-      <tr><td>13h25</td><td>15'</td><td>Fiche 2 : HMW + Vote gommettes</td></tr>
-      <tr><td>13h40</td><td>10'</td><td>Collecte et synth\u00e8se des id\u00e9es</td></tr>
-      <tr><td>13h50</td><td>10'</td><td>Fiche 3 : Solution Sketch</td></tr>
-      <tr><td>14h00</td><td>15'</td><td>Fiche 4 : \u00c9change + Vote</td></tr>
-      <tr style="background:#FFF8E1"><td>14h15</td><td>15'</td><td><strong>Pause caf\u00e9</strong></td></tr>
-      <tr><td>14h30</td><td>25'</td><td>Fiche 5 : Pitch Canvas en \u00e9quipe</td></tr>
-      <tr style="background:#E3F2FD"><td>14h55</td><td>25'</td><td><strong>Pitchs en villages</strong>, 2 projets retenus par village</td></tr>
-      <tr><td>15h20</td><td>10'</td><td>Pr\u00e9paration des 8 finalistes</td></tr>
-      <tr style="background:#FFF3E0"><td>15h30</td><td>20'</td><td><strong>8 pitchs finaux devant tout le monde</strong></td></tr>
-      <tr><td>15h50</td><td>15'</td><td>Closing + fresque IA</td></tr>
-      <tr><td>16h05</td><td>15'</td><td>Fran\u00e7ois annonce les projets retenus</td></tr>
-      <tr><td>16h20</td><td>10'</td><td>Mot de la fin + photo de groupe</td></tr>
-      <tr><td>16h30</td><td>5'</td><td>Photo de groupe</td></tr>
-      <tr style="background:#E8F5E9"><td>17h00</td><td></td><td><strong>Fin au plus tard</strong></td></tr>
-    </table>
-  </div></div>
-  <div style="background:#E3F2FD;border-radius:12px;padding:16px;font-size:0.88em;color:#0D47A1;line-height:1.7;">
-    <strong>Infos pratiques :</strong> D\u00e9jeuner partag\u00e9 de 11h55 \u00e0 13h. WiFi : identifiants \u00e0 l'accueil. Mat\u00e9riel (post-its, marqueurs, gommettes) : tout est sur ta table. Fin 17h max.
+function buildPhase1(){
+  const f1 = TEAMS.filter(t=>t.p1Room==="Conseil");
+  const f2a = TEAMS.filter(t=>t.p1Room==="101");
+  const f2b = TEAMS.filter(t=>t.p1Room==="107");
+  const f3a = TEAMS.filter(t=>t.p1Room==="112");
+  const f3b = TEAMS.filter(t=>t.p1Room==="104");
+  const f4a = TEAMS.filter(t=>t.p1Room==="207");
+  const f4b = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 4");
+  const f5a = TEAMS.filter(t=>t.p1Room==="205");
+  const f5b = TEAMS.filter(t=>t.p1Room==="206");
+  const f5c = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 5");
+
+  function roomBlock(name,cap,teams){
+    return `<div class="rm"><div class="rm-n">${name}<span class="c">${cap} pl.</span></div><div class="tms">${teams.map(t=>teamRow(t,false)).join("")}</div></div>`;
+  }
+  function facZone(color,badge,title,rooms){
+    return `<div class="fz" style="border-left-color:${color}"><h3><span class="fb" style="background:${color}">${badge}</span>${title}</h3><div class="rm-grid">${rooms}</div></div>`;
+  }
+
+  return `<div class="pnl" id="p-phase1">
+  <h2 style="font-size:1em;margin-bottom:12px;color:#0D47A1;">Phase 1 — Creativite</h2>
+  <div class="sec"><div class="sec-h">1er Etage — 12 equipes<span class="bdg">110 pers.</span></div>
+    ${facZone("#1565C0","FAC 1","Zone Conseil — 4 eq.",roomBlock("Salle du Conseil",90,f1))}
+    ${facZone("#E65100","FAC 2","Zone Marie Curie — 4 eq.",roomBlock("101 Marie Curie",30,f2a)+roomBlock("107 Charles Darwin",12,f2b))}
+    ${facZone("#7B1FA2","FAC 3","Zone Dorothy Vaughan — 4 eq.",roomBlock("112 Dorothy Vaughan",37,f3a)+roomBlock("104 Simone de Beauvoir",12,f3b))}
+  </div>
+  <div class="sec"><div class="sec-h">2eme Etage — 10 equipes<span class="bdg">77 pers.</span></div>
+    ${facZone("#2E7D32","FAC 4","Zone Bobby Fisher — 5 eq.",roomBlock("207 Bobby Fisher",55,f4a)+roomBlock("202 Rosa Parks",20,f4b))}
+    ${facZone("#00838F","FAC 5","Zone Galle-Prouve — 5 eq.",roomBlock("205 Emile Galle",25,f5a)+roomBlock("206 Jean Prouve",25,f5b)+roomBlock("202 Rosa Parks",20,f5c))}
   </div>
   </div>`;
 }
 
-function buildExercices(){
-  return `<div class="pnl" id="p-exercices">
-  <h2 style="font-size:1.05em;margin-bottom:14px;color:#7B1FA2;">Les 5 exercices du Sprint</h2>
-  <p style="font-size:0.88em;color:#555;margin-bottom:16px;line-height:1.6;">Tout est guid\u00e9 par les fiches sur ta table. Le capitaine lit les consignes et lance le timer. Toi, tu suis le mouvement.</p>
-
-  <div class="sec"><div class="sec-h" style="background:#1565C0;">Fiche 1 : Lightning Demos<span class="bdg">15 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
-    <strong>L'id\u00e9e :</strong> Avant de chercher des solutions, on s'inspire de ce qui marche ailleurs. Pense \u00e0 un truc que tu as vu dans une autre boite, une autre industrie, un autre pays, une appli, et qui pourrait inspirer ta Sprint Question.<br><br>
-    <strong>Comment \u00e7a se passe :</strong><br>
-    \u2022 3 min en silence : tu notes ton exemple sur un post-it, au marqueur, en gros<br>
-    \u2022 Tour de table : 1 min par personne, tu montres ton post-it et tu expliques en une phrase<br>
-    \u2022 Pas de d\u00e9bat, pas de questions. On \u00e9coute.<br><br>
-    <strong>Exemple :</strong> "L'appli de ma banque me pr\u00e9vient avant un d\u00e9couvert. On pourrait pr\u00e9venir nos \u00e9quipes avant un probl\u00e8me au lieu de r\u00e9agir apr\u00e8s."
-  </div></div>
-
-  <div class="sec"><div class="sec-h" style="background:#E65100;">Fiche 2 : HMW + Vote<span class="bdg">15 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
-    <strong>L'id\u00e9e :</strong> Tu prends un probl\u00e8me et tu le reformules en question ouverte : "Comment pourrait-on..." C'est ce changement de formulation qui ouvre le cerveau vers les solutions.<br><br>
-    <strong>Comment \u00e7a se passe :</strong><br>
-    \u2022 3 min en silence : tu \u00e9cris 3 post-its "Comment pourrait-on..." en gros au marqueur<br>
-    \u2022 Tous les post-its au centre, lecture silencieuse 2 min<br>
-    \u2022 Vote gommettes : 3 par personne sur les questions les plus prometteuses<br>
-    \u2022 Le capitaine identifie le top 3<br><br>
-    <strong>Exemple :</strong> "Comment pourrait-on rendre le premier jour moins stressant pour les nouveaux ?" Pas : "Comment pourrait-on cr\u00e9er une appli ?" (trop pr\u00e9cis, c'est d\u00e9j\u00e0 une solution d\u00e9guis\u00e9e).
-  </div></div>
-
-  <div class="sec"><div class="sec-h" style="background:#7B1FA2;">Fiche 3 : Solution Sketch<span class="bdg">11 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
-    <strong>L'id\u00e9e :</strong> Chacun construit UN projet complet sur une feuille, en silence. M\u00eame les plus discrets ont leur chance ici.<br><br>
-    <strong>Comment \u00e7a se passe :</strong><br>
-    \u2022 Plie ta feuille A4 en 4 cases<br>
-    \u2022 Case 1 (2 min) : PROBL\u00c8ME. Quel probl\u00e8me concret tu veux r\u00e9soudre ?<br>
-    \u2022 Case 2 (2 min) : SOLUTION. Ton id\u00e9e en une phrase + un sch\u00e9ma<br>
-    \u2022 Case 3 (2 min) : COMMENT \u00c7A MARCHE. Concr\u00e8tement, comment \u00e7a se passe ?<br>
-    \u2022 Case 4 (2 min) : ACTION LUNDI. Qu'est-ce qu'on peut faire d\u00e8s lundi ?<br>
-    \u2022 Puis Gallery Walk : toutes les feuilles au centre, tu te l\u00e8ves et tu lis celles des autres. En silence.
-  </div></div>
-
-  <div class="sec"><div class="sec-h" style="background:#2E7D32;">Fiche 4 : \u00c9change + Vote<span class="bdg">24 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
-    <strong>L'id\u00e9e :</strong> Tu as lu les projets en silence. Maintenant chacun pr\u00e9sente le sien en 20 secondes, puis discussion libre, puis vote.<br><br>
-    <strong>Comment \u00e7a se passe :</strong><br>
-    \u2022 Tour de table flash (5 min) : "Mon id\u00e9e c'est..." 20 sec par personne<br>
-    \u2022 \u00c9change libre (10 min) : quels points communs ? quelles id\u00e9es combiner ?<br>
-    \u2022 Heatmap vote (5 min) : debout autour de la table, gommettes sur les projets les plus prometteurs<br>
-    \u2022 Le capitaine annonce le concept retenu par la table
-  </div></div>
-
-  <div class="sec"><div class="sec-h" style="background:#C2185B;">Fiche 5 : Pitch Canvas<span class="bdg">30 min</span></div><div style="padding:16px;font-size:0.88em;line-height:1.8;color:#444;">
-    <strong>L'id\u00e9e :</strong> Si ton projet ne tient pas sur un poster, c'est qu'il n'est pas assez concret. Le Pitch Canvas force la clart\u00e9.<br><br>
-    <strong>Comment \u00e7a se passe :</strong><br>
-    \u2022 Sortez le poster A2 : 4 zones (Probl\u00e8me, Solution, B\u00e9n\u00e9fice concret, Premi\u00e8re action lundi)<br>
-    \u2022 R\u00e9partissez-vous : 2-3 personnes par zone (15 min)<br>
-    \u2022 Assemblez et r\u00e9p\u00e9tez votre pitch (14 min)<br>
-    \u2022 <strong>2 minutes max</strong> en village. Si s\u00e9lectionn\u00e9 pour la finale : <strong>90 secondes</strong><br><br>
-    <strong>Conseil :</strong> Soignez la zone "Premi\u00e8re action lundi". C'est ce qui transforme une id\u00e9e en projet r\u00e9el.
-  </div></div>
-
-  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:12px;padding:16px;font-size:0.88em;color:#795548;line-height:1.7;">
-    <strong>Mat\u00e9riel sur ta table :</strong> Post-its, marqueurs, gommettes, feuilles A4, poster Pitch Canvas A2. Tout est l\u00e0, tu n'as besoin de rien d'autre.
-  </div>
-  </div>`;
-}
-
-function buildVillages(){
-  let html = `<div class="pnl" id="p-villages"><h2 style="font-size:1.05em;margin-bottom:14px;color:#7B1FA2;">4 Villages</h2><p style="font-size:0.88em;color:#555;margin-bottom:14px;line-height:1.5;">\u00c0 14h55, tu pitches devant ton village. Chaque village garde ses 2 meilleurs projets. Les 8 finalistes passent ensuite devant tout le monde.</p><div class="vg">`;
+function buildPhase2(){
+  let html = `<div class="pnl" id="p-phase2"><h2 style="font-size:1em;margin-bottom:12px;color:#7B1FA2;">Phase 2 — Villages</h2><div class="vg">`;
   for(const [vk,v] of Object.entries(VILLAGES)){
     const vTeams = TEAMS.filter(t=>t.village===vk);
     const ppl = vTeams.reduce((s,t)=>s+t.members.length,0);
-    html += `<div class="vc"><div class="vh" style="background:${v.color}"><h3>${v.name} (${v.label})</h3><div class="vi">${v.pitchRoom}<br>${ppl} pers. / ${vTeams.length} eq.</div></div><div class="vb">`;
+    html += `<div class="vc"><div class="vh" style="background:${v.color}"><h3>${v.name}</h3><div class="vi">${v.room}<br>${ppl} pers. / ${vTeams.length} eq.</div></div><div class="vb">`;
     vTeams.forEach(t => {
-      html += `<div class="vt team-click" data-team="${t.name}"><span><strong>${t.name}</strong> (${t.members.length})</span><span style="font-size:0.72em;color:#999;">${t.room}</span></div>`;
+      let badge;
+      if(t.p1Room===t.p2Room) badge=`<span class="sy">reste</span>`;
+      else if(["Conseil"].includes(t.p1Room)&&["207","206"].includes(t.p2Room)) badge=`<span class="fl">${t.p1Room}&#8594;${t.p2Room}</span>`;
+      else badge=`<span class="mv">${t.p1Room}&#8594;${t.p2Room}</span>`;
+      html += `<div class="vt team-click" data-team="${t.name}" style="cursor:pointer"><span><strong>${t.name}</strong> (${t.members.length})</span>${badge}</div>`;
     });
     html += `</div></div>`;
   }
@@ -673,15 +397,14 @@ function buildVillages(){
 }
 
 function buildEquipes(){
-  let html = `<div class="pnl" id="p-equipes"><h2 style="font-size:1.05em;margin-bottom:14px;">22 \u00e9quipes</h2>
-  <div style="margin-bottom:14px;"><input type="text" id="eqSearch" placeholder="Chercher un nom ou une \u00e9quipe..." style="width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:14px;font-size:0.9em;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#e0e0e0'"></div>
+  let html = `<div class="pnl" id="p-equipes"><h2 style="font-size:1em;margin-bottom:12px;">22 Equipes</h2>
+  <div style="margin-bottom:12px;"><input type="text" id="eqSearch" placeholder="Chercher un nom ou une equipe..." style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:0.88em;outline:none;"></div>
   <div class="eq-grid" id="eqGrid">`;
   TEAMS.forEach(t => {
-    const v = VILLAGES[t.village];
     html += `<div class="eq-card" data-search="${t.name.toLowerCase()} ${t.members.map(m=>m[0]+" "+m[1]).join(" ").toLowerCase()}">
-      <div class="eq-top" style="background:${t.vColor}"><h4>${t.name}</h4><span class="eq-info">${t.members.length} pers. | ${v.name}</span></div>
+      <div class="eq-top" style="background:${t.vColor}"><h4>${t.name}</h4><span class="eq-info">${t.members.length} pers. | ${t.village}</span></div>
       <div class="eq-members">
-        <div style="font-size:0.75em;color:#607D8B;margin-bottom:8px;line-height:1.6;">Salle : ${ROOM_NAMES[t.room] || t.room}${t.table?" — "+t.table:""}<br>Village : ${v.name} (${v.label}) — Pitch : ${v.pitchRoom}</div>
+        <div style="font-size:0.72em;color:#607D8B;margin-bottom:6px;line-height:1.5;">Phase 1: ${ROOM_NAMES[t.p1Room]} | Phase 2: ${ROOM_NAMES[t.p2Room]}</div>
         ${t.members.map(m=>`<div class="eq-m"><span>${m[0]} <strong>${m[1]}</strong></span><span style="color:#999;font-size:0.85em">${m[2]}</span></div>`).join("")}
       </div>
     </div>`;
@@ -690,25 +413,46 @@ function buildEquipes(){
   return html;
 }
 
-function buildSalles(){
-  const rooms = {};
-  TEAMS.forEach(t => {
-    const r = t.room;
-    if(!rooms[r]) rooms[r] = [];
-    rooms[r].push(t);
-  });
-  let html = `<div class="pnl" id="p-salles"><h2 style="font-size:1.05em;margin-bottom:14px;color:#2E7D32;">R\u00e9partition par salle</h2>`;
-  for(const [room, teams] of Object.entries(rooms)){
-    const ppl = teams.reduce((s,t)=>s+t.members.length,0);
-    html += `<div class="sec"><div class="sec-h">${ROOM_NAMES[room] || room}<span class="bdg">${ppl} pers. / ${teams.length} eq.</span></div><div style="padding:8px 12px;">`;
-    teams.forEach(t => {
-      const typeClass = t.type==="MIXTE"?"tt-m":t.type==="FR PUR"?"tt-f":t.type==="COMEX"?"tt-c":"tt-b";
-      html += `<div class="tr team-click" data-team="${t.name}"><span class="tn">${t.name}</span> <span class="tt ${typeClass}">${t.type}</span> <span class="tc">— ${t.members.length} pers.${t.table?" — "+t.table:""}</span><span class="arrow">&#9656;</span></div>`;
-    });
-    html += `</div></div>`;
-  }
-  html += `</div>`;
-  return html;
+function buildFinale(){
+  return `<div class="pnl" id="p-finale">
+  <div class="fin"><h3>PITCH FINAL — Salle du Conseil</h3><p>5 finalistes pitchent devant Francois et les 187 participants</p></div>
+  <div class="sec"><div class="sec-h">Deroulement</div><div style="padding:12px;font-size:0.85em;line-height:1.8;color:#555;">
+    1. Chaque village designe son equipe gagnante<br>
+    2. Tout le monde rejoint le Conseil (~10 min)<br>
+    3. Les 5 finalistes pitchent (3 min chacune)<br>
+    4. Vote final<br>
+    5. Annonce du gagnant par Francois
+  </div></div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:14px 0;">
+    ${Object.entries(VILLAGES).map(([k,v])=>`<div style="padding:10px 4px;border-radius:8px;background:${v.color}15;border:2px solid ${v.color};text-align:center;"><div style="font-size:0.65em;color:${v.color};font-weight:600;">${v.name.split(" ").slice(0,2).join(" ")}</div></div>`).join("")}
+  </div>
+  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.8em;color:#795548;">
+    <strong>Capacite :</strong> Conseil = 90 places bureau / ~135 theatre. Pour 187 pers., prevoir rangs serres + debout ou overflow visio dans salle adjacente.
+  </div>
+  </div>`;
+}
+
+function buildTransition(){
+  return `<div class="pnl" id="p-transition">
+  <h2 style="font-size:1em;margin-bottom:12px;color:#F57F17;">Transitions</h2>
+  <div class="sec"><div class="sec-h">Phase 1 &#8594; Phase 2</div><div style="padding:12px;">
+    <div style="font-weight:600;font-size:0.82em;margin-bottom:4px;color:#C62828;">Changement d'etage (18 pers.)</div>
+    <div class="mi"><strong>MONTREAL</strong> (9p) <span class="ma">&#8594;</span> Conseil &#8594; 207 <span class="tf">1er&#8594;2eme</span></div>
+    <div class="mi"><strong>BARCELONA</strong> (9p) <span class="ma">&#8594;</span> Conseil &#8594; 206 <span class="tf">1er&#8594;2eme</span></div>
+    <div style="font-weight:600;font-size:0.82em;margin:10px 0 4px;color:#2E7D32;">Meme etage (6 equipes)</div>
+    <div class="mi"><strong>TOKYO</strong> (9p) <span class="ma">&#8594;</span> Conseil &#8594; 112 <span class="ts">1er</span></div>
+    <div class="mi"><strong>NAIROBI</strong> (9p) <span class="ma">&#8594;</span> Conseil &#8594; 101 <span class="ts">1er</span></div>
+    <div class="mi"><strong>COMEX</strong> (6p) <span class="ma">&#8594;</span> 107 &#8594; 101 <span class="ts">1er</span></div>
+    <div class="mi"><strong>MARSEILLE</strong> (8p) <span class="ma">&#8594;</span> 104 &#8594; 112 <span class="ts">1er</span></div>
+    <div class="mi"><strong>LYON</strong> (7p) <span class="ma">&#8594;</span> 202 &#8594; 206 <span class="ts">2eme</span></div>
+    <div class="mi"><strong>HELSINKI</strong> (8p) <span class="ma">&#8594;</span> 202 &#8594; 205 <span class="ts">2eme</span></div>
+    <div style="margin-top:10px;padding:8px;background:#E8F5E9;border-radius:8px;font-size:0.78em;"><strong>14 equipes ne bougent pas.</strong> Le Conseil est reamenage en auditorium.</div>
+  </div></div>
+  <div class="sec"><div class="sec-h">Phase 2 &#8594; Pitch Final</div><div style="padding:12px;font-size:0.82em;line-height:1.6;color:#555;">
+    <strong>1er etage</strong> (V2+V3 = 84 pers.) &#8594; marchent vers le Conseil<br>
+    <strong>2eme etage</strong> (V1+V4+V5 = 103 pers.) &#8594; descendent au Conseil
+  </div></div>
+  </div>`;
 }
 
 // ============ MODAL ============
@@ -721,21 +465,61 @@ function showTeamModal(name){
   document.getElementById("modalBody").innerHTML = `
     <div class="modal-info">
       <strong>Type :</strong> ${t.type} | <strong>${t.members.length} personnes</strong><br>
-      <strong>Salle :</strong> ${ROOM_NAMES[t.room] || t.room}${t.table?" — "+t.table:""}<br>
-      <strong>Village :</strong> ${v.name} (${v.label}) — Pitch : ${v.pitchRoom}<br>
-      <strong>Pitch final :</strong> Salle du Conseil
+      <strong>Phase 1 :</strong> ${ROOM_NAMES[t.p1Room]}<br>
+      <strong>Phase 2 :</strong> ${v.name} — ${ROOM_NAMES[t.p2Room]}<br>
+      <strong>Facilitateur :</strong> ${t.fac}
     </div>
-    <div style="font-weight:600;font-size:0.85em;margin-bottom:6px;">Membres :</div>
-    ${t.members.map(m=>`<div class="modal-member"><span>${m[0]} <strong>${m[1]}</strong></span><span style="font-size:0.82em;color:#999;">${m[2]}</span></div>`).join("")}
+    <div style="font-weight:600;font-size:0.82em;margin-bottom:4px;">Membres :</div>
+    ${t.members.map(m=>`<div class="modal-member"><span>${m[0]} <strong>${m[1]}</strong></span><span style="font-size:0.8em;color:#999;">${m[2]} ${m[3]}</span></div>`).join("")}
   `;
   document.getElementById("modalBg").classList.add("open");
 }
 document.getElementById("modalBg").addEventListener("click",e=>{if(e.target.id==="modalBg")e.target.classList.remove("open");});
 document.getElementById("modalClose").addEventListener("click",()=>document.getElementById("modalBg").classList.remove("open"));
 
-// ============ FLOATING CHATBOT ============
+// ============ CHATBOT ============
 document.getElementById("chatBtn").addEventListener("click",()=>document.getElementById("chatBox").classList.toggle("open"));
 document.getElementById("chatClose").addEventListener("click",()=>document.getElementById("chatBox").classList.remove("open"));
+
+function chatSearch(query){
+  const q = query.trim().toLowerCase();
+  if(!q) return "Tape ton nom de famille ou un nom d'equipe !";
+
+  // Search team by name
+  const teamMatch = TEAMS.find(t=>t.name.toLowerCase()===q || t.name.toLowerCase().includes(q));
+  if(teamMatch){
+    const v = VILLAGES[teamMatch.village];
+    return `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length} pers.)<br>
+      Phase 1 : <strong>${ROOM_NAMES[teamMatch.p1Room]}</strong><br>
+      Phase 2 : <strong>${v.name}</strong> en <strong>${ROOM_NAMES[teamMatch.p2Room]}</strong><br>
+      Facilitateur : ${teamMatch.fac}`;
+  }
+
+  // Search person by name
+  let found = [];
+  TEAMS.forEach(t=>{
+    t.members.forEach(m=>{
+      const full = (m[0]+" "+m[1]).toLowerCase();
+      if(full.includes(q) || m[1].toLowerCase().includes(q) || m[0].toLowerCase().includes(q)){
+        found.push({person:m, team:t});
+      }
+    });
+  });
+
+  if(found.length===1){
+    const {person:m, team:t} = found[0];
+    const v = VILLAGES[t.village];
+    return `<strong>${m[0]} ${m[1]}</strong><br>
+      Equipe : <strong>${t.name}</strong><br>
+      Phase 1 : <strong>${ROOM_NAMES[t.p1Room]}</strong><br>
+      Phase 2 : <strong>${v.name}</strong> en <strong>${ROOM_NAMES[t.p2Room]}</strong><br>
+      Pitch Final : <strong>Salle du Conseil</strong>`;
+  }
+  if(found.length>1){
+    return `${found.length} resultats :<br>` + found.map(f=>`- <strong>${f.person[0]} ${f.person[1]}</strong> → equipe ${f.team.name}`).join("<br>");
+  }
+  return `Pas de resultat pour "${query}". Essaie ton nom de famille ou un nom de ville (Tokyo, Seoul...).`;
+}
 
 function sendChat(){
   const input = document.getElementById("chatIn");
@@ -748,26 +532,11 @@ function sendChat(){
   input.value = "";
   msgs.scrollTop = msgs.scrollHeight;
 }
+
 document.getElementById("chatSend").addEventListener("click", sendChat);
 document.getElementById("chatIn").addEventListener("keydown", e=>{if(e.key==="Enter")sendChat();});
 
-// ============ HOME CHATBOT ============
-function homeDoSearch(){
-  const input = document.getElementById("homeSearch");
-  const q = input.value.trim();
-  if(!q) return;
-  const result = chatSearch(q);
-  document.getElementById("homeResultCard").innerHTML = result;
-  document.getElementById("homeResult").classList.add("show");
-}
-function homeQuick(val){
-  document.getElementById("homeSearch").value = val;
-  homeDoSearch();
-}
-document.addEventListener("click",e=>{if(e.target.id==="homeSearchBtn") homeDoSearch();});
-document.addEventListener("keydown",e=>{if(e.target.id==="homeSearch" && e.key==="Enter") homeDoSearch();});
-
-// ============ EQUIPES SEARCH ============
+// ============ SEARCH (equipes tab) ============
 document.addEventListener("input", e=>{
   if(e.target.id==="eqSearch"){
     const q = e.target.value.toLowerCase();
