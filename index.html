@@ -345,6 +345,7 @@ TEAMS.forEach(t => {
 // ============ RENDER ============
 const tabDefs = [
   {id:"overview",label:"Accueil"},
+  {id:"agenda",label:"Agenda"},
   {id:"phase1",label:"Phase 1"},
   {id:"phase2",label:"Villages"},
   {id:"equipes",label:"Equipes"},
@@ -363,7 +364,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + buildTransition();
+  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + buildTransition();
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -490,6 +491,62 @@ function buildOverview(){
       <tr style="background:#FFFDE7"><td><strong style="color:#E65100">Elodie</strong></td><td>tous</td><td>volante</td><td>—</td><td>volante</td></tr>
     </table>
   </div></div>
+  </div>`;
+}
+
+function buildAgenda(){
+  const morning = [
+    {t:"10:00",d:"15'",title:"Cafe d'accueil",desc:"Installation dans l'amphitheatre",who:"Orga",color:"#607D8B",icon:"&#9749;"},
+    {t:"10:15",d:"15'",title:"Kick-off Francois Therin",desc:"Perspective, defis, ce que cette journee est et n'est pas",who:"Francois",color:"#0D47A1",icon:"&#127908;"},
+    {t:"10:30",d:"5'",title:"Agenda et equipe",desc:"Presentation du deroulement et de l'equipe de facilitation",who:"Anne",color:"#1565C0",icon:"&#128203;"},
+    {t:"10:35",d:"10'",title:"Collecte des pain points",desc:"Individuellement : 1 irritant par post-it, autant qu'on veut. En silence.",who:"Tous",color:"#E65100",icon:"&#128221;"},
+    {t:"10:45",d:"20'",title:"Pause cafe",desc:"Elodie clusterise les pain points avec l'IA",who:"Elodie + IA",color:"#F57F17",icon:"&#9749;"},
+    {t:"11:05",d:"15'",title:"Restitution des pain points",desc:"Francois presente les clusters IA, reagit a chaud",who:"Francois",color:"#0D47A1",icon:"&#128200;"},
+    {t:"11:20",d:"15'",title:"Presentation du programme PM",desc:"Mini Design Sprint, role de capitaine, fiches tuto",who:"Elodie + Zeenat + Anne",color:"#7B1FA2",icon:"&#127919;"},
+    {t:"11:35",d:"20'",title:"Ice-breaker en sous-groupes",desc:"Par groupe de 4-5 voisins. 'Si j'etais une oeuvre d'art...'",who:"Anne",color:"#00838F",icon:"&#127912;"},
+    {t:"11:55",d:"65'",title:"Dejeuner",desc:"Pot luck / dejeuner partage",who:"Tous",color:"#2E7D32",icon:"&#127860;"}
+  ];
+  const afternoon = [
+    {t:"13:00",d:"10'",title:"Brief + Sprint Questions",desc:"Themes issus des pain points. Chaque table recoit sa question.",who:"Elodie + Zeenat",color:"#0D47A1",icon:"&#127937;"},
+    {t:"13:10",d:"15'",title:"Fiche 1 : Lightning Demos",desc:"1 exemple inspirant d'ailleurs. 3 min silence + tour de table.",who:"Capitaines",color:"#1565C0",icon:"&#9889;"},
+    {t:"13:25",d:"15'",title:"Fiche 2 : HMW + Vote",desc:"3 notes 'Comment pourrait-on...' + vote gommettes. Top 3.",who:"Capitaines",color:"#7B1FA2",icon:"&#128161;"},
+    {t:"13:40",d:"10'",title:"Collecte et synthese IA",desc:"L'equipe photographie les top 3 HMW. Synthese + illustration IA.",who:"Equipe facilitation",color:"#E65100",icon:"&#129302;"},
+    {t:"13:50",d:"35'",title:"Fiches 3+4 : Solution Sketch + Vote",desc:"Sketch en silence 8 min, gallery walk, tour de table, echange, heatmap vote.",who:"Capitaines",color:"#C2185B",icon:"&#9999;"},
+    {t:"14:25",d:"15'",title:"Pause cafe",desc:"L'equipe genere des illustrations IA des concepts. Nash fait ses interviews.",who:"Equipe + Nash",color:"#F57F17",icon:"&#9749;"},
+    {t:"14:40",d:"30'",title:"Fiche 5 : Construire le Pitch",desc:"Poster Pitch Canvas A2 : Probleme, Solution, Benefice, 1ere action lundi.",who:"Capitaines",color:"#2E7D32",icon:"&#128196;"},
+    {t:"15:10",d:"30'",title:"Round 1 : Pitchs en Villages",desc:"22 equipes pitchent 2 min devant leur village. Vote. 2 meilleurs par village.",who:"Facilitateurs",color:"#E65100",icon:"&#127941;"},
+    {t:"15:40",d:"15'",title:"Board IA pour les finalistes",desc:"L'equipe genere un board visuel IA pour chaque finaliste.",who:"Equipe facilitation",color:"#00838F",icon:"&#129302;"},
+    {t:"15:55",d:"20'",title:"Round 2 : Pitchs finaux en pleniere",desc:"8 finalistes pitchent 90 sec devant les 200 avec board IA. Francois selectionne.",who:"Elodie + Francois",color:"#C2185B",icon:"&#127942;"},
+    {t:"16:15",d:"15'",title:"Closing IA + annonce",desc:"Fresque IA de synthese. Francois annonce les projets retenus + calendrier.",who:"Elodie + Francois",color:"#0D47A1",icon:"&#127775;"},
+    {t:"16:30",d:"5'",title:"Mot de la fin",desc:"Remerciements. Photo de groupe.",who:"Francois",color:"#607D8B",icon:"&#128247;"}
+  ];
+
+  function agendaRow(item){
+    return `<div style="display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid #f0f0f0;align-items:flex-start;">
+      <div style="min-width:50px;text-align:center;">
+        <div style="font-weight:700;font-size:0.9em;color:${item.color};">${item.t}</div>
+        <div style="font-size:0.62em;color:#999;">${item.d}</div>
+      </div>
+      <div style="font-size:1.2em;line-height:1;">${item.icon}</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:0.85em;color:#263238;">${item.title}</div>
+        <div style="font-size:0.75em;color:#607D8B;margin-top:2px;line-height:1.4;">${item.desc}</div>
+        <div style="font-size:0.65em;color:${item.color};margin-top:3px;font-weight:600;">${item.who}</div>
+      </div>
+    </div>`;
+  }
+
+  return `<div class="pnl" id="p-agenda">
+  <h2 style="font-size:1em;margin-bottom:12px;color:#0D47A1;">Agenda — 28 mars 2026</h2>
+  <div class="sec"><div class="sec-h" style="background:#0D47A1;">Matinee — Amphitheatre<span class="bdg">10h-12h</span></div>
+    ${morning.map(agendaRow).join("")}
+  </div>
+  <div class="sec"><div class="sec-h" style="background:#7B1FA2;">Apres-midi — Design Sprint<span class="bdg">13h-16h35</span></div>
+    ${afternoon.map(agendaRow).join("")}
+  </div>
+  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.78em;color:#795548;margin-top:12px;">
+    <strong>Fin nominale : 16h35.</strong> Marge jusqu'a 17h. Train retour Paris en fin de journee.
+  </div>
   </div>`;
 }
 
