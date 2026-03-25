@@ -147,16 +147,59 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .modal-member{font-size:0.82em;padding:4px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;}
 .modal-member:last-child{border-bottom:none;}
 
+/* Poll styles */
+.poll-q{background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;}
+.poll-qh{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:14px 16px;}
+.poll-qh h3{font-size:0.95em;margin-bottom:4px;}
+.poll-qh .poll-sub{font-size:0.72em;opacity:.8;font-style:italic;}
+.poll-body{padding:14px 16px;}
+.poll-input{width:100%;border:2px solid #e0e0e0;border-radius:10px;padding:10px 14px;font-size:0.88em;outline:none;resize:none;font-family:inherit;transition:border .2s;}
+.poll-input:focus{border-color:#1565C0;}
+.poll-send{background:#1565C0;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:0.88em;font-weight:600;cursor:pointer;margin-top:8px;width:100%;transition:background .2s;}
+.poll-send:active{background:#0D47A1;}
+.poll-send:disabled{background:#B0BEC5;cursor:default;}
+.poll-done{text-align:center;padding:20px;color:#2E7D32;font-weight:600;font-size:0.9em;}
+.poll-count{font-size:0.72em;color:#607D8B;margin-top:6px;text-align:right;}
+/* Word cloud */
+.wc-box{background:#fff;border-radius:14px;padding:16px;margin-top:12px;min-height:200px;position:relative;overflow:hidden;}
+.wc-word{display:inline-block;padding:4px 10px;margin:3px;border-radius:20px;font-weight:600;animation:wcIn .4s ease-out;transition:all .3s;}
+@keyframes wcIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+/* Open text results */
+.ot-item{background:#f8f9fa;border-left:3px solid #1565C0;padding:8px 12px;margin:6px 0;border-radius:0 8px 8px 0;font-size:0.82em;animation:otIn .3s ease-out;}
+@keyframes otIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+/* Journey Map */
+.jm-box{background:#fff;border-radius:14px;padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.jm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
+.jm-loc{border-radius:10px;padding:10px;text-align:center;cursor:default;transition:transform .2s;}
+.jm-loc .jm-n{font-weight:700;font-size:0.78em;margin-bottom:2px;}
+.jm-loc .jm-c{font-size:1.2em;font-weight:700;}
+.jm-loc .jm-l{font-size:0.62em;opacity:.7;margin-top:2px;}
+/* Presenter mode */
+.presenter .hdr,.presenter .tabs,.presenter .chat-btn,.presenter .chat-box{display:none!important;}
+.presenter .pnl{max-width:100%;padding:20px 40px;}
+.presenter .wc-box{min-height:400px;}
+.presenter .wc-word{font-size:1.2em!important;padding:6px 16px!important;margin:5px!important;}
+.presenter .jm-grid{grid-template-columns:repeat(4,1fr);}
+.presenter .jm-loc .jm-c{font-size:2em;}
+.presenter .poll-qh h3{font-size:1.4em;}
+/* Admin bar */
+.adm-bar{background:#FFFDE7;border:1px solid #FFE082;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:0.78em;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.adm-bar button{background:#F57F17;color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.85em;font-weight:600;}
+.adm-bar button.danger{background:#C62828;}
+.adm-bar button:disabled{background:#ccc;}
+
 /* Responsive */
 @media(min-width:600px){
   .stats{grid-template-columns:repeat(6,1fr);}
   .vg{grid-template-columns:1fr 1fr;}
   .eq-grid{grid-template-columns:1fr 1fr;}
   .rm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .jm-grid{grid-template-columns:repeat(3,1fr);}
 }
 @media(min-width:900px){
   .vg{grid-template-columns:repeat(3,1fr);}
   .eq-grid{grid-template-columns:repeat(3,1fr);}
+  .jm-grid{grid-template-columns:repeat(4,1fr);}
 }
 </style>
 </head>
@@ -271,6 +314,7 @@ const tabDefs = [
   {id:"phase1",label:"Phase 1"},
   {id:"phase2",label:"Villages"},
   {id:"equipes",label:"Equipes"},
+  {id:"polls",label:"Sondages"},
   {id:"finale",label:"Pitch Final"},
   {id:"transition",label:"Transitions"}
 ];
@@ -286,7 +330,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + buildTransition();
+  panelsEl.innerHTML = buildOverview() + buildPhase1() + buildPhase2() + buildEquipes() + buildPolls() + buildFinale() + buildTransition();
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -546,8 +590,291 @@ document.addEventListener("input", e=>{
   }
 });
 
+// ============ POLLS TAB ============
+const POLL_QUESTIONS = [
+  {id:"q1",type:"opentext",
+   fr:"Qu'est-ce qui vous freine aujourd'hui dans votre quotidien a l'ICN ?",
+   en:"What holds you back in your daily work at ICN?",
+   placeholder_fr:"Votre reponse (max 200 car.)...",placeholder_en:"Your answer (max 200 char.)...",
+   maxLen:200},
+  {id:"q2",type:"wordcloud",
+   fr:"Qu'est-ce qui freine le developpement de l'ICN selon vous ?",
+   en:"What holds back ICN's development in your opinion?",
+   placeholder_fr:"Un ou deux mots...",placeholder_en:"One or two words...",
+   maxLen:40}
+];
+
+// Journey Map locations for categorizing responses
+const JM_LOCATIONS = [
+  {id:"doubt",name:"The Harbour of Doubt",nameFr:"Le Port du Doute",color:"#5C6BC0",bg:"#E8EAF6",keywords:["doute","incertitude","hesitation","confusion","flou","doubt","unclear","uncertain"]},
+  {id:"fear",name:"The Forest of Fear",nameFr:"La Foret de la Peur",color:"#E53935",bg:"#FFEBEE",keywords:["peur","risque","crainte","anxiete","fear","risk","afraid","anxiety"]},
+  {id:"silos",name:"The Island of Isolation",nameFr:"L'Ile de l'Isolement",color:"#00897B",bg:"#E0F2F1",keywords:["silo","isole","seul","deconnecte","isolation","alone","disconnected","silos","departement"]},
+  {id:"procrastination",name:"The Plains of Procrastination",nameFr:"Les Plaines de la Procrastination",color:"#FF8F00",bg:"#FFF8E1",keywords:["lent","retard","attente","bureaucratie","lourdeur","slow","delay","bureaucracy","process","admin"]},
+  {id:"cynicism",name:"The Cliffs of Cynicism",nameFr:"Les Falaises du Cynisme",color:"#6D4C41",bg:"#EFEBE9",keywords:["cynisme","resistance","status quo","immobilisme","cynicism","resistance","change","toujours pareil"]},
+  {id:"vanity",name:"The Graveyard of Vanity",nameFr:"Le Cimetiere de la Vanite",color:"#7B1FA2",bg:"#F3E5F5",keywords:["ego","pouvoir","politique","hierarchie","ego","power","politics","hierarchy"]},
+  {id:"past",name:"The Guardians of the Past",nameFr:"Les Gardiens du Passe",color:"#455A64",bg:"#ECEFF1",keywords:["tradition","passe","ancien","avant","toujours fait","tradition","past","old way","legacy"]},
+  {id:"milestones",name:"The Missed Milestones",nameFr:"Les Jalons Manques",color:"#F4511E",bg:"#FBE9E7",keywords:["objectif","vision","strategie","direction","cap","goal","vision","strategy","direction","misalign"]},
+  {id:"magic",name:"The Mountains of Magic",nameFr:"Les Montagnes de la Magie",color:"#1565C0",bg:"#E3F2FD",keywords:["innovation","transformation","digital","ia","technologie","innovation","digital","ai","technology","tools","outil"]},
+  {id:"brilliance",name:"The Bay of Brilliance",nameFr:"La Baie de la Brillance",color:"#F9A825",bg:"#FFFDE7",keywords:["talent","excellence","qualite","brillant","ambition","talent","excellence","quality","ambition","international"]}
+];
+
+function classifyResponse(text){
+  const t = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const scores = {};
+  JM_LOCATIONS.forEach(loc=>{
+    scores[loc.id] = 0;
+    loc.keywords.forEach(kw=>{
+      if(t.includes(kw)) scores[loc.id] += 1;
+    });
+  });
+  const best = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0];
+  return best[1] > 0 ? best[0] : "doubt"; // default
+}
+
+function buildPolls(){
+  const isPresenter = window.location.search.includes("presenter");
+  const isAdmin = window.location.search.includes("admin");
+  const uid = localStorage.getItem("icn_uid") || (()=>{const id="u_"+Math.random().toString(36).slice(2,10);localStorage.setItem("icn_uid",id);return id;})();
+
+  let html = `<div class="pnl" id="p-polls">
+    <h2 style="font-size:1em;margin-bottom:12px;color:#0D47A1;">Sondages / Polls</h2>`;
+
+  if(isAdmin){
+    html += `<div class="adm-bar" id="admBar">
+      <strong>ADMIN</strong>
+      <button onclick="pollAdmin('activate','q1')">Activer Q1</button>
+      <button onclick="pollAdmin('activate','q2')">Activer Q2</button>
+      <button onclick="pollAdmin('deactivate','all')">Tout fermer</button>
+      <button class="danger" onclick="pollAdmin('reset','all')">Reset</button>
+    </div>`;
+  }
+
+  POLL_QUESTIONS.forEach(q=>{
+    html += `<div class="poll-q" id="poll-${q.id}">
+      <div class="poll-qh">
+        <h3>${q.fr}</h3>
+        <div class="poll-sub">${q.en}</div>
+      </div>
+      <div class="poll-body">
+        <div id="poll-form-${q.id}">
+          <textarea class="poll-input" id="poll-input-${q.id}" placeholder="${q.placeholder_fr} / ${q.placeholder_en}" maxlength="${q.maxLen}" rows="2"></textarea>
+          <button class="poll-send" id="poll-send-${q.id}" onclick="submitPoll('${q.id}')">Envoyer / Submit</button>
+          <div class="poll-count" id="poll-count-${q.id}"></div>
+        </div>
+        <div id="poll-results-${q.id}" style="margin-top:12px;"></div>
+      </div>
+    </div>`;
+  });
+
+  // Journey Map section
+  html += `<div class="jm-box">
+    <h3 style="font-size:0.95em;color:#263238;margin-bottom:4px;">Change Journey Map</h3>
+    <p style="font-size:0.72em;color:#607D8B;margin-bottom:8px;">Vos reponses positionnees sur la carte du changement / Your answers mapped to the change journey</p>
+    <div class="jm-grid" id="jmGrid"></div>
+  </div>`;
+
+  html += `</div>`;
+  return html;
+}
+
+// ============ FIREBASE ============
+let fbDb = null;
+let fbReady = false;
+
+function initFirebase(){
+  const script1 = document.createElement("script");
+  script1.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js";
+  script1.onload = ()=>{
+    const script2 = document.createElement("script");
+    script2.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js";
+    script2.onload = ()=>{
+      const app = firebase.initializeApp({
+        apiKey:"AIzaSyDN7oM4e8LqWKkNy7Hy9nTGLHtEYTTmKFY",
+        authDomain:"ai4leaders-3e524.firebaseapp.com",
+        databaseURL:"https://ai4leaders-3e524-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId:"ai4leaders-3e524",
+        storageBucket:"ai4leaders-3e524.firebasestorage.app",
+        messagingSenderId:"781253523502",
+        appId:"1:781253523502:web:8855fcebaf634bcc76c7bf"
+      });
+      fbDb = firebase.database();
+      fbReady = true;
+      listenPolls();
+    };
+    document.head.appendChild(script2);
+  };
+  document.head.appendChild(script1);
+}
+
+function submitPoll(qid){
+  if(!fbReady) return alert("Connexion en cours...");
+  const input = document.getElementById("poll-input-"+qid);
+  const text = input.value.trim();
+  if(!text) return;
+  const uid = localStorage.getItem("icn_uid");
+  const btn = document.getElementById("poll-send-"+qid);
+  btn.disabled = true;
+  btn.textContent = "...";
+  fbDb.ref("icn-polls/responses/"+qid).push({
+    text: text,
+    uid: uid,
+    ts: Date.now()
+  }).then(()=>{
+    localStorage.setItem("icn_voted_"+qid, "1");
+    document.getElementById("poll-form-"+qid).innerHTML = `<div class="poll-done">Merci ! / Thank you!</div>`;
+  }).catch(err=>{
+    btn.disabled = false;
+    btn.textContent = "Envoyer / Submit";
+    alert("Erreur: "+err.message);
+  });
+}
+
+function listenPolls(){
+  if(!fbReady) return;
+  POLL_QUESTIONS.forEach(q=>{
+    // Check if already voted
+    if(localStorage.getItem("icn_voted_"+q.id)){
+      const form = document.getElementById("poll-form-"+q.id);
+      if(form) form.innerHTML = `<div class="poll-done">Deja repondu / Already answered</div>`;
+    }
+    // Listen for responses
+    fbDb.ref("icn-polls/responses/"+q.id).on("value", snap=>{
+      const data = snap.val();
+      if(!data) return;
+      const responses = Object.values(data);
+      const countEl = document.getElementById("poll-count-"+q.id);
+      if(countEl) countEl.textContent = responses.length + " reponse(s)";
+      renderPollResults(q, responses);
+    });
+    // Listen for active state
+    fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
+      const active = snap.val();
+      const pollEl = document.getElementById("poll-"+q.id);
+      if(pollEl){
+        pollEl.style.display = active ? "" : "none";
+      }
+    });
+  });
+  updateJourneyMap();
+  // Also listen globally for journey map
+  fbDb.ref("icn-polls/responses").on("value", ()=> updateJourneyMap());
+}
+
+function renderPollResults(q, responses){
+  const container = document.getElementById("poll-results-"+q.id);
+  if(!container) return;
+  if(q.type === "wordcloud"){
+    renderWordCloud(container, responses);
+  } else {
+    renderOpenText(container, responses);
+  }
+}
+
+function renderWordCloud(container, responses){
+  // Count words
+  const counts = {};
+  responses.forEach(r=>{
+    const words = r.text.toLowerCase().trim().split(/[\s,;]+/).filter(w=>w.length>2);
+    words.forEach(w=>{
+      const clean = w.replace(/[^a-zA-ZÀ-ÿ]/g,"");
+      if(clean.length>2) counts[clean] = (counts[clean]||0) + 1;
+    });
+  });
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,40);
+  if(sorted.length===0) return;
+  const maxCount = sorted[0][1];
+  const colors = ["#1565C0","#E65100","#7B1FA2","#2E7D32","#C2185B","#00838F","#F57F17","#455A64","#E53935","#00695C"];
+  let html = `<div class="wc-box">`;
+  sorted.forEach(([word, count], i)=>{
+    const size = 0.7 + (count/maxCount) * 1.6;
+    const color = colors[i % colors.length];
+    const opacity = 0.6 + (count/maxCount) * 0.4;
+    html += `<span class="wc-word" style="font-size:${size}em;color:${color};opacity:${opacity};background:${color}15;">${word}<sup style="font-size:0.5em;opacity:.6;">${count}</sup></span>`;
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function renderOpenText(container, responses){
+  const recent = responses.slice(-30).reverse();
+  let html = recent.map(r=>`<div class="ot-item">${escHtml(r.text)}</div>`).join("");
+  container.innerHTML = html;
+}
+
+function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function updateJourneyMap(){
+  if(!fbReady) return;
+  const grid = document.getElementById("jmGrid");
+  if(!grid) return;
+  // Get all responses for q2 (word cloud - about ICN development)
+  fbDb.ref("icn-polls/responses/q2").once("value", snap=>{
+    const data = snap.val();
+    const responses = data ? Object.values(data) : [];
+    const locCounts = {};
+    JM_LOCATIONS.forEach(l=>locCounts[l.id]=0);
+    responses.forEach(r=>{
+      const loc = classifyResponse(r.text);
+      locCounts[loc] = (locCounts[loc]||0) + 1;
+    });
+    let html = "";
+    JM_LOCATIONS.forEach(loc=>{
+      const count = locCounts[loc.id] || 0;
+      if(count === 0 && responses.length > 0) return; // hide empty when there are responses
+      html += `<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
+        <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
+        <div class="jm-c" style="color:${loc.color};">${count}</div>
+        <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
+      </div>`;
+    });
+    if(responses.length === 0){
+      html = JM_LOCATIONS.map(loc=>`<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
+        <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
+        <div class="jm-c" style="color:${loc.color};">—</div>
+        <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
+      </div>`).join("");
+    }
+    grid.innerHTML = html;
+  });
+}
+
+// Admin functions
+function pollAdmin(action, target){
+  if(!fbReady) return;
+  if(action==="activate"){
+    POLL_QUESTIONS.forEach(q=>{
+      fbDb.ref("icn-polls/active/"+q.id).set(q.id===target);
+    });
+  } else if(action==="deactivate"){
+    POLL_QUESTIONS.forEach(q=>{
+      fbDb.ref("icn-polls/active/"+q.id).set(false);
+    });
+  } else if(action==="reset"){
+    if(confirm("Supprimer toutes les reponses ?")){
+      fbDb.ref("icn-polls/responses").remove();
+    }
+  }
+}
+
+// Presenter mode
+if(window.location.search.includes("presenter")){
+  document.body.classList.add("presenter");
+}
+
 // ============ INIT ============
 init();
+initFirebase();
+
+// Auto-activate polls if admin sets them (show all by default for now)
+setTimeout(()=>{
+  if(fbReady){
+    POLL_QUESTIONS.forEach(q=>{
+      fbDb.ref("icn-polls/active/"+q.id).once("value", snap=>{
+        if(snap.val()===null) fbDb.ref("icn-polls/active/"+q.id).set(true);
+      });
+    });
+  }
+},3000);
 </script>
 </body>
 </html>
