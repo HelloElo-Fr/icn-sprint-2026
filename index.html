@@ -120,9 +120,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .ts{background:#E8F5E9;padding:1px 6px;border-radius:6px;color:#2E7D32;font-size:0.7em;font-weight:600;}
 
 /* Chatbot */
-.chat-btn{position:fixed;bottom:16px;right:16px;height:48px;border-radius:24px;background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;border:none;font-size:0.85em;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(21,101,192,.4);z-index:200;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 18px;transition:transform .2s;animation:chatPulse 3s ease-in-out infinite;}
+.chat-btn{position:fixed;bottom:16px;right:16px;height:54px;border-radius:27px;background:linear-gradient(135deg,#E65100,#F57F17);color:#fff;border:none;font-size:0.9em;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(230,81,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 22px;transition:transform .2s;animation:chatPulse 2s ease-in-out infinite;}
 .chat-btn:active{transform:scale(.9);}
-@keyframes chatPulse{0%,100%{box-shadow:0 4px 16px rgba(21,101,192,.4)}50%{box-shadow:0 4px 24px rgba(21,101,192,.6)}}
+@keyframes chatPulse{0%,100%{box-shadow:0 6px 20px rgba(230,81,0,.45);transform:scale(1)}50%{box-shadow:0 6px 28px rgba(230,81,0,.65);transform:scale(1.03)}}
 .chat-box{position:fixed;bottom:76px;right:12px;width:calc(100vw - 24px);max-width:360px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:200;display:none;overflow:hidden;max-height:70vh;flex-direction:column;}
 .chat-box.open{display:flex;}
 .chat-hdr{background:#1565C0;color:#fff;padding:12px 16px;font-weight:600;font-size:0.88em;display:flex;justify-content:space-between;align-items:center;}
@@ -347,11 +347,11 @@ TEAMS.forEach(t => {
 const tabDefs = [
   {id:"overview",label:"Accueil"},
   {id:"agenda",label:"Agenda"},
+  {id:"polls",label:"Sondages"},
   {id:"equipes",label:"Mon equipe"},
-  {id:"phase2",label:"Villages"},
-  {id:"phase1",label:"Salles"},
-  {id:"finale",label:"Pitch Final"},
-  {id:"transition",label:"Transitions"}
+  {id:"phase1",label:"Ma salle"},
+  {id:"phase2",label:"Mon village"},
+  {id:"finale",label:"Pitch Final"}
 ];
 
 function init(){
@@ -365,7 +365,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + buildTransition();
+  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPolls() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale();
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -392,41 +392,93 @@ function teamRow(t, showMove){
 }
 
 function buildOverview(){
-  const isAdmin = window.location.search.includes("admin");
-  let pollHtml = "";
+  return `<div class="pnl act" id="p-overview">
+  <div style="background:linear-gradient(135deg,#0D47A1,#1565C0);border-radius:14px;padding:20px;margin-bottom:16px;color:#fff;text-align:center;">
+    <div style="font-size:2em;margin-bottom:8px;">&#127919;</div>
+    <h2 style="font-size:1.15em;margin-bottom:8px;">Bienvenue au Design Sprint ICN</h2>
+    <p style="font-size:0.85em;opacity:.9;line-height:1.5;">Aujourd'hui, 187 collaborateurs, 22 equipes, une journee pour imaginer ensemble l'ICN de demain.</p>
+  </div>
+  <div style="font-size:0.85em;color:#455A64;line-height:1.6;padding:0 4px;margin-bottom:16px;">
+    <p style="margin-bottom:10px;">Cette application est votre <strong>compagnon de journee</strong>. Vous y trouverez :</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+    <div onclick="switchTab('agenda')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+      <div style="font-size:1.4em;margin-bottom:4px;">&#128197;</div>
+      <div style="font-weight:700;font-size:0.82em;color:#0D47A1;">Agenda</div>
+      <div style="font-size:0.68em;color:#607D8B;">Le programme heure par heure</div>
+    </div>
+    <div onclick="switchTab('polls')" style="background:#FFF3E0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+      <div style="font-size:1.4em;margin-bottom:4px;">&#128172;</div>
+      <div style="font-weight:700;font-size:0.82em;color:#E65100;">Sondages</div>
+      <div style="font-size:0.68em;color:#607D8B;">Donnez votre avis en live</div>
+    </div>
+    <div onclick="switchTab('equipes')" style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+      <div style="font-size:1.4em;margin-bottom:4px;">&#128101;</div>
+      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;">Mon equipe</div>
+      <div style="font-size:0.68em;color:#607D8B;">Trouvez vos coequipiers</div>
+    </div>
+    <div onclick="switchTab('phase1')" style="background:#F3E5F5;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+      <div style="font-size:1.4em;margin-bottom:4px;">&#127970;</div>
+      <div style="font-weight:700;font-size:0.82em;color:#7B1FA2;">Ma salle</div>
+      <div style="font-size:0.68em;color:#607D8B;">Plan des salles par etage</div>
+    </div>
+    <div onclick="switchTab('phase2')" style="background:#E0F7FA;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+      <div style="font-size:1.4em;margin-bottom:4px;">&#127963;</div>
+      <div style="font-weight:700;font-size:0.82em;color:#00838F;">Mon village</div>
+      <div style="font-size:0.68em;color:#607D8B;">5 villages pour les pitchs</div>
+    </div>
+    <div onclick="switchTab('finale')" style="background:#FFF8E1;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+      <div style="font-size:1.4em;margin-bottom:4px;">&#127942;</div>
+      <div style="font-weight:700;font-size:0.82em;color:#F57F17;">Pitch Final</div>
+      <div style="font-size:0.68em;color:#607D8B;">Les finalistes devant tous</div>
+    </div>
+  </div>
+  <div style="background:#ECEFF1;border-radius:12px;padding:14px;font-size:0.8em;color:#455A64;text-align:center;line-height:1.5;">
+    <strong>Besoin d'aide ?</strong> Utilisez le bouton <span style="background:#1565C0;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.85em;">&#128269; Ou suis-je ?</span> en bas a droite pour trouver votre salle et votre equipe en un clic.
+  </div>
+  </div>`;
+}
 
-  // Admin panel
+function buildPolls(){
+  const isAdmin = window.location.search.includes("admin");
+  let html = `<div class="pnl" id="p-polls">`;
+
   if(isAdmin){
-    pollHtml += `<div class="adm-panel" id="admPanel">
+    html += `<div class="adm-panel" id="admPanel">
       <h3>Regie sondages</h3>`;
     POLL_QUESTIONS.forEach(q=>{
-      pollHtml += `<div class="adm-row" id="adm-row-${q.id}">
+      html += `<div class="adm-row" id="adm-row-${q.id}">
         <span class="adm-status off" id="adm-st-${q.id}"></span>
-        <span class="adm-label"><strong>Q${q.num.split("/")[0]}</strong> ${q.type==="wordcloud"?"Nuage":q.type==="journeymap"?"Carte":"Texte"} — ${q.fr.slice(0,45)}...</span>
+        <span class="adm-label"><strong>Q${q.num.split("/")[0]}</strong> ${q.type==="wordcloud"?"Nuage":q.type==="journeymap"?"Carte":"Texte"} — ${q.fr.slice(0,40)}...</span>
         <button class="adm-btn adm-btn-go" onclick="pollAdmin('activate','${q.id}')">Lancer</button>
         <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','${q.id}')">Stop</button>
         <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','${q.id}')">RAZ</button>
       </div>`;
     });
-    pollHtml += `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+    html += `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','all')">RAZ tout</button>
       <button class="adm-btn adm-btn-export" onclick="exportPolls()">Exporter Excel</button>
       <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','all')">Tout fermer</button>
     </div></div>`;
   }
 
-  // Questions (hidden, shown one at a time)
+  // Waiting screen
+  html += `<div class="poll-waiting" id="pollWaiting">
+    <div class="pw-icon">&#9997;</div>
+    <div class="pw-title">Les sondages arrivent...</div>
+    <div class="pw-sub">Waiting for polls to start...<br>Restez sur cette page.</div>
+  </div>`;
+
   POLL_QUESTIONS.forEach(q=>{
     if(q.type==="journeymap"){
-      // Interactive Journey Map selector
-      pollHtml += `<div class="poll-q" id="poll-${q.id}">
+      html += `<div class="poll-q" id="poll-${q.id}">
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
           <h3>${q.fr}</h3>
           <div class="poll-sub">${q.en}</div>
         </div>
         <div class="poll-body">
-          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;">Cliquez sur la zone qui vous correspond le mieux / Tap the zone that best describes where you are</p>
+          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;">Cliquez sur la zone qui vous correspond / Tap the zone that fits you best</p>
           <div class="jm-grid" id="jmSelect" style="cursor:pointer;">
             ${JM_LOCATIONS.map(loc=>`<div class="jm-loc jm-selectable" data-loc="${loc.id}" style="background:${loc.bg};border:2px solid ${loc.color}30;" onclick="submitJourneyMap('${loc.id}')">
               <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
@@ -438,7 +490,7 @@ function buildOverview(){
         <div id="poll-results-${q.id}" style="margin-top:12px;"></div>
       </div>`;
     } else {
-      pollHtml += `<div class="poll-q" id="poll-${q.id}">
+      html += `<div class="poll-q" id="poll-${q.id}">
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
           <h3>${q.fr}</h3>
@@ -457,43 +509,13 @@ function buildOverview(){
     }
   });
 
-  // Journey Map results (shown when q3 is active)
-  pollHtml += `<div class="jm-box" id="jmBox">
+  html += `<div class="jm-box" id="jmBox">
     <h3 style="font-size:0.95em;color:#263238;margin-bottom:4px;">Change Journey Map — Resultats live</h3>
     <div class="jm-grid" id="jmGrid"></div>
   </div>`;
 
-  return `<div class="pnl act" id="p-overview">
-  ${pollHtml}
-  <div class="stats">
-    <div class="st"><div class="n">187</div><div class="l">participants</div></div>
-    <div class="st"><div class="n">22</div><div class="l">equipes</div></div>
-    <div class="st"><div class="n">9</div><div class="l">salles</div></div>
-    <div class="st"><div class="n">5</div><div class="l">facilitateurs</div></div>
-    <div class="st"><div class="n">5</div><div class="l">villages</div></div>
-    <div class="st"><div class="n">3</div><div class="l">phases</div></div>
-  </div>
-  <div class="sec"><div class="sec-h">Deroulement</div><div style="padding:14px;">
-    <div class="tl">
-      <div class="tl-i"><div class="tl-d" style="background:#1565C0;"></div><h4 style="color:#1565C0;">Phase 1 — Creativite (~2h30)</h4><p>22 equipes dans 9 salles. Lightning Demos, HMW, Crazy 4's.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">Pause (~15 min)</h4><p>8 equipes se deplacent. Le Conseil est reamenage.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#7B1FA2;"></div><h4 style="color:#7B1FA2;">Phase 2 — Villages (~45 min)</h4><p>Pitch Canvas dans 5 salles. Vote par village.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#F57F17;"></div><h4 style="color:#F57F17;">Regroupement (~10 min)</h4><p>Tout le monde au Conseil.</p></div>
-      <div class="tl-i"><div class="tl-d" style="background:#E65100;"></div><h4 style="color:#E65100;">Pitch Final (Conseil)</h4><p>5 finalistes pitchent devant Francois. Vote final.</p></div>
-    </div>
-  </div></div>
-  <div class="sec"><div class="sec-h">Facilitateurs</div><div style="padding:10px;overflow-x:auto;">
-    <table class="stbl">
-      <tr><th>Fac</th><th>Etage</th><th>Phase 1</th><th>Eq.</th><th>Village</th></tr>
-      <tr><td><strong style="color:#1565C0">Fac 1</strong></td><td>1er</td><td>Conseil</td><td>4</td><td>V5 Cyan (206)</td></tr>
-      <tr><td><strong style="color:#E65100">Fac 2</strong></td><td>1er</td><td>101+107</td><td>4</td><td>V3 Orange (101)</td></tr>
-      <tr><td><strong style="color:#7B1FA2">Fac 3</strong></td><td>1er</td><td>112+104</td><td>4</td><td>V2 Violet (112)</td></tr>
-      <tr><td><strong style="color:#2E7D32">Fac 4</strong></td><td>2eme</td><td>207+202</td><td>5</td><td>V1 Vert (207)</td></tr>
-      <tr><td><strong style="color:#00838F">Fac 5</strong></td><td>2eme</td><td>205+206+202</td><td>5</td><td>V4 Rose (205)</td></tr>
-      <tr style="background:#FFFDE7"><td><strong style="color:#E65100">Elodie</strong></td><td>tous</td><td>volante</td><td>—</td><td>volante</td></tr>
-    </table>
-  </div></div>
-  </div>`;
+  html += `</div>`;
+  return html;
 }
 
 function buildAgenda(){
@@ -577,8 +599,8 @@ function buildPhase1(){
 
   return `<div class="pnl" id="p-phase1">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Plan des salles</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">Repartition des 22 equipes dans 9 salles sur 2 etages. 5 facilitateurs, chacun couvre sa zone.</p>
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Ma salle</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">9 salles sur 2 etages, 5 facilitateurs. Cherchez votre nom pour trouver votre salle instantanement.</p>
     <input type="text" id="roomSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
   </div>
   <div class="sec"><div class="sec-h">1er Etage — 12 equipes<span class="bdg">110 pers.</span></div>
@@ -596,8 +618,8 @@ function buildPhase1(){
 function buildPhase2(){
   let html = `<div class="pnl" id="p-phase2">
   <div style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#7B1FA2;margin-bottom:6px;">Villages</h2>
-    <p style="font-size:0.8em;color:#4A148C;line-height:1.4;">5 villages, 5 couleurs. Chaque village regroupe 4-5 equipes pour les pitchs. Trouvez votre village et decouvrez vos voisins.</p>
+    <h2 style="font-size:1.05em;color:#7B1FA2;margin-bottom:6px;">Mon village</h2>
+    <p style="font-size:0.8em;color:#4A148C;line-height:1.4;">5 villages, 5 couleurs. Apres le Design Sprint, votre equipe rejoint son village pour les pitchs. Decouvrez vos voisins.</p>
   </div>
   <div class="vg">`;
   for(const [vk,v] of Object.entries(VILLAGES)){
