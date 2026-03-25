@@ -828,75 +828,91 @@ const CHAT_KB = {
   }
 };
 
-function chatSearch(query){
+const GEMINI_KEY = "AIzaSyC3cAtd0BPo04J7k16FVPcPY_f-M5qy7c";
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_KEY;
+const CHAT_CONTEXT = `Tu es l'assistant du ICN Creativ Day, seminaire de transformation d'ICN Business School le 28 mars 2026 a Nancy (Station A). 187 participants, 22 equipes. Reponds en ${currentLang==="en"?"anglais":"francais"}, de facon concise et utile. Tutoie les gens.
+
+PROGRAMME MATIN (Amphitheatre):
+10h00 Cafe d'accueil | 10h15 Kick-off Francois Therin (DG) - perspective, defis | 10h30 Agenda + equipe (Anne) | 10h35 Collecte pain points sur l'app en silence | 10h45 Pause cafe - Elodie clusterise avec l'IA | 11h05 Francois presente les clusters et reagit | 11h20 Presentation du programme PM (Elodie + Zeenat + Anne) | 11h35 Ice-breaker "Si j'etais une oeuvre d'art..." par groupes de 4-5 | 11h55 Dejeuner partage (pot luck)
+
+DEJEUNER 12h00-13h00: Elodie et Zeenat finalisent les Sprint Questions. Les facilitateurs preparent les tables.
+
+PROGRAMME APRES-MIDI (Mini Design Sprint en equipes):
+13h00 Brief + Sprint Questions (Elodie + Zeenat) | 13h10 FICHE 1 LIGHTNING DEMOS: 3 min silence, ecrire 1 exemple inspirant d'ailleurs sur post-it, puis tour de table 1 min/personne | 13h25 FICHE 2 HMW: 3 min silence, ecrire 3 post-its "Comment pourrait-on...", tout au centre, 2 min lecture silencieuse, vote 3 gommettes chacun, capitaine identifie top 3 | 13h40 Collecte HMW + synthese IA (10 min) | 13h50 FICHES 3+4 SOLUTION SKETCH: A4 plie en 4 (Probleme/Solution/Comment ca marche/1ere action lundi), 8 min silence. Puis gallery walk 3 min, tour de table flash 5 min, echange ouvert 10 min, heatmap vote gommettes 5 min, capitaine annonce concept retenu | 14h25 PAUSE CAFE - equipe genere illustrations IA | 14h40 FICHE 5 PITCH CANVAS: Poster A2 avec 4 zones (Probleme, Solution, Benefice concret, 1ere action lundi). 15 min pour remplir, 10 min assembler + repeter | 15h10 PITCHS EN VILLAGES: 22 equipes en 5 villages, 1 facilitateur par village, chaque table pitche 2 min, vote gommettes, 2 meilleures equipes par village | 15h40 Boards IA pour les 8 finalistes | 15h55 8 PITCHS FINAUX en pleniere 90 sec + board IA, Francois selectionne les projets a financer | 16h15 Closing IA (fresque) + Francois annonce projets retenus + Module 2 | 16h30 Mot de la fin, photo de groupe. Fin 16h35, marge 17h.
+
+METHODE DESIGN SPRINT:
+- Together Alone: on travaille ensemble mais individuellement en silence d'abord, pour eviter que les personnalites dominantes imposent leur vision
+- Tangible: chaque etape produit un objet (post-it, dessin, poster), pas de discussion dans le vide
+- Timer impose: quand ca sonne, on avance meme si c'est imparfait. Mieux vaut 4 idees imparfaites que zero idee parfaite
+- Vote silencieux: decisions par gommettes, pas par discussion. Le patron a 1 gommette, le stagiaire aussi
+
+AUTO-FACILITATION:
+Chaque table designe un CAPITAINE (lit les fiches, donne la parole) et un TIME KEEPER (timer, annonces, coupe poliment). Pas besoin de briefing prealable, les fiches sont auto-suffisantes. Les 4 facilitateurs circulent pour debloquer.
+
+EQUIPE DE FACILITATION:
+- Elodie Hughes: meta-facilitation, timer central, moments IA live, brief Sprint, pitchs finaux
+- Anne Corbel-Trinh: facilitation matinee, ice-breaker, collecte HMW, village PM
+- Zeenat Fayaz: cadrage strategique, Sprint Questions, village PM
+- Heloise Lemeillet: facilitatrice flottante PM, circule et debloque
+- John-Edwin Graff: facilitateur flottant PM, generation IA avec Elodie
+- Nash Hughes: interviews COMEX matin, interviews terrain PM, captation video
+
+LOGISTIQUE:
+- Lieu: Station A, Nancy
+- Wifi: teste la veille
+- Train Paris: arrive 10h, retour fin de journee
+- 5 villages de couleur: V1 Vert (salle 207), V2 Violet (salle 112), V3 Orange (salle 101), V4 Rose (salle 205), V5 Cyan (salle 206)
+- 9 salles sur 2 etages (1er: Conseil, 101, 107, 112, 104 / 2eme: 207, 205, 206, 202)
+
+Si on te demande un nom de personne ou une equipe, cherche dans les donnees de l'app. Si tu ne trouves pas, dis de taper le nom dans la barre de recherche de l'onglet "Mon equipe".`;
+
+function localSearch(query){
   const q = query.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  if(!q) return currentLang==="fr" ? "Tape ton nom de famille ou un nom d'equipe !" : "Type your last name or a team name!";
-
-  // Check knowledge base first
-  let bestMatch = null;
-  let bestScore = 0;
-  for(const [key, entry] of Object.entries(CHAT_KB)){
-    let score = 0;
-    for(const kw of entry.keywords){
-      if(q.includes(kw)) score += kw.length;
-      else if(kw.includes(q) && q.length >= 3) score += q.length;
-    }
-    if(score > bestScore){bestScore=score;bestMatch=entry;}
-  }
-  if(bestMatch) return currentLang==="en" ? bestMatch.en : bestMatch.fr;
-
-  // Search team by name
+  // Search team
   const teamMatch = TEAMS.find(t=>t.name.toLowerCase()===q || t.name.toLowerCase().includes(q));
   if(teamMatch){
     const v = VILLAGES[teamMatch.village];
-    if(currentLang==="en"){
-      return `<strong>Team ${teamMatch.name}</strong> (${teamMatch.members.length} people)<br>
-        Phase 1: <strong>${ROOM_NAMES[teamMatch.p1Room]}</strong><br>
-        Phase 2: <strong>${v.name}</strong> in <strong>${ROOM_NAMES[teamMatch.p2Room]}</strong><br>
-        Facilitator: ${teamMatch.fac}`;
-    }
-    return `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length} pers.)<br>
-      Phase 1 : <strong>${ROOM_NAMES[teamMatch.p1Room]}</strong><br>
-      Phase 2 : <strong>${v.name}</strong> en <strong>${ROOM_NAMES[teamMatch.p2Room]}</strong><br>
-      Facilitateur : ${teamMatch.fac}`;
+    return currentLang==="en"
+      ? `<strong>Team ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1: ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}`
+      : `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1 : ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}`;
   }
-
-  // Search person by name
+  // Search person
   let found = [];
-  TEAMS.forEach(t=>{
-    t.members.forEach(m=>{
-      const full = (m[0]+" "+m[1]).toLowerCase();
-      if(full.includes(q) || m[1].toLowerCase().includes(q) || m[0].toLowerCase().includes(q)){
-        found.push({person:m, team:t});
-      }
-    });
-  });
-
+  TEAMS.forEach(t=>{t.members.forEach(m=>{
+    const full = (m[0]+" "+m[1]).toLowerCase();
+    if(full.includes(q) || m[1].toLowerCase().includes(q) || m[0].toLowerCase().includes(q)) found.push({person:m, team:t});
+  });});
   if(found.length===1){
     const {person:m, team:t} = found[0];
     const v = VILLAGES[t.village];
-    if(currentLang==="en"){
-      return `<strong>${m[0]} ${m[1]}</strong><br>
-        Team: <strong>${t.name}</strong><br>
-        Phase 1: <strong>${ROOM_NAMES[t.p1Room]}</strong><br>
-        Phase 2: <strong>${v.name}</strong> in <strong>${ROOM_NAMES[t.p2Room]}</strong><br>
-        Final Pitch: <strong>Salle du Conseil</strong>`;
-    }
-    return `<strong>${m[0]} ${m[1]}</strong><br>
-      Equipe : <strong>${t.name}</strong><br>
-      Phase 1 : <strong>${ROOM_NAMES[t.p1Room]}</strong><br>
-      Phase 2 : <strong>${v.name}</strong> en <strong>${ROOM_NAMES[t.p2Room]}</strong><br>
-      Pitch Final : <strong>Salle du Conseil</strong>`;
+    return currentLang==="en"
+      ? `<strong>${m[0]} ${m[1]}</strong><br>Team: <strong>${t.name}</strong><br>Phase 1: ${ROOM_NAMES[t.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[t.p2Room]}`
+      : `<strong>${m[0]} ${m[1]}</strong><br>Equipe : <strong>${t.name}</strong><br>Phase 1 : ${ROOM_NAMES[t.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[t.p2Room]}`;
   }
   if(found.length>1){
-    const label = currentLang==="en" ? "results" : "resultats";
-    const teamLabel = currentLang==="en" ? "team" : "equipe";
-    return `${found.length} ${label} :<br>` + found.map(f=>`- <strong>${f.person[0]} ${f.person[1]}</strong> \u2192 ${teamLabel} ${f.team.name}`).join("<br>");
+    return found.map(f=>`<strong>${f.person[0]} ${f.person[1]}</strong> → ${f.team.name}`).join("<br>");
   }
-  if(currentLang==="en"){
-    return `No result for "${query}". Try your last name, a city name (Tokyo, Seoul...), or a topic (schedule, wifi, lunch...).`;
-  }
-  return `Pas de resultat pour "${query}". Essaie ton nom de famille, un nom de ville (Tokyo, Seoul...), ou un sujet (programme, wifi, dejeuner...).`;
+  return null;
+}
+
+async function askGemini(query){
+  const sysPrompt = CHAT_CONTEXT.replace("${currentLang===\"en\"?\"anglais\":\"francais\"}", currentLang==="en"?"anglais":"francais");
+  try{
+    const res = await fetch(GEMINI_URL, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        system_instruction:{parts:[{text:sysPrompt}]},
+        contents:[{parts:[{text:query}]}],
+        generationConfig:{maxOutputTokens:300,temperature:0.3}
+      })
+    });
+    const data = await res.json();
+    if(data.candidates && data.candidates[0]){
+      return data.candidates[0].content.parts[0].text.replace(/\n/g,"<br>").replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+    }
+    return null;
+  }catch(e){return null;}
 }
 
 function sendChat(){
@@ -904,11 +920,35 @@ function sendChat(){
   const q = input.value.trim();
   if(!q) return;
   const msgs = document.getElementById("chatMsgs");
-  msgs.innerHTML += `<div class="chat-msg user">${q}</div>`;
-  const answer = chatSearch(q);
-  msgs.innerHTML += `<div class="chat-msg bot">${answer}</div>`;
+  msgs.innerHTML += `<div class="chat-msg user">${escHtml(q)}</div>`;
   input.value = "";
+
+  // Try local search first (names, teams)
+  const local = localSearch(q);
+  if(local){
+    msgs.innerHTML += `<div class="chat-msg bot">${local}</div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+    return;
+  }
+
+  // Otherwise use Gemini LLM
+  const loadingId = "loading-"+Date.now();
+  msgs.innerHTML += `<div class="chat-msg bot" id="${loadingId}"><em>${currentLang==="en"?"Thinking...":"Je reflechis..."}</em></div>`;
   msgs.scrollTop = msgs.scrollHeight;
+
+  askGemini(q).then(answer=>{
+    const el = document.getElementById(loadingId);
+    if(el){
+      if(answer){
+        el.innerHTML = answer;
+      } else {
+        el.innerHTML = currentLang==="en"
+          ? "Sorry, I couldn't answer that. Try asking about the schedule, exercises, wifi, or type a name to find your team."
+          : "Desole, je n'ai pas pu repondre. Essaie de demander le programme, les exercices, le wifi, ou tape un nom pour trouver ton equipe.";
+      }
+    }
+    msgs.scrollTop = msgs.scrollHeight;
+  });
 }
 
 document.getElementById("chatSend").addEventListener("click", sendChat);
