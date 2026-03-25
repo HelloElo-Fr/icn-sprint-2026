@@ -148,45 +148,79 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .modal-member:last-child{border-bottom:none;}
 
 /* Poll styles */
-.poll-q{background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;}
-.poll-qh{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:14px 16px;}
-.poll-qh h3{font-size:0.95em;margin-bottom:4px;}
-.poll-qh .poll-sub{font-size:0.72em;opacity:.8;font-style:italic;}
-.poll-body{padding:14px 16px;}
-.poll-input{width:100%;border:2px solid #e0e0e0;border-radius:10px;padding:10px 14px;font-size:0.88em;outline:none;resize:none;font-family:inherit;transition:border .2s;}
+.poll-waiting{text-align:center;padding:40px 20px;color:#607D8B;}
+.poll-waiting .pw-icon{font-size:2.5em;margin-bottom:12px;}
+.poll-waiting .pw-title{font-size:1em;font-weight:600;color:#263238;margin-bottom:6px;}
+.poll-waiting .pw-sub{font-size:0.8em;line-height:1.5;}
+.poll-q{background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;display:none;}
+.poll-q.active{display:block;animation:pollSlide .4s ease-out;}
+@keyframes pollSlide{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.poll-qh{background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;padding:16px 18px;}
+.poll-qh h3{font-size:1.05em;margin-bottom:4px;line-height:1.3;}
+.poll-qh .poll-sub{font-size:0.78em;opacity:.85;font-style:italic;}
+.poll-qnum{font-size:0.65em;opacity:.6;margin-bottom:6px;}
+.poll-body{padding:16px 18px;}
+.poll-input{width:100%;border:2px solid #e0e0e0;border-radius:12px;padding:12px 16px;font-size:1em;outline:none;resize:none;font-family:inherit;transition:border .2s;-webkit-appearance:none;}
 .poll-input:focus{border-color:#1565C0;}
-.poll-send{background:#1565C0;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:0.88em;font-weight:600;cursor:pointer;margin-top:8px;width:100%;transition:background .2s;}
-.poll-send:active{background:#0D47A1;}
-.poll-send:disabled{background:#B0BEC5;cursor:default;}
-.poll-done{text-align:center;padding:20px;color:#2E7D32;font-weight:600;font-size:0.9em;}
-.poll-count{font-size:0.72em;color:#607D8B;margin-top:6px;text-align:right;}
+.poll-charcount{font-size:0.7em;color:#B0BEC5;text-align:right;margin-top:4px;transition:color .2s;}
+.poll-charcount.warn{color:#E65100;}
+.poll-send{background:#1565C0;color:#fff;border:none;border-radius:12px;padding:14px 20px;font-size:1em;font-weight:600;cursor:pointer;margin-top:10px;width:100%;transition:all .2s;-webkit-appearance:none;}
+.poll-send:active{background:#0D47A1;transform:scale(.98);}
+.poll-send:disabled{background:#B0BEC5;cursor:default;transform:none;}
+.poll-done{text-align:center;padding:24px;color:#2E7D32;font-size:0.95em;}
+.poll-done .pd-icon{font-size:2em;margin-bottom:8px;}
+.poll-done .pd-text{font-weight:600;}
+.poll-done .pd-wait{font-size:0.78em;color:#607D8B;margin-top:6px;}
+.poll-count{font-size:0.75em;color:#607D8B;margin-top:8px;text-align:center;font-weight:600;}
 /* Word cloud */
-.wc-box{background:#fff;border-radius:14px;padding:16px;margin-top:12px;min-height:200px;position:relative;overflow:hidden;}
+.wc-box{background:#f8f9fa;border-radius:14px;padding:16px;margin-top:14px;min-height:180px;text-align:center;overflow:hidden;}
 .wc-word{display:inline-block;padding:4px 10px;margin:3px;border-radius:20px;font-weight:600;animation:wcIn .4s ease-out;transition:all .3s;}
 @keyframes wcIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
 /* Open text results */
-.ot-item{background:#f8f9fa;border-left:3px solid #1565C0;padding:8px 12px;margin:6px 0;border-radius:0 8px 8px 0;font-size:0.82em;animation:otIn .3s ease-out;}
+.ot-list{max-height:400px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.ot-item{background:#f8f9fa;border-left:3px solid #1565C0;padding:8px 12px;margin:6px 0;border-radius:0 8px 8px 0;font-size:0.82em;animation:otIn .3s ease-out;word-break:break-word;}
 @keyframes otIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
 /* Journey Map */
-.jm-box{background:#fff;border-radius:14px;padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.jm-box{background:#fff;border-radius:14px;padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:none;}
+.jm-box.visible{display:block;}
 .jm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
 .jm-loc{border-radius:10px;padding:10px;text-align:center;cursor:default;transition:transform .2s;}
-.jm-loc .jm-n{font-weight:700;font-size:0.78em;margin-bottom:2px;}
-.jm-loc .jm-c{font-size:1.2em;font-weight:700;}
-.jm-loc .jm-l{font-size:0.62em;opacity:.7;margin-top:2px;}
+.jm-loc .jm-n{font-weight:700;font-size:0.75em;margin-bottom:2px;}
+.jm-loc .jm-c{font-size:1.3em;font-weight:700;}
+.jm-loc .jm-l{font-size:0.58em;opacity:.7;margin-top:2px;}
 /* Presenter mode */
 .presenter .hdr,.presenter .tabs,.presenter .chat-btn,.presenter .chat-box{display:none!important;}
 .presenter .pnl{max-width:100%;padding:20px 40px;}
-.presenter .wc-box{min-height:400px;}
-.presenter .wc-word{font-size:1.2em!important;padding:6px 16px!important;margin:5px!important;}
-.presenter .jm-grid{grid-template-columns:repeat(4,1fr);}
-.presenter .jm-loc .jm-c{font-size:2em;}
-.presenter .poll-qh h3{font-size:1.4em;}
-/* Admin bar */
-.adm-bar{background:#FFFDE7;border:1px solid #FFE082;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:0.78em;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.adm-bar button{background:#F57F17;color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.85em;font-weight:600;}
-.adm-bar button.danger{background:#C62828;}
-.adm-bar button:disabled{background:#ccc;}
+.presenter .poll-waiting{padding:80px 20px;}
+.presenter .poll-waiting .pw-icon{font-size:4em;}
+.presenter .poll-waiting .pw-title{font-size:1.6em;}
+.presenter .wc-box{min-height:350px;}
+.presenter .wc-word{font-size:1.3em!important;padding:6px 18px!important;margin:5px!important;}
+.presenter .ot-list{max-height:500px;}
+.presenter .ot-item{font-size:1em;padding:10px 16px;}
+.presenter .jm-grid{grid-template-columns:repeat(5,1fr);}
+.presenter .jm-loc .jm-c{font-size:2.2em;}
+.presenter .jm-loc .jm-n{font-size:0.85em;}
+.presenter .poll-qh h3{font-size:1.6em;}
+.presenter .poll-qh .poll-sub{font-size:1em;}
+.presenter .poll-count{font-size:1.1em;}
+.presenter .poll-body{display:none;}
+/* Admin panel */
+.adm-panel{background:#263238;color:#fff;border-radius:14px;padding:16px;margin-bottom:16px;}
+.adm-panel h3{font-size:0.95em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.adm-row{display:flex;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid #37474F;flex-wrap:wrap;}
+.adm-row:last-child{border-bottom:none;}
+.adm-row .adm-label{flex:1;font-size:0.82em;min-width:120px;}
+.adm-btn{border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:0.8em;font-weight:600;transition:all .15s;}
+.adm-btn:active{transform:scale(.95);}
+.adm-btn-go{background:#2E7D32;color:#fff;}
+.adm-btn-stop{background:#F57F17;color:#fff;}
+.adm-btn-danger{background:#C62828;color:#fff;}
+.adm-btn-export{background:#1565C0;color:#fff;}
+.adm-btn:disabled{background:#555;color:#999;cursor:default;transform:none;}
+.adm-status{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+.adm-status.on{background:#4CAF50;box-shadow:0 0 6px #4CAF50;}
+.adm-status.off{background:#616161;}
 
 /* Responsive */
 @media(min-width:600px){
@@ -590,14 +624,14 @@ document.addEventListener("input", e=>{
   }
 });
 
-// ============ POLLS TAB ============
+// ============ POLLS ============
 const POLL_QUESTIONS = [
-  {id:"q1",type:"opentext",
+  {id:"q1",type:"opentext",num:"1/2",
    fr:"Qu'est-ce qui vous freine aujourd'hui dans votre quotidien a l'ICN ?",
    en:"What holds you back in your daily work at ICN?",
-   placeholder_fr:"Votre reponse (max 200 car.)...",placeholder_en:"Your answer (max 200 char.)...",
+   placeholder_fr:"Votre reponse courte...",placeholder_en:"Your short answer...",
    maxLen:200},
-  {id:"q2",type:"wordcloud",
+  {id:"q2",type:"wordcloud",num:"2/2",
    fr:"Qu'est-ce qui freine le developpement de l'ICN selon vous ?",
    en:"What holds back ICN's development in your opinion?",
    placeholder_fr:"Un ou deux mots...",placeholder_en:"One or two words...",
@@ -634,42 +668,60 @@ function classifyResponse(text){
 function buildPolls(){
   const isPresenter = window.location.search.includes("presenter");
   const isAdmin = window.location.search.includes("admin");
-  const uid = localStorage.getItem("icn_uid") || (()=>{const id="u_"+Math.random().toString(36).slice(2,10);localStorage.setItem("icn_uid",id);return id;})();
 
-  let html = `<div class="pnl" id="p-polls">
-    <h2 style="font-size:1em;margin-bottom:12px;color:#0D47A1;">Sondages / Polls</h2>`;
+  let html = `<div class="pnl" id="p-polls">`;
 
+  // Admin panel
   if(isAdmin){
-    html += `<div class="adm-bar" id="admBar">
-      <strong>ADMIN</strong>
-      <button onclick="pollAdmin('activate','q1')">Activer Q1</button>
-      <button onclick="pollAdmin('activate','q2')">Activer Q2</button>
-      <button onclick="pollAdmin('deactivate','all')">Tout fermer</button>
-      <button class="danger" onclick="pollAdmin('reset','all')">Reset</button>
-    </div>`;
+    html += `<div class="adm-panel" id="admPanel">
+      <h3>Regie sondages</h3>`;
+    POLL_QUESTIONS.forEach(q=>{
+      html += `<div class="adm-row" id="adm-row-${q.id}">
+        <span class="adm-status off" id="adm-st-${q.id}"></span>
+        <span class="adm-label"><strong>Q${q.num.split("/")[0]}</strong> ${q.type==="wordcloud"?"Nuage":"Texte"} — ${q.fr.slice(0,50)}...</span>
+        <button class="adm-btn adm-btn-go" onclick="pollAdmin('activate','${q.id}')">Lancer</button>
+        <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','${q.id}')">Stop</button>
+        <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','${q.id}')">RAZ</button>
+      </div>`;
+    });
+    html += `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','all')">RAZ tout</button>
+      <button class="adm-btn adm-btn-export" onclick="exportPolls()">Exporter Excel</button>
+      <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','all')">Tout fermer</button>
+    </div></div>`;
   }
 
+  // Waiting screen (shown when no question is active)
+  html += `<div class="poll-waiting" id="pollWaiting">
+    <div class="pw-icon">&#9997;</div>
+    <div class="pw-title">Les sondages arrivent...</div>
+    <div class="pw-sub">Waiting for polls to start...<br>Restez sur cette page.</div>
+  </div>`;
+
+  // Questions (hidden by default, shown one at a time by admin)
   POLL_QUESTIONS.forEach(q=>{
     html += `<div class="poll-q" id="poll-${q.id}">
       <div class="poll-qh">
+        <div class="poll-qnum">Question ${q.num}</div>
         <h3>${q.fr}</h3>
         <div class="poll-sub">${q.en}</div>
       </div>
       <div class="poll-body">
         <div id="poll-form-${q.id}">
-          <textarea class="poll-input" id="poll-input-${q.id}" placeholder="${q.placeholder_fr} / ${q.placeholder_en}" maxlength="${q.maxLen}" rows="2"></textarea>
+          <textarea class="poll-input" id="poll-input-${q.id}" placeholder="${q.placeholder_fr} / ${q.placeholder_en}" maxlength="${q.maxLen}" rows="${q.type==="wordcloud"?1:2}" oninput="updateCharCount('${q.id}',${q.maxLen})"></textarea>
+          <div class="poll-charcount" id="poll-cc-${q.id}">${q.maxLen} car.</div>
           <button class="poll-send" id="poll-send-${q.id}" onclick="submitPoll('${q.id}')">Envoyer / Submit</button>
-          <div class="poll-count" id="poll-count-${q.id}"></div>
         </div>
+        <div class="poll-count" id="poll-count-${q.id}"></div>
         <div id="poll-results-${q.id}" style="margin-top:12px;"></div>
       </div>
     </div>`;
   });
 
-  // Journey Map section
-  html += `<div class="jm-box">
+  // Journey Map
+  html += `<div class="jm-box" id="jmBox">
     <h3 style="font-size:0.95em;color:#263238;margin-bottom:4px;">Change Journey Map</h3>
-    <p style="font-size:0.72em;color:#607D8B;margin-bottom:8px;">Vos reponses positionnees sur la carte du changement / Your answers mapped to the change journey</p>
+    <p style="font-size:0.72em;color:#607D8B;margin-bottom:8px;">Vos reponses positionnees sur la carte du changement</p>
     <div class="jm-grid" id="jmGrid"></div>
   </div>`;
 
@@ -677,18 +729,28 @@ function buildPolls(){
   return html;
 }
 
+function updateCharCount(qid, max){
+  const input = document.getElementById("poll-input-"+qid);
+  const cc = document.getElementById("poll-cc-"+qid);
+  if(!input||!cc) return;
+  const remaining = max - input.value.length;
+  cc.textContent = remaining + " car.";
+  cc.classList.toggle("warn", remaining < 20);
+}
+
 // ============ FIREBASE ============
 let fbDb = null;
 let fbReady = false;
+const pollCache = {};
 
 function initFirebase(){
-  const script1 = document.createElement("script");
-  script1.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js";
-  script1.onload = ()=>{
-    const script2 = document.createElement("script");
-    script2.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js";
-    script2.onload = ()=>{
-      const app = firebase.initializeApp({
+  const s1 = document.createElement("script");
+  s1.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js";
+  s1.onload = ()=>{
+    const s2 = document.createElement("script");
+    s2.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js";
+    s2.onload = ()=>{
+      firebase.initializeApp({
         apiKey:"AIzaSyDN7oM4e8LqWKkNy7Hy9nTGLHtEYTTmKFY",
         authDomain:"ai4leaders-3e524.firebaseapp.com",
         databaseURL:"https://ai4leaders-3e524-default-rtdb.europe-west1.firebasedatabase.app",
@@ -701,159 +763,189 @@ function initFirebase(){
       fbReady = true;
       listenPolls();
     };
-    document.head.appendChild(script2);
+    document.head.appendChild(s2);
   };
-  document.head.appendChild(script1);
+  document.head.appendChild(s1);
 }
 
 function submitPoll(qid){
-  if(!fbReady) return alert("Connexion en cours...");
+  if(!fbReady) return;
   const input = document.getElementById("poll-input-"+qid);
   const text = input.value.trim();
   if(!text) return;
-  const uid = localStorage.getItem("icn_uid");
+  const uid = localStorage.getItem("icn_uid") || (()=>{const id="u_"+Math.random().toString(36).slice(2,10);localStorage.setItem("icn_uid",id);return id;})();
   const btn = document.getElementById("poll-send-"+qid);
   btn.disabled = true;
   btn.textContent = "...";
   fbDb.ref("icn-polls/responses/"+qid).push({
-    text: text,
-    uid: uid,
-    ts: Date.now()
+    text: text, uid: uid, ts: Date.now()
   }).then(()=>{
     localStorage.setItem("icn_voted_"+qid, "1");
-    document.getElementById("poll-form-"+qid).innerHTML = `<div class="poll-done">Merci ! / Thank you!</div>`;
+    document.getElementById("poll-form-"+qid).innerHTML = `<div class="poll-done">
+      <div class="pd-icon">&#10004;</div>
+      <div class="pd-text">Merci ! / Thank you!</div>
+      <div class="pd-wait">La question suivante arrive bientot...</div>
+    </div>`;
   }).catch(err=>{
     btn.disabled = false;
     btn.textContent = "Envoyer / Submit";
-    alert("Erreur: "+err.message);
   });
 }
 
 function listenPolls(){
   if(!fbReady) return;
   POLL_QUESTIONS.forEach(q=>{
-    // Check if already voted
+    // Already voted?
     if(localStorage.getItem("icn_voted_"+q.id)){
       const form = document.getElementById("poll-form-"+q.id);
-      if(form) form.innerHTML = `<div class="poll-done">Deja repondu / Already answered</div>`;
+      if(form) form.innerHTML = `<div class="poll-done">
+        <div class="pd-icon">&#10004;</div>
+        <div class="pd-text">Deja repondu</div>
+        <div class="pd-wait">Already answered</div>
+      </div>`;
     }
-    // Listen for responses
+    // Listen responses
     fbDb.ref("icn-polls/responses/"+q.id).on("value", snap=>{
       const data = snap.val();
-      if(!data) return;
-      const responses = Object.values(data);
+      const responses = data ? Object.values(data) : [];
+      pollCache[q.id] = responses;
       const countEl = document.getElementById("poll-count-"+q.id);
-      if(countEl) countEl.textContent = responses.length + " reponse(s)";
+      if(countEl) countEl.textContent = responses.length + " reponse" + (responses.length>1?"s":"");
       renderPollResults(q, responses);
+      if(q.id === "q2") updateJourneyMap(responses);
     });
-    // Listen for active state
+    // Listen active state — one question at a time
     fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
-      const active = snap.val();
-      const pollEl = document.getElementById("poll-"+q.id);
-      if(pollEl){
-        pollEl.style.display = active ? "" : "none";
-      }
+      const active = snap.val() === true;
+      const el = document.getElementById("poll-"+q.id);
+      if(el) el.classList.toggle("active", active);
+      // Update admin status indicator
+      const st = document.getElementById("adm-st-"+q.id);
+      if(st){st.classList.toggle("on",active);st.classList.toggle("off",!active);}
+      // Show/hide waiting screen
+      updateWaitingScreen();
+      // Show journey map only when q2 responses exist
+      const jm = document.getElementById("jmBox");
+      if(jm && q.id==="q2") jm.classList.toggle("visible", active || (pollCache.q2 && pollCache.q2.length>0));
     });
   });
-  updateJourneyMap();
-  // Also listen globally for journey map
-  fbDb.ref("icn-polls/responses").on("value", ()=> updateJourneyMap());
+}
+
+function updateWaitingScreen(){
+  const waiting = document.getElementById("pollWaiting");
+  if(!waiting) return;
+  const anyActive = POLL_QUESTIONS.some(q=>{
+    const el = document.getElementById("poll-"+q.id);
+    return el && el.classList.contains("active");
+  });
+  waiting.style.display = anyActive ? "none" : "";
 }
 
 function renderPollResults(q, responses){
-  const container = document.getElementById("poll-results-"+q.id);
-  if(!container) return;
-  if(q.type === "wordcloud"){
-    renderWordCloud(container, responses);
-  } else {
-    renderOpenText(container, responses);
-  }
+  const c = document.getElementById("poll-results-"+q.id);
+  if(!c) return;
+  if(q.type === "wordcloud") renderWordCloud(c, responses);
+  else renderOpenText(c, responses);
 }
 
 function renderWordCloud(container, responses){
-  // Count words
   const counts = {};
   responses.forEach(r=>{
-    const words = r.text.toLowerCase().trim().split(/[\s,;]+/).filter(w=>w.length>2);
-    words.forEach(w=>{
-      const clean = w.replace(/[^a-zA-ZÀ-ÿ]/g,"");
+    r.text.toLowerCase().trim().split(/[\s,;.!?]+/).filter(w=>w.length>2).forEach(w=>{
+      const clean = w.replace(/[^a-zA-ZÀ-ÿ\-]/g,"");
       if(clean.length>2) counts[clean] = (counts[clean]||0) + 1;
     });
   });
-  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,40);
-  if(sorted.length===0) return;
-  const maxCount = sorted[0][1];
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,50);
+  if(!sorted.length){container.innerHTML="";return;}
+  const maxC = sorted[0][1];
   const colors = ["#1565C0","#E65100","#7B1FA2","#2E7D32","#C2185B","#00838F","#F57F17","#455A64","#E53935","#00695C"];
-  let html = `<div class="wc-box">`;
-  sorted.forEach(([word, count], i)=>{
-    const size = 0.7 + (count/maxCount) * 1.6;
-    const color = colors[i % colors.length];
-    const opacity = 0.6 + (count/maxCount) * 0.4;
-    html += `<span class="wc-word" style="font-size:${size}em;color:${color};opacity:${opacity};background:${color}15;">${word}<sup style="font-size:0.5em;opacity:.6;">${count}</sup></span>`;
-  });
-  html += `</div>`;
-  container.innerHTML = html;
+  container.innerHTML = `<div class="wc-box">${sorted.map(([w,c],i)=>{
+    const sz = 0.7 + (c/maxC)*1.8;
+    const col = colors[i%colors.length];
+    return `<span class="wc-word" style="font-size:${sz}em;color:${col};background:${col}15;">${w}<sup style="font-size:0.5em;opacity:.5;">${c}</sup></span>`;
+  }).join("")}</div>`;
 }
 
 function renderOpenText(container, responses){
-  const recent = responses.slice(-30).reverse();
-  let html = recent.map(r=>`<div class="ot-item">${escHtml(r.text)}</div>`).join("");
-  container.innerHTML = html;
+  const items = responses.slice(-200).reverse();
+  container.innerHTML = `<div class="ot-list">${items.map(r=>`<div class="ot-item">${escHtml(r.text)}</div>`).join("")}</div>`;
 }
 
 function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
-function updateJourneyMap(){
-  if(!fbReady) return;
+function updateJourneyMap(responses){
   const grid = document.getElementById("jmGrid");
+  const box = document.getElementById("jmBox");
   if(!grid) return;
-  // Get all responses for q2 (word cloud - about ICN development)
-  fbDb.ref("icn-polls/responses/q2").once("value", snap=>{
-    const data = snap.val();
-    const responses = data ? Object.values(data) : [];
-    const locCounts = {};
-    JM_LOCATIONS.forEach(l=>locCounts[l.id]=0);
-    responses.forEach(r=>{
-      const loc = classifyResponse(r.text);
-      locCounts[loc] = (locCounts[loc]||0) + 1;
-    });
-    let html = "";
-    JM_LOCATIONS.forEach(loc=>{
-      const count = locCounts[loc.id] || 0;
-      if(count === 0 && responses.length > 0) return; // hide empty when there are responses
-      html += `<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
-        <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
-        <div class="jm-c" style="color:${loc.color};">${count}</div>
-        <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
-      </div>`;
-    });
-    if(responses.length === 0){
-      html = JM_LOCATIONS.map(loc=>`<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
-        <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
-        <div class="jm-c" style="color:${loc.color};">—</div>
-        <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
-      </div>`).join("");
-    }
-    grid.innerHTML = html;
-  });
+  if(!responses || !responses.length){
+    grid.innerHTML = JM_LOCATIONS.map(loc=>`<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
+      <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
+      <div class="jm-c" style="color:${loc.color};">—</div>
+      <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
+    </div>`).join("");
+    return;
+  }
+  if(box) box.classList.add("visible");
+  const locCounts = {};
+  JM_LOCATIONS.forEach(l=>locCounts[l.id]=0);
+  responses.forEach(r=>{locCounts[classifyResponse(r.text)]++;});
+  const sorted = JM_LOCATIONS.slice().sort((a,b)=>(locCounts[b.id]||0)-(locCounts[a.id]||0));
+  grid.innerHTML = sorted.filter(loc=>locCounts[loc.id]>0).map(loc=>`<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}30;">
+    <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
+    <div class="jm-c" style="color:${loc.color};">${locCounts[loc.id]}</div>
+    <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
+  </div>`).join("");
 }
 
-// Admin functions
+// Admin
 function pollAdmin(action, target){
   if(!fbReady) return;
   if(action==="activate"){
+    // Only one question at a time
     POLL_QUESTIONS.forEach(q=>{
       fbDb.ref("icn-polls/active/"+q.id).set(q.id===target);
     });
   } else if(action==="deactivate"){
-    POLL_QUESTIONS.forEach(q=>{
-      fbDb.ref("icn-polls/active/"+q.id).set(false);
-    });
+    if(target==="all") POLL_QUESTIONS.forEach(q=>fbDb.ref("icn-polls/active/"+q.id).set(false));
+    else fbDb.ref("icn-polls/active/"+target).set(false);
   } else if(action==="reset"){
-    if(confirm("Supprimer toutes les reponses ?")){
-      fbDb.ref("icn-polls/responses").remove();
+    const msg = target==="all" ? "Supprimer TOUTES les reponses ?" : "Supprimer les reponses de Q"+target.replace("q","")+" ?";
+    if(confirm(msg)){
+      if(target==="all"){
+        fbDb.ref("icn-polls/responses").remove();
+        POLL_QUESTIONS.forEach(q=>localStorage.removeItem("icn_voted_"+q.id));
+      } else {
+        fbDb.ref("icn-polls/responses/"+target).remove();
+        localStorage.removeItem("icn_voted_"+target);
+      }
+      location.reload();
     }
   }
+}
+
+// Export to Excel (CSV download)
+function exportPolls(){
+  if(!fbReady) return;
+  fbDb.ref("icn-polls/responses").once("value", snap=>{
+    const data = snap.val();
+    if(!data) return alert("Aucune reponse");
+    let csv = "\uFEFF"; // BOM for Excel UTF-8
+    csv += "Question;Type;Reponse;Timestamp\n";
+    POLL_QUESTIONS.forEach(q=>{
+      const responses = data[q.id] ? Object.values(data[q.id]) : [];
+      responses.forEach(r=>{
+        const date = new Date(r.ts).toLocaleString("fr-FR");
+        const text = r.text.replace(/"/g,'""').replace(/;/g,",");
+        csv += `"${q.fr}";"${q.type}";"${text}";"${date}"\n`;
+      });
+    });
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "ICN_Sondages_"+new Date().toISOString().slice(0,10)+".csv";
+    link.click();
+  });
 }
 
 // Presenter mode
@@ -864,17 +956,6 @@ if(window.location.search.includes("presenter")){
 // ============ INIT ============
 init();
 initFirebase();
-
-// Auto-activate polls if admin sets them (show all by default for now)
-setTimeout(()=>{
-  if(fbReady){
-    POLL_QUESTIONS.forEach(q=>{
-      fbDb.ref("icn-polls/active/"+q.id).once("value", snap=>{
-        if(snap.val()===null) fbDb.ref("icn-polls/active/"+q.id).set(true);
-      });
-    });
-  }
-},3000);
 </script>
 </body>
 </html>
