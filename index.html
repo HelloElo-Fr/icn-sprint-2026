@@ -568,7 +568,8 @@ function buildPhase1(){
   const f5c = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 5");
 
   function roomBlock(name,cap,teams){
-    return `<div class="rm"><div class="rm-n">${name}<span class="c">${cap} pl.</span></div><div class="tms">${teams.map(t=>teamRow(t,false)).join("")}</div></div>`;
+    const searchData = teams.map(t=>t.name+" "+t.members.map(m=>m[0]+" "+m[1]).join(" ")).join(" ").toLowerCase();
+    return `<div class="rm room-block" data-search="${searchData}"><div class="rm-n">${name}<span class="c">${cap} pl.</span></div><div class="tms">${teams.map(t=>teamRow(t,false)).join("")}</div></div>`;
   }
   function facZone(color,badge,title,rooms){
     return `<div class="fz" style="border-left-color:${color}"><h3><span class="fb" style="background:${color}">${badge}</span>${title}</h3><div class="rm-grid">${rooms}</div></div>`;
@@ -577,7 +578,8 @@ function buildPhase1(){
   return `<div class="pnl" id="p-phase1">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
     <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Plan des salles</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;">Repartition des 22 equipes dans 9 salles sur 2 etages. 5 facilitateurs, chacun couvre sa zone.</p>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">Repartition des 22 equipes dans 9 salles sur 2 etages. 5 facilitateurs, chacun couvre sa zone.</p>
+    <input type="text" id="roomSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
   </div>
   <div class="sec"><div class="sec-h">1er Etage — 12 equipes<span class="bdg">110 pers.</span></div>
     ${facZone("#1565C0","FAC 1","Zone Conseil — 4 eq.",roomBlock("Salle du Conseil",90,f1))}
@@ -638,24 +640,33 @@ function buildEquipes(){
 }
 
 function buildFinale(){
+  let villageTeams = "";
+  for(const [vk,v] of Object.entries(VILLAGES)){
+    const vTeams = TEAMS.filter(t=>t.village===vk);
+    const ppl = vTeams.reduce((s,t)=>s+t.members.length,0);
+    villageTeams += `<div class="sec finale-village"><div class="sec-h" style="background:${v.color}">${v.name}<span class="bdg">${vTeams.length} eq. / ${ppl} pers.</span></div><div style="padding:6px 10px;">`;
+    vTeams.forEach(t=>{
+      const searchData = (t.name+" "+t.members.map(m=>m[0]+" "+m[1]).join(" ")).toLowerCase();
+      villageTeams += `<div class="tr team-click finale-team" data-team="${t.name}" data-search="${searchData}"><span class="tn">${t.name}</span> <span class="tc">— ${t.members.length} pers.</span><span class="arrow">&#9656;</span></div>`;
+    });
+    villageTeams += `</div></div>`;
+  }
+
   return `<div class="pnl" id="p-finale">
   <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:14px;padding:16px;margin-bottom:14px;">
     <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;">Pitch Final</h2>
-    <p style="font-size:0.8em;color:#795548;line-height:1.4;">Les 8 equipes finalistes pitchent 90 secondes devant les 200 personnes. Francois selectionne les projets qu'il veut financer.</p>
+    <p style="font-size:0.8em;color:#795548;line-height:1.4;margin-bottom:12px;">Les 8 equipes finalistes pitchent 90 secondes devant les 200 personnes. Francois selectionne les projets qu'il veut financer.</p>
+    <input type="text" id="finaleSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #FFE082;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#E65100'" onblur="this.style.borderColor='#FFE082'">
   </div>
-  <div class="fin"><h3>PITCH FINAL — Salle du Conseil</h3><p>8 finalistes pitchent devant Francois et les 187 participants</p></div>
   <div class="sec"><div class="sec-h">Deroulement</div><div style="padding:12px;font-size:0.85em;line-height:1.8;color:#555;">
-    1. Chaque village designe son equipe gagnante<br>
+    1. Chaque village designe ses 2 meilleures equipes<br>
     2. Tout le monde rejoint le Conseil (~10 min)<br>
-    3. Les 5 finalistes pitchent (3 min chacune)<br>
-    4. Vote final<br>
-    5. Annonce du gagnant par Francois
+    3. Les 8 finalistes pitchent 90 secondes avec board IA<br>
+    4. Francois selectionne les projets a financer
   </div></div>
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:14px 0;">
-    ${Object.entries(VILLAGES).map(([k,v])=>`<div style="padding:10px 4px;border-radius:8px;background:${v.color}15;border:2px solid ${v.color};text-align:center;"><div style="font-size:0.65em;color:${v.color};font-weight:600;">${v.name.split(" ").slice(0,2).join(" ")}</div></div>`).join("")}
-  </div>
-  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.8em;color:#795548;">
-    <strong>Capacite :</strong> Conseil = 90 places bureau / ~135 theatre. Pour 187 pers., prevoir rangs serres + debout ou overflow visio dans salle adjacente.
+  ${villageTeams}
+  <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.8em;color:#795548;margin-top:12px;">
+    <strong>Tout le monde au Conseil.</strong> 187 personnes — prevoir rangs serres + debout.
   </div>
   </div>`;
 }
@@ -773,6 +784,27 @@ document.addEventListener("input", e=>{
     const q = e.target.value.toLowerCase();
     document.querySelectorAll(".eq-card").forEach(c=>{
       c.style.display = c.dataset.search.includes(q) ? "" : "none";
+    });
+  }
+  if(e.target.id==="roomSearch"){
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll(".room-block").forEach(c=>{
+      c.style.display = !q || c.dataset.search.includes(q) ? "" : "none";
+    });
+    // Also show/hide fac zones
+    document.querySelectorAll(".fz").forEach(fz=>{
+      const visible = fz.querySelectorAll(".room-block:not([style*='display: none'])").length;
+      fz.style.display = !q || visible > 0 ? "" : "none";
+    });
+  }
+  if(e.target.id==="finaleSearch"){
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll(".finale-team").forEach(c=>{
+      c.style.display = !q || c.dataset.search.includes(q) ? "" : "none";
+    });
+    document.querySelectorAll(".finale-village").forEach(fv=>{
+      const visible = fv.querySelectorAll(".finale-team:not([style*='display: none'])").length;
+      fv.style.display = !q || visible > 0 ? "" : "none";
     });
   }
 });
