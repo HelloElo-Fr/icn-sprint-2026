@@ -24,8 +24,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .hdr .sub{font-size:0.78em;opacity:0.85;}
 
 /* Tabs */
-.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;position:sticky;top:0;z-index:90;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.tabs .tb{flex:0 0 auto;padding:10px 12px;text-align:center;cursor:pointer;font-weight:600;font-size:0.75em;border-bottom:3px solid transparent;color:#888;white-space:nowrap;transition:all .2s;min-width:0;}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;position:sticky;top:0;z-index:90;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:0;}
+.tabs .tb{flex:1 0 auto;padding:10px 10px;text-align:center;cursor:pointer;font-weight:600;font-size:0.72em;border-bottom:3px solid transparent;color:#888;white-space:nowrap;transition:all .2s;min-width:0;}
 .tabs .tb.act{border-bottom-color:#1565C0;color:#1565C0;background:#E3F2FD;}
 .tabs .tb:active{background:#f0f0f0;}
 
@@ -120,8 +120,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .ts{background:#E8F5E9;padding:1px 6px;border-radius:6px;color:#2E7D32;font-size:0.7em;font-weight:600;}
 
 /* Chatbot */
-.chat-btn{position:fixed;bottom:16px;right:16px;width:52px;height:52px;border-radius:50%;background:#1565C0;color:#fff;border:none;font-size:1.4em;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:200;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.chat-btn{position:fixed;bottom:16px;right:16px;height:48px;border-radius:24px;background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;border:none;font-size:0.85em;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(21,101,192,.4);z-index:200;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 18px;transition:transform .2s;animation:chatPulse 3s ease-in-out infinite;}
 .chat-btn:active{transform:scale(.9);}
+@keyframes chatPulse{0%,100%{box-shadow:0 4px 16px rgba(21,101,192,.4)}50%{box-shadow:0 4px 24px rgba(21,101,192,.6)}}
 .chat-box{position:fixed;bottom:76px;right:12px;width:calc(100vw - 24px);max-width:360px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:200;display:none;overflow:hidden;max-height:70vh;flex-direction:column;}
 .chat-box.open{display:flex;}
 .chat-hdr{background:#1565C0;color:#fff;padding:12px 16px;font-weight:600;font-size:0.88em;display:flex;justify-content:space-between;align-items:center;}
@@ -248,7 +249,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 <div id="panels"></div>
 
 <!-- Chat button -->
-<button class="chat-btn" id="chatBtn" title="Ou suis-je ?">?</button>
+<button class="chat-btn" id="chatBtn" title="Ou suis-je ?">&#128269; Ou suis-je ?</button>
 
 <!-- Chat box -->
 <div class="chat-box" id="chatBox">
@@ -346,9 +347,9 @@ TEAMS.forEach(t => {
 const tabDefs = [
   {id:"overview",label:"Accueil"},
   {id:"agenda",label:"Agenda"},
-  {id:"phase1",label:"Phase 1"},
+  {id:"equipes",label:"Mon equipe"},
   {id:"phase2",label:"Villages"},
-  {id:"equipes",label:"Equipes"},
+  {id:"phase1",label:"Salles"},
   {id:"finale",label:"Pitch Final"},
   {id:"transition",label:"Transitions"}
 ];
@@ -379,14 +380,15 @@ function switchTab(id){
 }
 
 function teamRow(t, showMove){
-  const typeClass = t.type==="MIXTE"?"tt-m":t.type==="FR PUR"?"tt-f":t.type==="COMEX"?"tt-c":"tt-b";
+  const typeClass = t.type==="MIXTE"?"tt-m":t.type==="FR PUR"?"tt-f":t.type==="COMEX"?"tt-m":"tt-b";
   let badge = "";
   if(showMove){
     if(t.p1Room===t.p2Room) badge = `<span class="sy">reste</span>`;
     else if(["Conseil"].includes(t.p1Room) && ["207","205","206"].includes(t.p2Room)) badge = `<span class="fl">${t.p1Room} &#8594; ${t.p2Room}</span>`;
     else badge = `<span class="mv">${t.p1Room} &#8594; ${t.p2Room}</span>`;
   }
-  return `<div class="tr team-click" data-team="${t.name}"><span class="tn">${t.name}</span> <span class="tt ${typeClass}">${t.type}</span> <span class="tc">— ${t.members.length}</span>${badge}<span class="arrow">&#9656;</span></div>`;
+  const typeLabel = t.type==="COMEX"?"":t.type;
+  return `<div class="tr team-click" data-team="${t.name}"><span class="tn">${t.name}</span> ${typeLabel?`<span class="tt ${typeClass}">${typeLabel}</span>`:""} <span class="tc">— ${t.members.length}</span>${badge}<span class="arrow">&#9656;</span></div>`;
 }
 
 function buildOverview(){
@@ -537,7 +539,10 @@ function buildAgenda(){
   }
 
   return `<div class="pnl" id="p-agenda">
-  <h2 style="font-size:1em;margin-bottom:12px;color:#0D47A1;">Agenda — 28 mars 2026</h2>
+  <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Agenda — 28 mars 2026</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;">Le programme complet de la journee. Matinee en amphitheatre, apres-midi en equipes pour un Design Sprint.</p>
+  </div>
   <div class="sec"><div class="sec-h" style="background:#0D47A1;">Matinee — Amphitheatre<span class="bdg">10h-12h</span></div>
     ${morning.map(agendaRow).join("")}
   </div>
@@ -570,7 +575,10 @@ function buildPhase1(){
   }
 
   return `<div class="pnl" id="p-phase1">
-  <h2 style="font-size:1em;margin-bottom:12px;color:#0D47A1;">Phase 1 — Creativite</h2>
+  <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Plan des salles</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;">Repartition des 22 equipes dans 9 salles sur 2 etages. 5 facilitateurs, chacun couvre sa zone.</p>
+  </div>
   <div class="sec"><div class="sec-h">1er Etage — 12 equipes<span class="bdg">110 pers.</span></div>
     ${facZone("#1565C0","FAC 1","Zone Conseil — 4 eq.",roomBlock("Salle du Conseil",90,f1))}
     ${facZone("#E65100","FAC 2","Zone Marie Curie — 4 eq.",roomBlock("101 Marie Curie",30,f2a)+roomBlock("107 Charles Darwin",12,f2b))}
@@ -584,7 +592,12 @@ function buildPhase1(){
 }
 
 function buildPhase2(){
-  let html = `<div class="pnl" id="p-phase2"><h2 style="font-size:1em;margin-bottom:12px;color:#7B1FA2;">Phase 2 — Villages</h2><div class="vg">`;
+  let html = `<div class="pnl" id="p-phase2">
+  <div style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#7B1FA2;margin-bottom:6px;">Villages</h2>
+    <p style="font-size:0.8em;color:#4A148C;line-height:1.4;">5 villages, 5 couleurs. Chaque village regroupe 4-5 equipes pour les pitchs. Trouvez votre village et decouvrez vos voisins.</p>
+  </div>
+  <div class="vg">`;
   for(const [vk,v] of Object.entries(VILLAGES)){
     const vTeams = TEAMS.filter(t=>t.village===vk);
     const ppl = vTeams.reduce((s,t)=>s+t.members.length,0);
@@ -603,12 +616,17 @@ function buildPhase2(){
 }
 
 function buildEquipes(){
-  let html = `<div class="pnl" id="p-equipes"><h2 style="font-size:1em;margin-bottom:12px;">22 Equipes</h2>
-  <div style="margin-bottom:12px;"><input type="text" id="eqSearch" placeholder="Chercher un nom ou une equipe..." style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:0.88em;outline:none;"></div>
+  let html = `<div class="pnl" id="p-equipes">
+  <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Trouve ton equipe</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">Tape ton nom pour trouver ta salle et tes coequipiers. Tu peux aussi chercher un nom de ville.</p>
+    <input type="text" id="eqSearch" placeholder="&#128269; Ton nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
+  </div>
   <div class="eq-grid" id="eqGrid">`;
   TEAMS.forEach(t => {
+    const typeLabel = t.type==="COMEX"?"":` | ${t.type}`;
     html += `<div class="eq-card" data-search="${t.name.toLowerCase()} ${t.members.map(m=>m[0]+" "+m[1]).join(" ").toLowerCase()}">
-      <div class="eq-top" style="background:${t.vColor}"><h4>${t.name}</h4><span class="eq-info">${t.members.length} pers. | ${t.village}</span></div>
+      <div class="eq-top" style="background:${t.vColor}"><h4>${t.name}</h4><span class="eq-info">${t.members.length} pers.${typeLabel}</span></div>
       <div class="eq-members">
         <div style="font-size:0.72em;color:#607D8B;margin-bottom:6px;line-height:1.5;">Phase 1: ${ROOM_NAMES[t.p1Room]} | Phase 2: ${ROOM_NAMES[t.p2Room]}</div>
         ${t.members.map(m=>`<div class="eq-m"><span>${m[0]} <strong>${m[1]}</strong></span><span style="color:#999;font-size:0.85em">${m[2]}</span></div>`).join("")}
@@ -621,7 +639,11 @@ function buildEquipes(){
 
 function buildFinale(){
   return `<div class="pnl" id="p-finale">
-  <div class="fin"><h3>PITCH FINAL — Salle du Conseil</h3><p>5 finalistes pitchent devant Francois et les 187 participants</p></div>
+  <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;">Pitch Final</h2>
+    <p style="font-size:0.8em;color:#795548;line-height:1.4;">Les 8 equipes finalistes pitchent 90 secondes devant les 200 personnes. Francois selectionne les projets qu'il veut financer.</p>
+  </div>
+  <div class="fin"><h3>PITCH FINAL — Salle du Conseil</h3><p>8 finalistes pitchent devant Francois et les 187 participants</p></div>
   <div class="sec"><div class="sec-h">Deroulement</div><div style="padding:12px;font-size:0.85em;line-height:1.8;color:#555;">
     1. Chaque village designe son equipe gagnante<br>
     2. Tout le monde rejoint le Conseil (~10 min)<br>
@@ -640,7 +662,10 @@ function buildFinale(){
 
 function buildTransition(){
   return `<div class="pnl" id="p-transition">
-  <h2 style="font-size:1em;margin-bottom:12px;color:#F57F17;">Transitions</h2>
+  <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#F57F17;margin-bottom:6px;">Transitions</h2>
+    <p style="font-size:0.8em;color:#795548;line-height:1.4;">Qui bouge, qui reste ? Les mouvements entre les phases pour les facilitateurs.</p>
+  </div>
   <div class="sec"><div class="sec-h">Phase 1 &#8594; Phase 2</div><div style="padding:12px;">
     <div style="font-weight:600;font-size:0.82em;margin-bottom:4px;color:#C62828;">Changement d'etage (18 pers.)</div>
     <div class="mi"><strong>MONTREAL</strong> (9p) <span class="ma">&#8594;</span> Conseil &#8594; 207 <span class="tf">1er&#8594;2eme</span></div>
