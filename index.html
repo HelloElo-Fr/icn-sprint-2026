@@ -6,14 +6,14 @@
 <title>ICN Creativ Day — 28 mars 2026</title>
 <style>
 :root {
+  --yellow:#F9A825; --yl:#FFF8E1;
   --green:#2E7D32; --gl:#E8F5E9;
-  --purple:#7B1FA2; --pl:#F3E5F5;
+  --pink:#E91E63; --pkl:#FCE4EC;
   --orange:#E65100; --ol:#FFF3E0;
-  --pink:#C2185B; --pkl:#FCE4EC;
+  --purple:#7B1FA2; --pl:#F3E5F5;
   --cyan:#00838F; --cl:#E0F7FA;
   --blue:#1565C0; --bl:#E3F2FD;
-  --gold:#F9A825;
-  --dark:#263238; --gray:#607D8B;
+  --dark:#1a1a1a; --gray:#607D8B;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;-webkit-tap-highlight-color:transparent;}
@@ -187,7 +187,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 /* Journey Map */
 .jm-box{background:#fff;border-radius:14px;padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:none;}
 .jm-box.visible{display:block;}
-.jm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
+.jm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px;}
 .jm-loc{border-radius:10px;padding:10px;text-align:center;cursor:default;transition:transform .2s;}
 .jm-loc .jm-n{font-weight:700;font-size:0.75em;margin-bottom:2px;}
 .jm-loc .jm-c{font-size:1.3em;font-weight:700;}
@@ -227,17 +227,19 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .adm-status.off{background:#616161;}
 
 /* Responsive */
+@media(max-width:599px){
+  .jm-grid{grid-template-columns:repeat(2,1fr);}
+}
 @media(min-width:600px){
   .stats{grid-template-columns:repeat(6,1fr);}
   .vg{grid-template-columns:1fr 1fr;}
   .eq-grid{grid-template-columns:1fr 1fr;}
   .rm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .jm-grid{grid-template-columns:repeat(3,1fr);}
+  .jm-grid{grid-template-columns:repeat(5,1fr);}
 }
 @media(min-width:900px){
   .vg{grid-template-columns:repeat(3,1fr);}
   .eq-grid{grid-template-columns:repeat(3,1fr);}
-  .jm-grid{grid-template-columns:repeat(4,1fr);}
 }
 </style>
 </head>
@@ -245,7 +247,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 
 <div class="hdr">
   <h1><span class="hl-i">I</span><span class="hl-c">C</span><span class="hl-n">N</span> CREATIV DAY</h1>
-  <div class="sub">28 mars 2026 — Nancy — 187 participants</div>
+  <div class="sub" data-fr="28 mars 2026 — Nancy — 187 participants" data-en="March 28, 2026 — Nancy — 187 participants">28 mars 2026 — Nancy — 187 participants</div>
   <div style="position:absolute;top:12px;right:12px;display:flex;gap:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.3);">
     <button onclick="setLang('fr')" id="langFr" style="padding:4px 10px;font-size:0.7em;font-weight:700;border:none;cursor:pointer;background:rgba(255,255,255,.9);color:#0D47A1;">FR</button>
     <button onclick="setLang('en')" id="langEn" style="padding:4px 10px;font-size:0.7em;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,.7);">EN</button>
@@ -261,14 +263,14 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 <!-- Chat box -->
 <div class="chat-box" id="chatBox">
   <div class="chat-hdr">
-    <span>Ou suis-je ?</span>
+    <span data-fr="Ou suis-je ?" data-en="Where am I?">Ou suis-je ?</span>
     <span class="close" id="chatClose">&#10005;</span>
   </div>
   <div class="chat-msgs" id="chatMsgs">
-    <div class="chat-msg bot">Bonjour ! Tape ton <strong>nom</strong> ou un <strong>nom d'equipe</strong> et je te dis ou aller.</div>
+    <div class="chat-msg bot">Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d'equipe</strong>, ou un sujet (<em>programme, wifi, dejeuner, methode...</em>).</div>
   </div>
   <div class="chat-input">
-    <input type="text" id="chatIn" placeholder="Ton nom ou equipe..." autocomplete="off">
+    <input type="text" id="chatIn" placeholder="Nom, equipe, ou sujet..." autocomplete="off">
     <button id="chatSend">&#10148;</button>
   </div>
 </div>
@@ -352,13 +354,13 @@ TEAMS.forEach(t => {
 
 // ============ RENDER ============
 const tabDefs = [
-  {id:"overview",label:"Accueil"},
-  {id:"agenda",label:"Agenda"},
-  {id:"polls",label:"Sondages"},
-  {id:"equipes",label:"Mon equipe"},
-  {id:"phase1",label:"Ma salle"},
-  {id:"phase2",label:"Mon village"},
-  {id:"finale",label:"Pitch Final"}
+  {id:"overview",fr:"Accueil",en:"Home"},
+  {id:"agenda",fr:"Agenda",en:"Agenda"},
+  {id:"polls",fr:"Sondages",en:"Polls"},
+  {id:"equipes",fr:"Mon equipe",en:"My team"},
+  {id:"phase1",fr:"Ma salle",en:"My room"},
+  {id:"phase2",fr:"Mon village",en:"My village"},
+  {id:"finale",fr:"Pitch Final",en:"Final Pitch"}
 ];
 
 function init(){
@@ -367,8 +369,10 @@ function init(){
   tabDefs.forEach((t,i) => {
     const tb = document.createElement("div");
     tb.className = "tb" + (i===0?" act":"");
-    tb.textContent = t.label;
+    tb.textContent = t.fr;
     tb.dataset.id = t.id;
+    tb.dataset.fr = t.fr;
+    tb.dataset.en = t.en;
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
@@ -408,33 +412,33 @@ function buildOverview(){
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
     <div onclick="switchTab('agenda')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128197;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#0D47A1;">Agenda</div>
-      <div style="font-size:0.68em;color:#607D8B;">The schedule / Le programme</div>
+      <div style="font-weight:700;font-size:0.82em;color:#0D47A1;" data-fr="Agenda" data-en="Agenda">Agenda</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Le programme" data-en="The schedule">Le programme</div>
     </div>
     <div onclick="switchTab('polls')" style="background:#FFF3E0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128172;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#E65100;">Sondages / Polls</div>
-      <div style="font-size:0.68em;color:#607D8B;">Donne ton avis / Share your voice</div>
+      <div style="font-weight:700;font-size:0.82em;color:#E65100;" data-fr="Sondages" data-en="Polls">Sondages</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Donne ton avis" data-en="Share your voice">Donne ton avis</div>
     </div>
     <div onclick="switchTab('equipes')" style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128101;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;">Mon equipe / My team</div>
-      <div style="font-size:0.68em;color:#607D8B;">Trouve tes coequipiers / Find your teammates</div>
+      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;" data-fr="Mon equipe" data-en="My team">Mon equipe</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Trouve tes coequipiers" data-en="Find your teammates">Trouve tes coequipiers</div>
     </div>
     <div onclick="switchTab('phase1')" style="background:#F3E5F5;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127970;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#7B1FA2;">Ma salle / My room</div>
-      <div style="font-size:0.68em;color:#607D8B;">Ou aller ? / Where to go?</div>
+      <div style="font-weight:700;font-size:0.82em;color:#7B1FA2;" data-fr="Ma salle" data-en="My room">Ma salle</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Ou aller ?" data-en="Where to go?">Ou aller ?</div>
     </div>
     <div onclick="switchTab('phase2')" style="background:#E0F7FA;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127963;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#00838F;">Mon village / My village</div>
-      <div style="font-size:0.68em;color:#607D8B;">Pour les pitchs / For the pitches</div>
+      <div style="font-weight:700;font-size:0.82em;color:#00838F;" data-fr="Mon village" data-en="My village">Mon village</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Pour les pitchs" data-en="For the pitches">Pour les pitchs</div>
     </div>
     <div onclick="switchTab('finale')" style="background:#FFF8E1;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127942;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#F57F17;">Pitch Final</div>
-      <div style="font-size:0.68em;color:#607D8B;">The final showdown</div>
+      <div style="font-weight:700;font-size:0.82em;color:#F57F17;" data-fr="Pitch Final" data-en="Final Pitch">Pitch Final</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="La grande finale" data-en="The final showdown">La grande finale</div>
     </div>
   </div>
   <div style="background:#ECEFF1;border-radius:12px;padding:14px;font-size:0.8em;color:#455A64;text-align:center;line-height:1.5;">
@@ -478,15 +482,13 @@ function buildPolls(){
       html += `<div class="poll-q" id="poll-${q.id}">
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
-          <h3>${q.fr}</h3>
-          <div class="poll-sub">${q.en}</div>
+          <h3 data-fr="${q.fr}" data-en="${q.en}">${q.fr}</h3>
         </div>
         <div class="poll-body">
-          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;">Cliquez sur la zone qui vous correspond / Tap the zone that fits you best</p>
+          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;" data-fr="Clique sur la zone qui te correspond" data-en="Tap the zone that fits you best">Clique sur la zone qui te correspond</p>
           <div class="jm-grid" id="jmSelect" style="cursor:pointer;">
             ${JM_LOCATIONS.map(loc=>`<div class="jm-loc jm-selectable" data-loc="${loc.id}" style="background:${loc.bg};border:2px solid ${loc.color}30;" onclick="submitJourneyMap('${loc.id}')">
-              <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
-              <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
+              <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${loc.nameFr}</div>
             </div>`).join("")}
           </div>
           <div class="poll-count" id="poll-count-${q.id}"></div>
@@ -497,14 +499,13 @@ function buildPolls(){
       html += `<div class="poll-q" id="poll-${q.id}">
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
-          <h3>${q.fr}</h3>
-          <div class="poll-sub">${q.en}</div>
+          <h3 data-fr="${q.fr}" data-en="${q.en}">${q.fr}</h3>
         </div>
         <div class="poll-body">
           <div id="poll-form-${q.id}">
-            <textarea class="poll-input" id="poll-input-${q.id}" placeholder="${q.placeholder_fr} / ${q.placeholder_en}" maxlength="${q.maxLen}" rows="${q.type==="wordcloud"?1:2}" oninput="updateCharCount('${q.id}',${q.maxLen})"></textarea>
+            <textarea class="poll-input" id="poll-input-${q.id}" placeholder="${q.placeholder_fr}" data-ph-fr="${q.placeholder_fr}" data-ph-en="${q.placeholder_en}" maxlength="${q.maxLen}" rows="${q.type==="wordcloud"?1:2}" oninput="updateCharCount('${q.id}',${q.maxLen})"></textarea>
             <div class="poll-charcount" id="poll-cc-${q.id}">${q.maxLen} car.</div>
-            <button class="poll-send" id="poll-send-${q.id}" onclick="submitPoll('${q.id}')">Envoyer / Submit</button>
+            <button class="poll-send" id="poll-send-${q.id}" onclick="submitPoll('${q.id}')" data-fr="Envoyer" data-en="Submit">Envoyer</button>
           </div>
           <div class="poll-count" id="poll-count-${q.id}"></div>
           <div id="poll-results-${q.id}" style="margin-top:12px;"></div>
@@ -514,7 +515,7 @@ function buildPolls(){
   });
 
   html += `<div class="jm-box" id="jmBox">
-    <h3 style="font-size:0.95em;color:#263238;margin-bottom:4px;">Change Journey Map — Resultats live</h3>
+    <h3 style="font-size:0.95em;color:#263238;margin-bottom:4px;" data-fr="Carte du voyage — Resultats live" data-en="Journey Map — Live results">Carte du voyage — Resultats live</h3>
     <div class="jm-grid" id="jmGrid"></div>
   </div>`;
 
@@ -566,17 +567,17 @@ function buildAgenda(){
 
   return `<div class="pnl" id="p-agenda">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;">Agenda — 28 mars 2026</h2>
+    <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;" data-fr="Agenda — 28 mars 2026" data-en="Agenda — March 28, 2026">Agenda — 28 mars 2026</h2>
     <p style="font-size:0.8em;color:#455A64;line-height:1.4;" data-fr="Le programme complet de ta journee. Matinee en amphi, apres-midi en equipe." data-en="Your full day schedule. Morning in the auditorium, afternoon in teams.">Le programme complet de ta journee. Matinee en amphi, apres-midi en equipe.</p>
   </div>
-  <div class="sec"><div class="sec-h" style="background:#0D47A1;">Matinee — Amphitheatre<span class="bdg">10h-12h</span></div>
+  <div class="sec"><div class="sec-h" style="background:#0D47A1;"><span data-fr="Matinee — Amphitheatre" data-en="Morning — Auditorium">Matinee — Amphitheatre</span><span class="bdg">10h-12h</span></div>
     ${morning.map(agendaRow).join("")}
   </div>
-  <div class="sec"><div class="sec-h" style="background:#7B1FA2;">Apres-midi — Design Sprint<span class="bdg">13h-16h35</span></div>
+  <div class="sec"><div class="sec-h" style="background:#7B1FA2;"><span data-fr="Apres-midi — Design Sprint" data-en="Afternoon — Design Sprint">Apres-midi — Design Sprint</span><span class="bdg">13h-16h35</span></div>
     ${afternoon.map(agendaRow).join("")}
   </div>
   <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.78em;color:#795548;margin-top:12px;">
-    <strong>Fin nominale : 16h35.</strong> Marge jusqu'a 17h. Train retour Paris en fin de journee.
+    <span data-fr="Fin nominale : 16h35. Marge jusqu'a 17h. Train retour Paris en fin de journee." data-en="Nominal end: 16:35. Buffer until 17:00. Paris return train at end of day."><strong>Fin nominale : 16h35.</strong> Marge jusqu'a 17h. Train retour Paris en fin de journee.</span>
   </div>
   </div>`;
 }
@@ -648,7 +649,7 @@ function buildEquipes(){
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
     <h2 style="font-size:1.05em;color:#0D47A1;margin-bottom:6px;" data-fr="Trouve ton equipe" data-en="Find your team">Trouve ton equipe</h2>
     <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;" data-fr="Tape ton nom pour trouver ta salle et tes coequipiers." data-en="Type your name to find your room and teammates.">Tape ton nom pour trouver ta salle et tes coequipiers.</p>
-    <input type="text" id="eqSearch" placeholder="&#128269; Ton nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
+    <input type="text" id="eqSearch" placeholder="&#128269; Ton nom ou une equipe..." data-ph-fr="&#128269; Ton nom ou une equipe..." data-ph-en="&#128269; Your name or a team..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
   </div>
   <div class="eq-grid" id="eqGrid">`;
   TEAMS.forEach(t => {
@@ -680,7 +681,7 @@ function buildFinale(){
 
   return `<div class="pnl" id="p-finale">
   <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;">Pitch Final</h2>
+    <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;" data-fr="Pitch Final" data-en="Final Pitch">Pitch Final</h2>
     <p style="font-size:0.8em;color:#795548;line-height:1.4;margin-bottom:12px;" data-fr="Les 8 finalistes pitchent 90 secondes devant tout le monde. Francois selectionne les projets a financer." data-en="8 finalists pitch 90 seconds in front of everyone. Francois selects the projects to fund.">Les 8 finalistes pitchent 90 secondes devant tout le monde. Francois selectionne les projets a financer.</p>
     <input type="text" id="finaleSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #FFE082;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#E65100'" onblur="this.style.borderColor='#FFE082'">
   </div>
@@ -749,14 +750,110 @@ document.getElementById("modalClose").addEventListener("click",()=>document.getE
 document.getElementById("chatBtn").addEventListener("click",()=>document.getElementById("chatBox").classList.toggle("open"));
 document.getElementById("chatClose").addEventListener("click",()=>document.getElementById("chatBox").classList.remove("open"));
 
+const CHAT_KB = {
+  programme: {
+    keywords:["programme","schedule","agenda","planning","horaire","deroulement"],
+    fr:`<strong>Programme du jour :</strong><br>
+<u>Matin</u><br>
+10h00 — Cafe d'accueil<br>10h15 — Kick-off Francois<br>10h35 — Collecte pain points sur l'app<br>11h05 — Restitution Francois<br>11h20 — Presentation programme PM<br>11h35 — Ice-breaker<br>11h55 — Dejeuner<br>
+<u>Apres-midi</u><br>
+13h00 — Brief + Sprint questions<br>13h10 — Lightning Demos<br>13h25 — HMW + Vote<br>13h50 — Solution Sketch<br>14h25 — Pause<br>14h40 — Pitch Canvas<br>15h10 — Pitchs en villages<br>15h55 — Pitchs finaux<br>16h15 — Closing<br>16h30 — Fin`,
+    en:`<strong>Day schedule:</strong><br>
+<u>Morning</u><br>
+10:00 — Welcome coffee<br>10:15 — Kick-off Francois<br>10:35 — Pain points collection on app<br>11:05 — Francois restitution<br>11:20 — PM program presentation<br>11:35 — Ice-breaker<br>11:55 — Lunch<br>
+<u>Afternoon</u><br>
+13:00 — Brief + Sprint questions<br>13:10 — Lightning Demos<br>13:25 — HMW + Vote<br>13:50 — Solution Sketch<br>14:25 — Break<br>14:40 — Pitch Canvas<br>15:10 — Village pitches<br>15:55 — Final pitches<br>16:15 — Closing<br>16:30 — End`
+  },
+  lightning: {
+    keywords:["lightning","demo","demos","fiche 1","exemple"],
+    fr:`<strong>Lightning Demos (Fiche 1)</strong><br>3 min de silence : ecris 1 exemple inspirant d'ailleurs sur un post-it.<br>Puis tour de table : 1 min par personne pour le presenter.`,
+    en:`<strong>Lightning Demos (Sheet 1)</strong><br>3 min silence: write 1 inspiring example from elsewhere on a post-it.<br>Then table tour: 1 min per person to present it.`
+  },
+  hmw: {
+    keywords:["hmw","how might","comment pourrait","fiche 2"],
+    fr:`<strong>HMW — How Might We (Fiche 2)</strong><br>3 min silence : ecris 3 post-its "Comment pourrait-on...".<br>Mets tout au centre, 2 min lecture silencieuse, vote 3 gommettes chacun.`,
+    en:`<strong>HMW — How Might We (Sheet 2)</strong><br>3 min silence: write 3 "How might we..." post-its.<br>Put all in center, 2 min silent read, vote 3 stickers each.`
+  },
+  sketch: {
+    keywords:["sketch","solution sketch","fiche 3","fiche 4","dessin"],
+    fr:`<strong>Solution Sketch (Fiches 3+4)</strong><br>A4 plie en 4 : Probleme / Solution / Comment ca marche / 1ere action lundi.<br>2 min par case. Puis gallery walk, tour de table, vote heatmap.`,
+    en:`<strong>Solution Sketch (Sheets 3+4)</strong><br>A4 folded in 4: Problem / Solution / How it works / First action Monday.<br>2 min per box. Then gallery walk, table tour, heatmap vote.`
+  },
+  pitch: {
+    keywords:["pitch","canvas","poster","fiche 5","a2"],
+    fr:`<strong>Pitch Canvas (Fiche 5)</strong><br>Poster A2 avec 4 zones : Probleme, Solution, Benefice concret, 1ere action lundi.`,
+    en:`<strong>Pitch Canvas (Sheet 5)</strong><br>A2 poster with 4 zones: Problem, Solution, Concrete benefit, First action Monday.`
+  },
+  vote: {
+    keywords:["vote","gommette","sticker","heatmap"],
+    fr:`<strong>Vote</strong><br>Vote par gommettes sur les projets les plus prometteurs. On se leve, on colle. Le boss a 1 gommette, le stagiaire aussi.`,
+    en:`<strong>Vote</strong><br>Heatmap vote with stickers on the most promising projects. Stand up, stick. The boss gets 1 sticker, the intern gets 1 sticker.`
+  },
+  wifi: {
+    keywords:["wifi","internet","connexion","reseau","network"],
+    fr:`<strong>Wifi</strong><br>Le wifi a ete teste la veille. Connecte-toi au reseau de Station A.`,
+    en:`<strong>Wifi</strong><br>Wifi was tested the day before. Connect to the Station A network.`
+  },
+  dejeuner: {
+    keywords:["dejeuner","lunch","repas","manger","pot luck","potluck","midi"],
+    fr:`<strong>Dejeuner</strong><br>Pot luck / dejeuner partage de 11h55 a 13h00.`,
+    en:`<strong>Lunch</strong><br>Pot luck / shared lunch from 11:55 to 13:00.`
+  },
+  pause: {
+    keywords:["pause","break","cafe","coffee"],
+    fr:`<strong>Pauses</strong><br>Pause cafe matin : 10h45-11h05.<br>Pause apres-midi : 14h25-14h40.`,
+    en:`<strong>Breaks</strong><br>Morning coffee break: 10:45-11:05.<br>Afternoon break: 14:25-14:40.`
+  },
+  fin: {
+    keywords:["fin","end","heure","finir","termine","train","paris","retour"],
+    fr:`<strong>Fin de journee</strong><br>Fin nominale : 16h35. Marge jusqu'a 17h.<br>Train Paris : arrivee 10h, retour en fin de journee.<br>Lieu : Station A, Nancy.`,
+    en:`<strong>End of day</strong><br>Nominal end: 16:35. Buffer until 17:00.<br>Paris train: arrives 10am, return end of day.<br>Location: Station A, Nancy.`
+  },
+  facilitateurs: {
+    keywords:["facilitateur","facilitator","elodie","anne","zeenat","heloise","john","edwin","orga","equipe"],
+    fr:`<strong>5 facilitateurs :</strong><br>- Elodie (meta / coordination)<br>- Anne (matin + village)<br>- Zeenat (strategie + village)<br>- Heloise (volante)<br>- John-Edwin (volant + IA)`,
+    en:`<strong>5 facilitators:</strong><br>- Elodie (meta / coordination)<br>- Anne (morning + village)<br>- Zeenat (strategy + village)<br>- Heloise (floating)<br>- John-Edwin (floating + AI)`
+  },
+  capitaine: {
+    keywords:["capitaine","captain","role","instruction","fiche"],
+    fr:`<strong>Capitaine</strong><br>Designe par chaque table en debut d'apres-midi. Il lit les instructions, distribue la parole. Le time keeper gere le timer et coupe poliment.`,
+    en:`<strong>Captain</strong><br>Designated by each table at the start of the afternoon. Reads instructions, gives the floor. The time keeper runs the timer and cuts politely.`
+  },
+  methode: {
+    keywords:["design sprint","methode","method","together alone","tangible","timer","silence","regle","rule"],
+    fr:`<strong>Methode Design Sprint :</strong><br>- <em>Together Alone</em> : on travaille ensemble mais individuellement en silence d'abord<br>- <em>Tangible</em> : chaque etape produit un objet (post-it, dessin, poster)<br>- <em>Timer impose</em> : quand ca sonne, on avance meme si c'est imparfait<br>- <em>Vote silencieux</em> : decisions par gommettes, pas par discussion. Le boss a 1 gommette, le stagiaire aussi.`,
+    en:`<strong>Design Sprint method:</strong><br>- <em>Together Alone</em>: work together but individually in silence first<br>- <em>Tangible</em>: every step produces an object (post-it, drawing, poster)<br>- <em>Timer imposed</em>: when it rings, move on even if imperfect<br>- <em>Silent vote</em>: decisions by stickers, not discussion. Boss gets 1 sticker, intern gets 1 sticker.`
+  },
+  village: {
+    keywords:["village"],
+    fr:`<strong>Villages</strong><br>5 villages de couleur. Apres le Sprint, chaque equipe rejoint son village pour les pitchs (15h10). 2 meilleures equipes par village passent en finale.`,
+    en:`<strong>Villages</strong><br>5 color-coded villages. After the Sprint, each team joins its village for pitches (15:10). 2 best teams per village go to the finals.`
+  }
+};
+
 function chatSearch(query){
   const q = query.trim().toLowerCase();
-  if(!q) return "Tape ton nom de famille ou un nom d'equipe !";
+  if(!q) return currentLang==="fr" ? "Tape ton nom de famille ou un nom d'equipe !" : "Type your last name or a team name!";
+
+  // Check knowledge base first
+  for(const [key, entry] of Object.entries(CHAT_KB)){
+    for(const kw of entry.keywords){
+      if(q.includes(kw)){
+        return currentLang==="en" ? entry.en : entry.fr;
+      }
+    }
+  }
 
   // Search team by name
   const teamMatch = TEAMS.find(t=>t.name.toLowerCase()===q || t.name.toLowerCase().includes(q));
   if(teamMatch){
     const v = VILLAGES[teamMatch.village];
+    if(currentLang==="en"){
+      return `<strong>Team ${teamMatch.name}</strong> (${teamMatch.members.length} people)<br>
+        Phase 1: <strong>${ROOM_NAMES[teamMatch.p1Room]}</strong><br>
+        Phase 2: <strong>${v.name}</strong> in <strong>${ROOM_NAMES[teamMatch.p2Room]}</strong><br>
+        Facilitator: ${teamMatch.fac}`;
+    }
     return `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length} pers.)<br>
       Phase 1 : <strong>${ROOM_NAMES[teamMatch.p1Room]}</strong><br>
       Phase 2 : <strong>${v.name}</strong> en <strong>${ROOM_NAMES[teamMatch.p2Room]}</strong><br>
@@ -777,6 +874,13 @@ function chatSearch(query){
   if(found.length===1){
     const {person:m, team:t} = found[0];
     const v = VILLAGES[t.village];
+    if(currentLang==="en"){
+      return `<strong>${m[0]} ${m[1]}</strong><br>
+        Team: <strong>${t.name}</strong><br>
+        Phase 1: <strong>${ROOM_NAMES[t.p1Room]}</strong><br>
+        Phase 2: <strong>${v.name}</strong> in <strong>${ROOM_NAMES[t.p2Room]}</strong><br>
+        Final Pitch: <strong>Salle du Conseil</strong>`;
+    }
     return `<strong>${m[0]} ${m[1]}</strong><br>
       Equipe : <strong>${t.name}</strong><br>
       Phase 1 : <strong>${ROOM_NAMES[t.p1Room]}</strong><br>
@@ -784,9 +888,14 @@ function chatSearch(query){
       Pitch Final : <strong>Salle du Conseil</strong>`;
   }
   if(found.length>1){
-    return `${found.length} resultats :<br>` + found.map(f=>`- <strong>${f.person[0]} ${f.person[1]}</strong> → equipe ${f.team.name}`).join("<br>");
+    const label = currentLang==="en" ? "results" : "resultats";
+    const teamLabel = currentLang==="en" ? "team" : "equipe";
+    return `${found.length} ${label} :<br>` + found.map(f=>`- <strong>${f.person[0]} ${f.person[1]}</strong> \u2192 ${teamLabel} ${f.team.name}`).join("<br>");
   }
-  return `Pas de resultat pour "${query}". Essaie ton nom de famille ou un nom de ville (Tokyo, Seoul...).`;
+  if(currentLang==="en"){
+    return `No result for "${query}". Try your last name, a city name (Tokyo, Seoul...), or a topic (schedule, wifi, lunch...).`;
+  }
+  return `Pas de resultat pour "${query}". Essaie ton nom de famille, un nom de ville (Tokyo, Seoul...), ou un sujet (programme, wifi, dejeuner...).`;
 }
 
 function sendChat(){
@@ -837,35 +946,30 @@ document.addEventListener("input", e=>{
 
 // ============ POLLS ============
 const POLL_QUESTIONS = [
-  {id:"q1",type:"opentext",num:"1/2",
-   fr:"Qu'est-ce qui vous freine aujourd'hui dans votre quotidien a l'ICN ?",
-   en:"What holds you back in your daily work at ICN?",
-   placeholder_fr:"Votre reponse courte...",placeholder_en:"Your short answer...",
+  {id:"q1",type:"opentext",num:"1/3",
+   fr:"Qu'est-ce qui t'empeche de faire du bon travail a l'ICN ?",
+   en:"What's getting in the way of doing great work at ICN?",
+   placeholder_fr:"Ta reponse courte...",placeholder_en:"Your short answer...",
    maxLen:200},
   {id:"q2",type:"wordcloud",num:"2/3",
-   fr:"Qu'est-ce qui freine le developpement de l'ICN selon vous ?",
-   en:"What holds back ICN's development in your opinion?",
+   fr:"Qu'est-ce qui freine le developpement de l'ICN selon toi ?",
+   en:"What's holding ICN back?",
    placeholder_fr:"Un ou deux mots...",placeholder_en:"One or two words...",
    maxLen:40},
   {id:"q3",type:"journeymap",num:"3/3",
-   fr:"Ou vous situez-vous sur la carte du changement ?",
-   en:"Where do you stand on the change journey map?",
+   fr:"Ou en es-tu dans le voyage du changement ?",
+   en:"Where are you on the journey?",
    placeholder_fr:"",placeholder_en:"",
    maxLen:0}
 ];
 
-// Journey Map locations for categorizing responses
+// Journey Map — 5 stages from the PPTX
 const JM_LOCATIONS = [
-  {id:"doubt",name:"The Harbour of Doubt",nameFr:"Le Port du Doute",color:"#5C6BC0",bg:"#E8EAF6",keywords:["doute","incertitude","hesitation","confusion","flou","doubt","unclear","uncertain"]},
-  {id:"fear",name:"The Forest of Fear",nameFr:"La Foret de la Peur",color:"#E53935",bg:"#FFEBEE",keywords:["peur","risque","crainte","anxiete","fear","risk","afraid","anxiety"]},
-  {id:"silos",name:"The Island of Isolation",nameFr:"L'Ile de l'Isolement",color:"#00897B",bg:"#E0F2F1",keywords:["silo","isole","seul","deconnecte","isolation","alone","disconnected","silos","departement"]},
-  {id:"procrastination",name:"The Plains of Procrastination",nameFr:"Les Plaines de la Procrastination",color:"#FF8F00",bg:"#FFF8E1",keywords:["lent","retard","attente","bureaucratie","lourdeur","slow","delay","bureaucracy","process","admin"]},
-  {id:"cynicism",name:"The Cliffs of Cynicism",nameFr:"Les Falaises du Cynisme",color:"#6D4C41",bg:"#EFEBE9",keywords:["cynisme","resistance","status quo","immobilisme","cynicism","resistance","change","toujours pareil"]},
-  {id:"vanity",name:"The Graveyard of Vanity",nameFr:"Le Cimetiere de la Vanite",color:"#7B1FA2",bg:"#F3E5F5",keywords:["ego","pouvoir","politique","hierarchie","ego","power","politics","hierarchy"]},
-  {id:"past",name:"The Guardians of the Past",nameFr:"Les Gardiens du Passe",color:"#455A64",bg:"#ECEFF1",keywords:["tradition","passe","ancien","avant","toujours fait","tradition","past","old way","legacy"]},
-  {id:"milestones",name:"The Missed Milestones",nameFr:"Les Jalons Manques",color:"#F4511E",bg:"#FBE9E7",keywords:["objectif","vision","strategie","direction","cap","goal","vision","strategy","direction","misalign"]},
-  {id:"magic",name:"The Mountains of Magic",nameFr:"Les Montagnes de la Magie",color:"#1565C0",bg:"#E3F2FD",keywords:["innovation","transformation","digital","ia","technologie","innovation","digital","ai","technology","tools","outil"]},
-  {id:"brilliance",name:"The Bay of Brilliance",nameFr:"La Baie de la Brillance",color:"#F9A825",bg:"#FFFDE7",keywords:["talent","excellence","qualite","brillant","ambition","talent","excellence","quality","ambition","international"]}
+  {id:"basecamp",name:"Base Camp",nameFr:"Camp de base",color:"#2E7D32",bg:"#E8F5E9",keywords:["debut","start","depart","beginning","base"]},
+  {id:"doubt",name:"Harbour of Doubt",nameFr:"Le doute",color:"#5C6BC0",bg:"#E8EAF6",keywords:["doute","incertitude","hesitation","confusion","doubt","unclear","uncertain"]},
+  {id:"fear",name:"Forest of Fear",nameFr:"La peur",color:"#E53935",bg:"#FFEBEE",keywords:["peur","risque","crainte","anxiete","fear","risk","afraid","anxiety"]},
+  {id:"effort",name:"Mountains of Misery & Magic",nameFr:"L'effort",color:"#E65100",bg:"#FFF3E0",keywords:["effort","travail","dur","difficile","hard","struggle","misery","magic"]},
+  {id:"brilliance",name:"Bay of Brilliance",nameFr:"La reussite",color:"#F9A825",bg:"#FFFDE7",keywords:["reussite","succes","brillant","excellence","success","brilliance","top"]}
 ];
 
 function classifyResponse(text){
@@ -934,16 +1038,48 @@ function submitPoll(qid){
   }).then(()=>{
     input.value = "";
     btn.disabled = false;
-    btn.textContent = "Envoyer / Submit";
     updateCharCount(qid, parseInt(input.getAttribute("maxlength")));
-    // Brief confirmation flash
     btn.style.background = "#2E7D32";
-    btn.textContent = "Envoye !";
-    setTimeout(()=>{btn.style.background="";btn.textContent="Envoyer / Submit";},1200);
+    btn.textContent = currentLang==="fr" ? "Envoye !" : "Sent!";
+    localStorage.setItem("icn_voted_"+qid, "1");
+    setTimeout(()=>{ autoAdvancePoll(qid); }, 1500);
   }).catch(err=>{
     btn.disabled = false;
-    btn.textContent = "Envoyer / Submit";
+    btn.textContent = currentLang==="fr" ? "Envoyer" : "Submit";
   });
+}
+
+function autoAdvancePoll(currentQid){
+  const idx = POLL_QUESTIONS.findIndex(q=>q.id===currentQid);
+  if(idx < POLL_QUESTIONS.length - 1){
+    const nextQ = POLL_QUESTIONS[idx+1];
+    const nextEl = document.getElementById("poll-"+nextQ.id);
+    if(nextEl){
+      const curEl = document.getElementById("poll-"+currentQid);
+      if(curEl) curEl.classList.remove("active");
+      nextEl.classList.add("active");
+      nextEl.scrollIntoView({behavior:"smooth",block:"start"});
+      updateWaitingScreen();
+    }
+  } else {
+    // After last question, show thank you
+    const curEl = document.getElementById("poll-"+currentQid);
+    if(curEl) curEl.classList.remove("active");
+    showThankYouScreen();
+  }
+}
+
+function showThankYouScreen(){
+  const waiting = document.getElementById("pollWaiting");
+  if(waiting){
+    waiting.style.display = "";
+    const icon = waiting.querySelector(".pw-icon");
+    const title = waiting.querySelector(".pw-title");
+    const sub = waiting.querySelector(".pw-sub");
+    if(icon) icon.textContent = "\u2705";
+    if(title){ title.dataset.fr = "Merci !"; title.dataset.en = "Thank you!"; title.textContent = currentLang==="fr" ? "Merci !" : "Thank you!"; }
+    if(sub){ sub.dataset.fr = "Tes reponses ont bien ete enregistrees."; sub.dataset.en = "Your answers have been recorded."; sub.textContent = currentLang==="fr" ? "Tes reponses ont bien ete enregistrees." : "Your answers have been recorded."; }
+  }
 }
 
 function listenPolls(){
@@ -1025,6 +1161,7 @@ function submitJourneyMap(locId){
   fbDb.ref("icn-polls/responses/q3").push({
     text: locId, uid: uid, ts: Date.now()
   });
+  localStorage.setItem("icn_voted_q3", "1");
   // Visual feedback — highlight selected
   document.querySelectorAll(".jm-selectable").forEach(el=>{
     el.style.opacity = el.dataset.loc===locId ? "1" : "0.4";
@@ -1032,6 +1169,7 @@ function submitJourneyMap(locId){
   });
   setTimeout(()=>{
     document.querySelectorAll(".jm-selectable").forEach(el=>{el.style.opacity="1";el.style.transform="";});
+    autoAdvancePoll("q3");
   }, 1500);
 }
 
@@ -1041,28 +1179,25 @@ function updateJourneyMap(responses){
   if(!grid) return;
   if(!responses || !responses.length){
     grid.innerHTML = JM_LOCATIONS.map(loc=>`<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
-      <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
+      <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${currentLang==="en"?loc.name:loc.nameFr}</div>
       <div class="jm-c" style="color:${loc.color};">—</div>
-      <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
     </div>`).join("");
     return;
   }
   if(box) box.classList.add("visible");
   const locCounts = {};
   JM_LOCATIONS.forEach(l=>locCounts[l.id]=0);
-  // Q3 responses are direct location IDs
   responses.forEach(r=>{
     const loc = JM_LOCATIONS.find(l=>l.id===r.text);
     if(loc) locCounts[loc.id]++;
     else locCounts[classifyResponse(r.text)]++;
   });
-  const sorted = JM_LOCATIONS.slice().sort((a,b)=>(locCounts[b.id]||0)-(locCounts[a.id]||0));
-  grid.innerHTML = sorted.map(loc=>{
+  // Keep original order (journey progression), don't sort
+  grid.innerHTML = JM_LOCATIONS.map(loc=>{
     const count = locCounts[loc.id]||0;
     return `<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}${count>0?'50':'15'};">
-      <div class="jm-n" style="color:${loc.color};">${loc.nameFr}</div>
+      <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${currentLang==="en"?loc.name:loc.nameFr}</div>
       <div class="jm-c" style="color:${loc.color};">${count||"—"}</div>
-      <div class="jm-l" style="color:${loc.color};">${loc.name}</div>
     </div>`;
   }).join("");
 }
@@ -1134,11 +1269,35 @@ function setLang(lang){
   document.querySelectorAll("[data-"+lang+"]").forEach(el=>{
     el.textContent = el.dataset[lang];
   });
+  // Update tab labels
+  document.querySelectorAll(".tb").forEach(tb=>{
+    if(tb.dataset[lang]) tb.textContent = tb.dataset[lang];
+  });
   // Update chatbot button
   document.getElementById("chatBtn").innerHTML = lang==="fr" ? "&#128269; Ou suis-je ?" : "&#128269; Where am I?";
+  // Update chat header
+  const chatHdrSpan = document.querySelector(".chat-hdr span:first-child");
+  if(chatHdrSpan) chatHdrSpan.textContent = lang==="fr" ? "Ou suis-je ?" : "Where am I?";
+  // Update chat welcome message
+  const firstMsg = document.querySelector("#chatMsgs .chat-msg.bot");
+  if(firstMsg && document.querySelectorAll("#chatMsgs .chat-msg").length <= 1){
+    firstMsg.innerHTML = lang==="fr"
+      ? 'Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d\'equipe</strong>, ou un sujet (<em>programme, wifi, dejeuner, methode...</em>).'
+      : 'Hello! Type your <strong>name</strong>, a <strong>team name</strong>, or a topic (<em>schedule, wifi, lunch, method...</em>).';
+  }
   // Update chat placeholder
   const ci = document.getElementById("chatIn");
-  if(ci) ci.placeholder = lang==="fr" ? "Ton nom ou equipe..." : "Your name or team...";
+  if(ci) ci.placeholder = lang==="fr" ? "Nom, equipe, ou sujet..." : "Name, team, or topic...";
+  // Update poll send buttons
+  POLL_QUESTIONS.forEach(q=>{
+    const btn = document.getElementById("poll-send-"+q.id);
+    if(btn && !btn.disabled) btn.textContent = lang==="fr" ? "Envoyer" : "Submit";
+  });
+  // Update all placeholders with data-ph-fr/data-ph-en
+  const phKey = lang==="fr" ? "phFr" : "phEn";
+  document.querySelectorAll("[data-ph-fr]").forEach(el=>{
+    if(el.dataset[phKey]) el.placeholder = el.dataset[phKey];
+  });
 }
 
 // ============ INIT ============
