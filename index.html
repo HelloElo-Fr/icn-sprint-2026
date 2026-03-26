@@ -568,7 +568,7 @@ function buildPolls(){
     </div>`;
     html += `<div class="adm-panel" id="admPanel">
       <h3>Regie sondages</h3>`;
-    POLL_QUESTIONS.forEach(q=>{
+    POLL_QUESTIONS.filter(q=>q.type!=="journeymap").forEach(q=>{
       html += `<div class="adm-row" id="adm-row-${q.id}">
         <span class="adm-status off" id="adm-st-${q.id}"></span>
         <span class="adm-label"><strong>Q${q.num.split("/")[0]}</strong> ${q.type==="wordcloud"?"Nuage":q.type==="journeymap"?"Carte":"Texte"} — ${q.fr.slice(0,40)}...</span>
