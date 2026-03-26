@@ -2329,25 +2329,28 @@ if(savedLang) setLang(savedLang);
   const params = new URLSearchParams(window.location.search);
   const banner = document.getElementById("modeBanner");
   if(!banner) return;
+  banner.style.display = "";
   if(params.has("admin")){
-    banner.style.display = "";
     banner.style.background = "#B71C1C";
     banner.style.color = "#fff";
     banner.textContent = "⚙️  MODE ADMIN — Régie sondages";
     document.title = "🔴 ADMIN — ICN Creativ Day";
   } else if(params.has("presenter")){
-    banner.style.display = "";
     banner.style.background = "#1565C0";
     banner.style.color = "#fff";
     banner.textContent = "📺  MODE PRÉSENTATION — Affichage grand écran";
     document.title = "📺 PRÉSENTATION — ICN Creativ Day";
   } else if(params.has("fac")){
-    banner.style.display = "";
     banner.style.background = "#1B5E20";
     banner.style.color = "#fff";
     const facVal = params.get("fac");
-    banner.textContent = "🎯  MODE FACILITATEUR" + (facVal && facVal!=="1" ? " — " + facVal : "");
-    document.title = "🎯 FACILITATEUR — ICN Creativ Day";
+    banner.textContent = "🎯  MODE FACILITATION" + (facVal && facVal!=="1" ? " — " + facVal : "");
+    document.title = "🎯 FACILITATION — ICN Creativ Day";
+  } else {
+    banner.style.background = "#E65100";
+    banner.style.color = "#fff";
+    banner.textContent = "📱  MODE PARTICIPANT";
+    document.title = "ICN Creativ Day";
   }
 })();
 </script>
