@@ -536,17 +536,18 @@ function buildAgenda(){
   ];
   const afternoon = [
     {t:"13:00",d:"10'",title:"Brief + Sprint Questions",desc:"Themes issus des pain points. Chaque table recoit sa question.",who:"Elodie + Zeenat",color:"#0D47A1",icon:"&#127937;"},
-    {t:"13:10",d:"15'",title:"Fiche 1 : Lightning Demos",desc:"1 exemple inspirant d'ailleurs. 3 min silence + tour de table.",who:"Capitaines",color:"#1565C0",icon:"&#9889;"},
-    {t:"13:25",d:"15'",title:"Fiche 2 : HMW + Vote",desc:"3 notes 'Comment pourrait-on...' + vote gommettes. Top 3.",who:"Capitaines",color:"#7B1FA2",icon:"&#128161;"},
-    {t:"13:40",d:"10'",title:"Collecte et synthese IA",desc:"L'equipe photographie les top 3 HMW. Synthese + illustration IA.",who:"Equipe facilitation",color:"#E65100",icon:"&#129302;"},
-    {t:"13:50",d:"35'",title:"Fiches 3+4 : Solution Sketch + Vote",desc:"Sketch en silence 8 min, gallery walk, tour de table, echange, heatmap vote.",who:"Capitaines",color:"#C2185B",icon:"&#9999;"},
-    {t:"14:25",d:"15'",title:"Pause cafe",desc:"L'equipe genere des illustrations IA des concepts. Nash fait ses interviews.",who:"Equipe + Nash",color:"#F57F17",icon:"&#9749;"},
-    {t:"14:40",d:"30'",title:"Fiche 5 : Construire le Pitch",desc:"Poster Pitch Canvas A2 : Probleme, Solution, Benefice, 1ere action lundi.",who:"Capitaines",color:"#2E7D32",icon:"&#128196;"},
-    {t:"15:10",d:"30'",title:"Round 1 : Pitchs en Villages",desc:"22 equipes pitchent 2 min devant leur village. Vote. 2 meilleurs par village.",who:"Facilitateurs",color:"#E65100",icon:"&#127941;"},
-    {t:"15:40",d:"15'",title:"Board IA pour les finalistes",desc:"L'equipe genere un board visuel IA pour chaque finaliste.",who:"Equipe facilitation",color:"#00838F",icon:"&#129302;"},
-    {t:"15:55",d:"20'",title:"Round 2 : Pitchs finaux en pleniere",desc:"8 finalistes pitchent 90 sec devant les 200 avec board IA. Francois selectionne.",who:"Elodie + Francois",color:"#C2185B",icon:"&#127942;"},
-    {t:"16:15",d:"15'",title:"Closing IA + annonce",desc:"Fresque IA de synthese. Francois annonce les projets retenus + calendrier.",who:"Elodie + Francois",color:"#0D47A1",icon:"&#127775;"},
-    {t:"16:30",d:"5'",title:"Mot de la fin",desc:"Remerciements. Photo de groupe.",who:"Francois",color:"#607D8B",icon:"&#128247;"}
+    {t:"13:10",d:"19'",title:"Fiche 1 : Lightning Demos",desc:"Lecture fiche 2 min. Reflexion individuelle 5 min silence + tour de table 12 min.",who:"Capitaines",color:"#1565C0",icon:"&#9889;"},
+    {t:"13:29",d:"18'",title:"Fiche 2 : HMW + Vote",desc:"Lecture fiche 2 min. 3 notes 'Comment pourrait-on...' + lecture 3 min + vote gommettes. Top 3 + choix HMW.",who:"Capitaines",color:"#7B1FA2",icon:"&#128161;"},
+    {t:"13:47",d:"10'",title:"Collecte HMW + synthese IA",desc:"L'equipe photographie les top 3 HMW. Synthese + illustration IA.",who:"Equipe facilitation",color:"#E65100",icon:"&#129302;"},
+    {t:"13:57",d:"39'",title:"Fiche 3 : Solution Sketch + Vote",desc:"Lecture fiche 2 min. Sketch en silence 10 min, gallery walk, tour de table, echange, heatmap vote.",who:"Capitaines",color:"#C2185B",icon:"&#9999;"},
+    {t:"14:36",d:"15'",title:"Marge facilitateur",desc:"Buffer pour les tables en retard. L'equipe genere des illustrations IA. Nash fait ses interviews.",who:"Equipe + Nash",color:"#F57F17",icon:"&#9203;"},
+    {t:"14:51",d:"15'",title:"Pause cafe",desc:"Pause. Nash continue ses interviews terrain.",who:"Tous",color:"#F57F17",icon:"&#9749;"},
+    {t:"15:06",d:"32'",title:"Fiche 4 : Construire le Pitch",desc:"Lecture fiche 2 min. Poster Pitch Canvas A2 : Probleme, Solution, Benefice, 1ere action lundi. Repetition.",who:"Capitaines",color:"#2E7D32",icon:"&#128196;"},
+    {t:"15:38",d:"5'",title:"Transition villages",desc:"Deplacement et reorganisation de la salle en configuration villages.",who:"Equipe facilitation",color:"#607D8B",icon:"&#128694;"},
+    {t:"15:43",d:"32'",title:"Round 1 : Pitchs en Villages",desc:"Lecture fiche 2 min. 22 equipes pitchent 2 min devant leur village. Vote. 2 meilleurs par village.",who:"Facilitateurs",color:"#E65100",icon:"&#127941;"},
+    {t:"16:15",d:"15'",title:"Board IA pour les finalistes",desc:"L'equipe genere un board visuel IA pour chaque finaliste.",who:"Equipe facilitation",color:"#00838F",icon:"&#129302;"},
+    {t:"16:30",d:"20'",title:"Round 2 : Pitchs finaux en pleniere",desc:"8-10 finalistes pitchent 90 sec devant les 200 avec board IA. Francois selectionne.",who:"Elodie + Francois",color:"#C2185B",icon:"&#127942;"},
+    {t:"16:50",d:"10'",title:"Closing IA + annonce",desc:"Fresque IA de synthese. Francois annonce les projets retenus + calendrier. Photo de groupe.",who:"Elodie + Francois",color:"#0D47A1",icon:"&#127775;"}
   ];
 
   function agendaRow(item){
@@ -572,11 +573,11 @@ function buildAgenda(){
   <div class="sec"><div class="sec-h" style="background:#0D47A1;"><span data-fr="Matinee — Amphitheatre" data-en="Morning — Auditorium">Matinee — Amphitheatre</span><span class="bdg">10h-12h</span></div>
     ${morning.map(agendaRow).join("")}
   </div>
-  <div class="sec"><div class="sec-h" style="background:#7B1FA2;"><span data-fr="Apres-midi — Design Sprint" data-en="Afternoon — Design Sprint">Apres-midi — Design Sprint</span><span class="bdg">13h-16h35</span></div>
+  <div class="sec"><div class="sec-h" style="background:#7B1FA2;"><span data-fr="Apres-midi — Design Sprint" data-en="Afternoon — Design Sprint">Apres-midi — Design Sprint</span><span class="bdg">13h-17h</span></div>
     ${afternoon.map(agendaRow).join("")}
   </div>
   <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.78em;color:#795548;margin-top:12px;">
-    <span data-fr="Fin nominale : 16h35. Marge jusqu'a 17h. Train retour Paris en fin de journee." data-en="Nominal end: 16:35. Buffer until 17:00. Paris return train at end of day."><strong>Fin nominale : 16h35.</strong> Marge jusqu'a 17h. Train retour Paris en fin de journee.</span>
+    <span data-fr="Fin nominale : 17h00. Train retour Paris en fin de journee." data-en="Nominal end: 17:00. Paris return train at end of day."><strong>Fin nominale : 17h00.</strong> Train retour Paris en fin de journee.</span>
   </div>
   </div>`;
 }
@@ -756,12 +757,12 @@ const CHAT_KB = {
 <u>Matin</u><br>
 10h00 — Cafe d'accueil<br>10h15 — Kick-off Francois<br>10h35 — Collecte pain points sur l'app<br>11h05 — Restitution Francois<br>11h20 — Presentation programme PM<br>11h35 — Ice-breaker<br>11h55 — Dejeuner<br>
 <u>Apres-midi</u><br>
-13h00 — Brief + Sprint questions<br>13h10 — Lightning Demos<br>13h25 — HMW + Vote<br>13h50 — Solution Sketch<br>14h25 — Pause<br>14h40 — Pitch Canvas<br>15h10 — Pitchs en villages<br>15h55 — Pitchs finaux<br>16h15 — Closing<br>16h30 — Fin`,
+13h00 — Brief + Sprint questions<br>13h10 — Lightning Demos (19')<br>13h29 — HMW + Vote (18')<br>13h57 — Solution Sketch (39')<br>14h36 — Marge facilitateur<br>14h51 — Pause cafe<br>15h06 — Pitch Canvas (32')<br>15h38 — Transition villages<br>15h43 — Village pitches (32')<br>16h30 — Pitchs finaux<br>16h50 — Closing<br>17h00 — Fin`,
     en:`<strong>Day schedule:</strong><br>
 <u>Morning</u><br>
 10:00 — Welcome coffee<br>10:15 — Kick-off Francois<br>10:35 — Pain points collection on app<br>11:05 — Francois restitution<br>11:20 — PM program presentation<br>11:35 — Ice-breaker<br>11:55 — Lunch<br>
 <u>Afternoon</u><br>
-13:00 — Brief + Sprint questions<br>13:10 — Lightning Demos<br>13:25 — HMW + Vote<br>13:50 — Solution Sketch<br>14:25 — Break<br>14:40 — Pitch Canvas<br>15:10 — Village pitches<br>15:55 — Final pitches<br>16:15 — Closing<br>16:30 — End`
+13:00 — Brief + Sprint questions<br>13:10 — Lightning Demos (19')<br>13:29 — HMW + Vote (18')<br>13:57 — Solution Sketch (39')<br>14:36 — Facilitator buffer<br>14:51 — Coffee break<br>15:06 — Pitch Canvas (32')<br>15:38 — Village transition<br>15:43 — Village pitches (32')<br>16:30 — Final pitches<br>16:50 — Closing<br>17:00 — End`
   },
   lightning: {
     keywords:["lightning","demo","demos","fiche 1","exemple"],
@@ -800,13 +801,13 @@ const CHAT_KB = {
   },
   pause: {
     keywords:["pause","break","cafe","coffee"],
-    fr:`<strong>Pauses</strong><br>Pause cafe matin : 10h45-11h05.<br>Pause apres-midi : 14h25-14h40.`,
-    en:`<strong>Breaks</strong><br>Morning coffee break: 10:45-11:05.<br>Afternoon break: 14:25-14:40.`
+    fr:`<strong>Pauses</strong><br>Pause cafe matin : 10h45-11h05.<br>Pause cafe apres-midi : 14h51-15h06.`,
+    en:`<strong>Breaks</strong><br>Morning coffee break: 10:45-11:05.<br>Afternoon break: 14:51-15:06.`
   },
   fin: {
     keywords:["fin","end","heure","finir","termine","train","paris","retour"],
-    fr:`<strong>Fin de journee</strong><br>Fin nominale : 16h35. Marge jusqu'a 17h.<br>Train Paris : arrivee 10h, retour en fin de journee.<br>Lieu : Station A, Nancy.`,
-    en:`<strong>End of day</strong><br>Nominal end: 16:35. Buffer until 17:00.<br>Paris train: arrives 10am, return end of day.<br>Location: Station A, Nancy.`
+    fr:`<strong>Fin de journee</strong><br>Fin nominale : 17h00.<br>Train Paris : arrivee 10h, retour en fin de journee.<br>Lieu : Station A, Nancy.`,
+    en:`<strong>End of day</strong><br>Nominal end: 17:00.<br>Paris train: arrives 10am, return end of day.<br>Location: Station A, Nancy.`
   },
   facilitateurs: {
     keywords:["facilitateur","facilitator","elodie","anne","zeenat","heloise","john","edwin","orga","equipe"],
@@ -825,8 +826,8 @@ const CHAT_KB = {
   },
   village: {
     keywords:["village"],
-    fr:`<strong>Villages</strong><br>5 villages de couleur. Apres le Sprint, chaque equipe rejoint son village pour les pitchs (15h10). 2 meilleures equipes par village passent en finale.`,
-    en:`<strong>Villages</strong><br>5 color-coded villages. After the Sprint, each team joins its village for pitches (15:10). 2 best teams per village go to the finals.`
+    fr:`<strong>Villages</strong><br>5 villages de couleur. Apres le Sprint, chaque equipe rejoint son village pour les pitchs (15h43). 2 meilleures equipes par village passent en finale.`,
+    en:`<strong>Villages</strong><br>5 color-coded villages. After the Sprint, each team joins its village for pitches (15:43). 2 best teams per village go to the finals.`
   }
 };
 
@@ -840,7 +841,7 @@ PROGRAMME MATIN (Amphitheatre):
 DEJEUNER 12h00-13h00: Elodie et Zeenat finalisent les Sprint Questions. Les facilitateurs preparent les tables.
 
 PROGRAMME APRES-MIDI (Mini Design Sprint en equipes):
-13h00 Brief + Sprint Questions (Elodie + Zeenat) | 13h10 FICHE 1 LIGHTNING DEMOS: 3 min silence, ecrire 1 exemple inspirant d'ailleurs sur post-it, puis tour de table 1 min/personne | 13h25 FICHE 2 HMW: 3 min silence, ecrire 3 post-its "Comment pourrait-on...", tout au centre, 2 min lecture silencieuse, vote 3 gommettes chacun, capitaine identifie top 3 | 13h40 Collecte HMW + synthese IA (10 min) | 13h50 FICHES 3+4 SOLUTION SKETCH: A4 plie en 4 (Probleme/Solution/Comment ca marche/1ere action lundi), 8 min silence. Puis gallery walk 3 min, tour de table flash 5 min, echange ouvert 10 min, heatmap vote gommettes 5 min, capitaine annonce concept retenu | 14h25 PAUSE CAFE - equipe genere illustrations IA | 14h40 FICHE 5 PITCH CANVAS: Poster A2 avec 4 zones (Probleme, Solution, Benefice concret, 1ere action lundi). 15 min pour remplir, 10 min assembler + repeter | 15h10 PITCHS EN VILLAGES: 22 equipes en 5 villages, 1 facilitateur par village, chaque table pitche 2 min, vote gommettes, 2 meilleures equipes par village | 15h40 Boards IA pour les 8 finalistes | 15h55 8 PITCHS FINAUX en pleniere 90 sec + board IA, Francois selectionne les projets a financer | 16h15 Closing IA (fresque) + Francois annonce projets retenus + Module 2 | 16h30 Mot de la fin, photo de groupe. Fin 16h35, marge 17h.
+13h00 Brief + Sprint Questions (Elodie + Zeenat) | 13h10 FICHE 1 LIGHTNING DEMOS (19 min): lecture fiche 2 min, reflexion individuelle 5 min silence, tour de table 12 min | 13h29 FICHE 2 HMW + VOTE (18 min): lecture fiche 2 min, 3 notes "Comment pourrait-on...", lecture 3 min, vote gommettes, top 3 + choix HMW | 13h47 Collecte HMW + synthese IA (10 min) | 13h57 FICHE 3 SOLUTION SKETCH + VOTE (39 min): lecture fiche 2 min, sketch en silence 10 min, gallery walk, tour de table, echange, heatmap vote | 14h36 MARGE FACILITATEUR (15 min): buffer pour tables en retard, illustrations IA | 14h51 PAUSE CAFE (15 min) | 15h06 FICHE 4 PITCH CANVAS (32 min): lecture fiche 2 min, poster A2 (Probleme, Solution, Benefice, 1ere action lundi), repetition | 15h38 Transition villages (5 min) | 15h43 PITCHS EN VILLAGES (32 min): 22 equipes en 5 villages, chaque table pitche 2 min, vote gommettes, 2 meilleures par village | 16h15 Boards IA pour les finalistes (15 min) | 16h30 PITCHS FINAUX en pleniere (20 min): 8-10 finalistes 90 sec + board IA, Francois selectionne | 16h50 Closing IA + annonce (10 min): fresque IA, projets retenus, photo de groupe. Fin 17h00.
 
 METHODE DESIGN SPRINT:
 - Together Alone: on travaille ensemble mais individuellement en silence d'abord, pour eviter que les personnalites dominantes imposent leur vision
