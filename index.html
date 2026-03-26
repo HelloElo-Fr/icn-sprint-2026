@@ -1529,8 +1529,8 @@ const POLL_QUESTIONS = [
   {id:"q1",type:"wordcloud",num:"1/3",
    fr:"Qu'est-ce qui t'empêche de faire du bon travail a l'ICN ?",
    en:"What's getting in the way of doing great work at ICN?",
-   placeholder_fr:"Un ou deux mots...",placeholder_en:"One or two words...",
-   maxLen:40},
+   placeholder_fr:"1 à 3 mots max...",placeholder_en:"1 to 3 words max...",
+   maxLen:40,maxWords:3},
   {id:"q2",type:"opentext",num:"2/3",
    fr:"Qu'est-ce qui freine le développement de l'ICN selon toi ?",
    en:"What's holding ICN back?",
@@ -1609,6 +1609,15 @@ function submitPoll(qid){
   const input = document.getElementById("poll-input-"+qid);
   const text = input.value.trim();
   if(!text) return;
+  // Check max words for wordcloud questions
+  const qDef = POLL_QUESTIONS.find(q=>q.id===qid);
+  if(qDef && qDef.maxWords){
+    const wordCount = text.split(/\s+/).filter(w=>w.length>0).length;
+    if(wordCount > qDef.maxWords){
+      alert(currentLang==="en" ? `Maximum ${qDef.maxWords} words!` : `Maximum ${qDef.maxWords} mots !`);
+      return;
+    }
+  }
   const uid = localStorage.getItem("icn_uid") || (()=>{const id="u_"+Math.random().toString(36).slice(2,10);localStorage.setItem("icn_uid",id);return id;})();
   const btn = document.getElementById("poll-send-"+qid);
   btn.disabled = true;
@@ -1748,10 +1757,8 @@ function renderPollResults(q, responses){
 function renderWordCloud(container, responses){
   const counts = {};
   responses.forEach(r=>{
-    r.text.toLowerCase().trim().split(/[\s,;.!?]+/).filter(w=>w.length>2).forEach(w=>{
-      const clean = w.replace(/[^a-zA-ZÀ-ÿ\-]/g,"");
-      if(clean.length>2) counts[clean] = (counts[clean]||0) + 1;
-    });
+    const expr = r.text.toLowerCase().trim().replace(/[;.!?]/g,"").trim();
+    if(expr.length > 0) counts[expr] = (counts[expr]||0) + 1;
   });
   const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,50);
   if(!sorted.length){container.innerHTML="";return;}
