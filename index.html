@@ -251,6 +251,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
   </div>
 </div>
 
+<div id="modeBanner" style="display:none;text-align:center;padding:6px 12px;font-weight:700;font-size:0.85em;letter-spacing:1px;"></div>
+
 <div class="tabs" id="tabs"></div>
 <div id="panels"></div>
 
@@ -1348,6 +1350,26 @@ initFirebase();
 // Restore language
 const savedLang = localStorage.getItem("icn_lang");
 if(savedLang) setLang(savedLang);
+
+// Mode banner
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const banner = document.getElementById("modeBanner");
+  if(!banner) return;
+  if(params.has("admin")){
+    banner.style.display = "";
+    banner.style.background = "#B71C1C";
+    banner.style.color = "#fff";
+    banner.textContent = "⚙️  MODE ADMIN — Régie sondages";
+    document.title = "🔴 ADMIN — ICN Creativ Day";
+  } else if(params.has("presenter")){
+    banner.style.display = "";
+    banner.style.background = "#1565C0";
+    banner.style.color = "#fff";
+    banner.textContent = "📺  MODE PRÉSENTATION — Affichage grand écran";
+    document.title = "📺 PRÉSENTATION — ICN Creativ Day";
+  }
+})();
 </script>
 </body>
 </html>
