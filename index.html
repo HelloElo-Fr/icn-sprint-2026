@@ -223,16 +223,60 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .adm-status.on{background:#4CAF50;box-shadow:0 0 6px #4CAF50;}
 .adm-status.off{background:#616161;}
 
+/* Journey Map Multi-phase */
+.jm-phase-label{text-align:center;font-size:0.82em;font-weight:700;color:#E65100;margin-bottom:8px;}
+.jm-phase-badge{display:inline-block;background:#E65100;color:#fff;padding:2px 10px;border-radius:12px;font-size:0.72em;margin-left:6px;}
+.jm-summary{background:#f8f9fa;border-radius:12px;padding:14px;margin-top:12px;}
+.jm-summary h4{font-size:0.88em;color:#263238;margin-bottom:10px;}
+.jm-summary-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #eee;font-size:0.8em;}
+.jm-summary-row:last-child{border-bottom:none;}
+.jm-summary-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.jm-summary-phase{font-weight:600;min-width:90px;}
+.jm-summary-loc{flex:1;}
+/* Admin JM controls */
+.adm-jm-section{background:#1a2327;border-radius:10px;padding:12px;margin-top:12px;}
+.adm-jm-section h4{font-size:0.88em;margin-bottom:10px;color:#90CAF9;}
+.adm-jm-phase-row{display:flex;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid #37474F;flex-wrap:wrap;}
+.adm-jm-phase-row:last-child{border-bottom:none;}
+.adm-jm-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.7em;font-weight:700;color:#fff;min-width:60px;text-align:center;}
+.adm-jm-badge.active{background:#4CAF50;animation:admPulse 1.5s infinite;}
+@keyframes admPulse{0%,100%{opacity:1}50%{opacity:.6}}
+.adm-jm-count{font-size:0.75em;color:#90CAF9;margin-left:auto;min-width:40px;text-align:right;}
+.hm-table{width:100%;border-collapse:collapse;font-size:0.72em;margin-top:10px;}
+.hm-table th{background:#37474F;color:#CFD8DC;padding:5px 4px;text-align:center;font-weight:600;}
+.hm-table td{padding:4px;text-align:center;border:1px solid #455A64;color:#fff;font-weight:600;}
+.hm-table td.hm-label{text-align:left;font-weight:700;padding-left:8px;}
+.evo-bars{margin-top:10px;}
+.evo-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:0.75em;color:#CFD8DC;}
+.evo-label{min-width:80px;font-weight:600;}
+.evo-bar-container{flex:1;display:flex;height:22px;border-radius:4px;overflow:hidden;background:#37474F;}
+.evo-bar-seg{height:100%;display:flex;align-items:center;justify-content:center;font-size:0.7em;font-weight:700;color:#fff;min-width:0;transition:width .5s;}
+.money-shot{background:#1a2327;border-radius:10px;padding:12px;margin-top:10px;text-align:center;}
+.money-shot .ms-number{font-size:2em;font-weight:800;color:#4CAF50;}
+.money-shot .ms-label{font-size:0.8em;color:#90CAF9;margin-top:4px;}
+/* Facilitateur tab */
+.fac-select{width:100%;padding:12px;border:2px solid #1565C0;border-radius:12px;font-size:1em;background:#fff;margin-bottom:14px;}
+.fac-team-card{background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;}
+.fac-team-hdr{padding:10px 14px;color:#fff;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:0.9em;}
+.fac-team-body{padding:12px 14px;}
+.fac-jm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px;}
+.fac-jm-btn{border:2px solid transparent;border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:all .2s;font-size:0.72em;font-weight:600;}
+.fac-jm-btn:hover{transform:scale(1.05);}
+.fac-jm-btn.selected{border-color:#263238;box-shadow:0 0 0 2px rgba(0,0,0,.15);}
+.fac-phase-info{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:#E3F2FD;border-radius:8px;font-size:0.82em;color:#0D47A1;font-weight:600;}
+.fac-phase-dot{width:10px;height:10px;border-radius:50%;background:#4CAF50;animation:admPulse 1.5s infinite;}
+.fac-no-phase{text-align:center;padding:20px;color:#607D8B;font-size:0.85em;}
+.fac-submitted{text-align:center;padding:8px;color:#2E7D32;font-size:0.82em;font-weight:600;}
 /* Responsive */
 @media(max-width:599px){
-  .jm-grid{grid-template-columns:repeat(2,1fr);}
+  .jm-grid,.fac-jm-grid{grid-template-columns:repeat(2,1fr);}
 }
 @media(min-width:600px){
   .stats{grid-template-columns:repeat(6,1fr);}
   .vg{grid-template-columns:1fr 1fr;}
   .eq-grid{grid-template-columns:1fr 1fr;}
   .rm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .jm-grid{grid-template-columns:repeat(5,1fr);}
+  .jm-grid,.fac-jm-grid{grid-template-columns:repeat(5,1fr);}
 }
 @media(min-width:900px){
   .vg{grid-template-columns:repeat(3,1fr);}
@@ -341,6 +385,27 @@ const VILLAGES = {
 
 const ROOM_NAMES = {"Conseil":"Salle du Conseil (1er)","101":"101 Marie Curie (1er)","107":"107 Charles Darwin (1er)","112":"112 Dorothy Vaughan (1er)","104":"104 Simone de Beauvoir (1er)","207":"207 Bobby Fisher (2eme)","205":"205 Emile Galle (2eme)","206":"206 Jean Prouve (2eme)","202":"202 Rosa Parks (2eme)"};
 
+// ============ FACILITATOR DATA ============
+const FAC_MAP = {
+  "Fac 1":{name:"Zeenat",fullName:"Zeenat Fayaz"},
+  "Fac 2":{name:"John-Edwin",fullName:"John-Edwin Graff"},
+  "Fac 3":{name:"Héloïse",fullName:"Héloïse Lemeillet"},
+  "Fac 4":{name:"Anne",fullName:"Anne Corbel-Trinh"},
+  "Fac 5":{name:"Nash",fullName:"Nash Hughes"}
+};
+const FAC_NAMES = Object.values(FAC_MAP).map(f=>f.name);
+
+// Journey Map phases configuration
+const JM_PHASES = [
+  {id:"jm-morning",fr:"Matin",en:"Morning",time:"10:35",type:"participant"},
+  {id:"jm-midday",fr:"Midi",en:"Midday",time:"12:00",type:"participant"},
+  {id:"jm-afternoon",fr:"Après-midi",en:"Afternoon",time:"16:15",type:"participant"},
+  {id:"fac-start",fr:"Fac Début",en:"Fac Start",time:"13:10",type:"facilitator"},
+  {id:"fac-end",fr:"Fac Fin",en:"Fac End",time:"15:06",type:"facilitator"}
+];
+const JM_PARTICIPANT_PHASES = JM_PHASES.filter(p=>p.type==="participant");
+const JM_FAC_PHASES = JM_PHASES.filter(p=>p.type==="facilitator");
+
 // ============ BUILD INDEX ============
 const nameIndex = {};
 TEAMS.forEach(t => {
@@ -352,6 +417,7 @@ TEAMS.forEach(t => {
 });
 
 // ============ RENDER ============
+const isFacMode = (()=>{const p=new URLSearchParams(window.location.search);return p.has("fac");})();
 const tabDefs = [
   {id:"overview",fr:"Accueil",en:"Home"},
   {id:"agenda",fr:"Agenda",en:"Agenda"},
@@ -359,7 +425,8 @@ const tabDefs = [
   {id:"equipes",fr:"Mon equipe",en:"My team"},
   {id:"phase1",fr:"Ma salle",en:"My room"},
   {id:"phase2",fr:"Mon village",en:"My village"},
-  {id:"finale",fr:"Pitch Final",en:"Final Pitch"}
+  {id:"finale",fr:"Pitch Final",en:"Final Pitch"},
+  ...(isFacMode ? [{id:"facilitateur",fr:"Facilitateur",en:"Facilitator"}] : [])
 ];
 
 function init(){
@@ -375,7 +442,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPolls() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale();
+  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPolls() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + (isFacMode ? buildFacilitateur() : "");
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -467,6 +534,45 @@ function buildPolls(){
       <button class="adm-btn adm-btn-export" onclick="exportPolls()">Exporter Excel</button>
       <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','all')">Tout fermer</button>
     </div></div>`;
+
+    // === ADMIN: Regie Journey Map ===
+    html += `<div class="adm-panel" id="admJmPanel">
+      <h3>Régie Journey Map</h3>`;
+    // Phase controls
+    JM_PHASES.forEach(ph=>{
+      const label = ph.type==="facilitator" ? `🎯 ${ph.fr} (${ph.time})` : `👤 ${ph.fr} (${ph.time})`;
+      html += `<div class="adm-jm-phase-row" id="adm-jm-row-${ph.id}">
+        <span class="adm-jm-badge" id="adm-jm-badge-${ph.id}" style="background:#616161;">${ph.fr}</span>
+        <span class="adm-label" style="font-size:0.78em;">${label}</span>
+        <span class="adm-jm-count" id="adm-jm-count-${ph.id}">0</span>
+        <button class="adm-btn adm-btn-go" onclick="jmPhaseAdmin('activate','${ph.id}','${ph.type}')">Lancer</button>
+        <button class="adm-btn adm-btn-stop" onclick="jmPhaseAdmin('deactivate','${ph.id}','${ph.type}')">Stop</button>
+        <button class="adm-btn adm-btn-danger" onclick="jmPhaseAdmin('reset','${ph.id}','${ph.type}')">RAZ</button>
+      </div>`;
+    });
+    // Heatmap
+    html += `<div class="adm-jm-section"><h4>Heatmap — Participants</h4>
+      <table class="hm-table" id="jmHeatmap">
+        <thead><tr><th></th>${JM_LOCATIONS.map(l=>`<th style="color:${l.color};">${l.nameFr}</th>`).join("")}<th>Total</th></tr></thead>
+        <tbody id="jmHeatmapBody"></tbody>
+      </table>
+    </div>`;
+    // Evolution view
+    html += `<div class="adm-jm-section"><h4>Évolution — Participants</h4>
+      <div class="evo-bars" id="jmEvolution"></div>
+      <div class="money-shot" id="jmMoneyShot" style="display:none;">
+        <div class="ms-number" id="jmMsNumber">—</div>
+        <div class="ms-label" id="jmMsLabel">ont avancé d'au moins une étape</div>
+      </div>
+    </div>`;
+    // Facilitator heatmap
+    html += `<div class="adm-jm-section"><h4>Heatmap — Facilitateurs</h4>
+      <table class="hm-table" id="jmFacHeatmap">
+        <thead><tr><th></th>${JM_LOCATIONS.map(l=>`<th style="color:${l.color};">${l.nameFr}</th>`).join("")}<th>Total</th></tr></thead>
+        <tbody id="jmFacHeatmapBody"></tbody>
+      </table>
+    </div>`;
+    html += `</div>`;
   }
 
   // Waiting screen
@@ -478,20 +584,27 @@ function buildPolls(){
 
   POLL_QUESTIONS.forEach(q=>{
     if(q.type==="journeymap"){
+      // Multi-phase Journey Map for participants
       html += `<div class="poll-q" id="poll-${q.id}">
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
           <h3 data-fr="${q.fr}" data-en="${q.en}">${q.fr}</h3>
         </div>
         <div class="poll-body">
-          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;" data-fr="Clique sur la zone qui te correspond" data-en="Tap the zone that fits you best">Clique sur la zone qui te correspond</p>
+          <div id="jm-active-phase-label" class="jm-phase-label" style="display:none;"></div>
+          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;" data-fr="Clique sur la zone qui te correspond" data-en="Tap the zone that fits you best" id="jmInstruction">Clique sur la zone qui te correspond</p>
           <div class="jm-grid" id="jmSelect" style="cursor:pointer;">
-            ${JM_LOCATIONS.map(loc=>`<div class="jm-loc jm-selectable" data-loc="${loc.id}" style="background:${loc.bg};border:2px solid ${loc.color}30;" onclick="submitJourneyMap('${loc.id}')">
+            ${JM_LOCATIONS.map(loc=>`<div class="jm-loc jm-selectable" data-loc="${loc.id}" style="background:${loc.bg};border:2px solid ${loc.color}30;" onclick="submitJourneyMapPhase('${loc.id}')">
               <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${loc.nameFr}</div>
             </div>`).join("")}
           </div>
+          <div id="jm-already-voted" class="poll-done" style="display:none;">
+            <div class="pd-icon">✅</div>
+            <div class="pd-text" data-fr="Vote enregistré pour cette phase !" data-en="Vote recorded for this phase!">Vote enregistré pour cette phase !</div>
+          </div>
           <div class="poll-count" id="poll-count-${q.id}"></div>
         </div>
+        <div id="jm-summary-container" style="margin-top:12px;"></div>
         <div id="poll-results-${q.id}" style="margin-top:12px;"></div>
       </div>`;
     } else {
@@ -724,6 +837,116 @@ function buildTransition(){
   </div>`;
 }
 
+// ============ FACILITATEUR TAB ============
+function buildFacilitateur(){
+  const params = new URLSearchParams(window.location.search);
+  const facParam = params.get("fac") || "";
+  const preselect = facParam === "1" ? "" : facParam;
+
+  let html = `<div class="pnl" id="p-facilitateur">
+  <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
+    <h2 style="font-size:1.05em;color:#1565C0;margin-bottom:6px;" data-fr="Facilitateur — Journey Map" data-en="Facilitator — Journey Map">Facilitateur — Journey Map</h2>
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;" data-fr="Evalue ou en est chaque equipe dans le voyage du changement." data-en="Evaluate where each team stands on the journey of change.">Evalue ou en est chaque equipe dans le voyage du changement.</p>
+  </div>
+  <select class="fac-select" id="facSelect" onchange="onFacSelect()">
+    <option value="">-- Choisis ton nom --</option>
+    ${FAC_NAMES.map(n=>`<option value="${n}" ${n===preselect?"selected":""}>${n}</option>`).join("")}
+  </select>
+  <div id="facPhaseInfo" class="fac-no-phase" data-fr="Aucune phase active" data-en="No active phase">Aucune phase active</div>
+  <div id="facTeamsList"></div>
+  </div>`;
+  return html;
+}
+
+function onFacSelect(){
+  const name = document.getElementById("facSelect").value;
+  if(name) localStorage.setItem("icn_fac_name", name);
+  renderFacTeams();
+}
+
+function renderFacTeams(){
+  const container = document.getElementById("facTeamsList");
+  if(!container) return;
+  const facName = document.getElementById("facSelect")?.value || localStorage.getItem("icn_fac_name") || "";
+  if(!facName){ container.innerHTML = ""; return; }
+
+  // Find which "Fac X" key maps to this name
+  const facKey = Object.keys(FAC_MAP).find(k=>FAC_MAP[k].name===facName);
+  if(!facKey){ container.innerHTML = `<p style="color:#C62828;font-size:0.85em;">Facilitateur non trouvé</p>`; return; }
+
+  const myTeams = TEAMS.filter(t=>t.fac===facKey);
+  const activePhase = window._facActivePhase || null;
+
+  let html = "";
+  myTeams.forEach(t=>{
+    html += `<div class="fac-team-card">
+      <div class="fac-team-hdr" style="background:${t.vColor};">
+        <span>${t.name}</span>
+        <span style="font-size:0.75em;opacity:.8;">${t.members.length} pers.</span>
+      </div>
+      <div class="fac-team-body" id="fac-team-${t.name.replace(/\s/g,'-')}">`;
+    if(!activePhase){
+      // Show previous votes summary
+      html += renderFacTeamSummary(t.name);
+    } else {
+      const voteKey = `icn_fac_${activePhase}_${t.name}`;
+      const alreadyVoted = localStorage.getItem(voteKey);
+      if(alreadyVoted){
+        const loc = JM_LOCATIONS.find(l=>l.id===alreadyVoted);
+        html += `<div class="fac-submitted">✅ ${loc ? (currentLang==="en"?loc.name:loc.nameFr) : alreadyVoted}</div>`;
+      } else {
+        html += `<div class="fac-jm-grid">
+          ${JM_LOCATIONS.map(loc=>`<div class="fac-jm-btn" data-loc="${loc.id}" data-team="${t.name}" style="background:${loc.bg};color:${loc.color};" onclick="submitFacJM('${t.name}','${loc.id}')">${currentLang==="en"?loc.name:loc.nameFr}</div>`).join("")}
+        </div>`;
+      }
+    }
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function renderFacTeamSummary(teamName){
+  let rows = "";
+  JM_FAC_PHASES.forEach(ph=>{
+    const voteKey = `icn_fac_${ph.id}_${teamName}`;
+    const vote = localStorage.getItem(voteKey);
+    if(vote){
+      const loc = JM_LOCATIONS.find(l=>l.id===vote);
+      if(loc){
+        rows += `<div class="jm-summary-row">
+          <div class="jm-summary-dot" style="background:${loc.color};"></div>
+          <div class="jm-summary-phase">${ph.fr}</div>
+          <div class="jm-summary-loc" style="color:${loc.color};font-weight:600;">${currentLang==="en"?loc.name:loc.nameFr}</div>
+        </div>`;
+      }
+    }
+  });
+  if(!rows) return `<div style="font-size:0.78em;color:#999;text-align:center;padding:8px;">Aucun vote</div>`;
+  return `<div class="jm-summary"><h4 style="font-size:0.78em;">Votes précédents</h4>${rows}</div>`;
+}
+
+function submitFacJM(teamName, locId){
+  if(!fbReady) return;
+  const activePhase = window._facActivePhase;
+  if(!activePhase) return alert("Aucune phase active");
+  const facName = document.getElementById("facSelect")?.value || localStorage.getItem("icn_fac_name") || "unknown";
+
+  fbDb.ref(`icn-polls/journey-map-facilitators/responses/${activePhase}/${teamName.replace(/\s/g,'_')}`).set({
+    location: locId,
+    facilitator: facName,
+    timestamp: Date.now()
+  }).then(()=>{
+    localStorage.setItem(`icn_fac_${activePhase}_${teamName}`, locId);
+    // Visual feedback
+    const container = document.getElementById(`fac-team-${teamName.replace(/\s/g,'-')}`);
+    if(container){
+      const loc = JM_LOCATIONS.find(l=>l.id===locId);
+      container.innerHTML = `<div class="fac-submitted">✅ ${loc ? (currentLang==="en"?loc.name:loc.nameFr) : locId}</div>`;
+    }
+  });
+}
+
 // ============ MODAL ============
 function showTeamModal(name){
   const t = TEAMS.find(x=>x.name===name);
@@ -831,7 +1054,7 @@ const CHAT_KB = {
   }
 };
 
-const GEMINI_KEY = "AIzaSyCJicAud0BPo04J7k16FVPcPY_f-M5qy7c";
+const GEMINI_KEY = "AIzaSyAepOBo-w3fncoWjg8jPrzR83OC4vco81A";
 const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+GEMINI_KEY;
 const CHAT_CONTEXT_BASE = `Tu es l'assistant du ICN Creativ Day, seminaire de transformation d'ICN Business School le 28 mars 2026 a Nancy (Station A). 187 participants, 22 equipes. Tutoie les gens. Sois concis (3-5 phrases max).
 
@@ -1011,7 +1234,7 @@ const POLL_QUESTIONS = [
 // Journey Map — 5 stages from the PPTX
 const JM_LOCATIONS = [
   {id:"basecamp",name:"Base Camp",nameFr:"Camp de base",color:"#2E7D32",bg:"#E8F5E9",keywords:["debut","start","depart","beginning","base"]},
-  {id:"doubt",name:"Harbour of Doubt",nameFr:"Le doute",color:"#5C6BC0",bg:"#E8EAF6",keywords:["doute","incertitude","hesitation","confusion","doubt","unclear","uncertain"]},
+  {id:"doubt",name:"Harbour of Doubt",nameFr:"Le doute",color:"#5C6BC0",bg:"#EDE7F6",keywords:["doute","incertitude","hesitation","confusion","doubt","unclear","uncertain"]},
   {id:"fear",name:"Forest of Fear",nameFr:"La peur",color:"#E53935",bg:"#FFEBEE",keywords:["peur","risque","crainte","anxiete","fear","risk","afraid","anxiety"]},
   {id:"effort",name:"Mountains of Misery & Magic",nameFr:"L'effort",color:"#E65100",bg:"#FFF3E0",keywords:["effort","travail","dur","difficile","hard","struggle","misery","magic"]},
   {id:"brilliance",name:"Bay of Brilliance",nameFr:"La reussite",color:"#F9A825",bg:"#FFFDE7",keywords:["reussite","succes","brillant","excellence","success","brilliance","top"]}
@@ -1130,7 +1353,21 @@ function showThankYouScreen(){
 function listenPolls(){
   if(!fbReady) return;
   POLL_QUESTIONS.forEach(q=>{
-    // Listen responses
+    if(q.type==="journeymap"){
+      // q3 journey map: active state now handled by listenJmPhases
+      // Still listen to old q3 active for backwards compat
+      fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
+        const active = snap.val() === true;
+        // The q3 poll visibility is now driven by JM active-phase
+        // But keep admin status indicator in sync
+        const st = document.getElementById("adm-st-"+q.id);
+        if(st){st.classList.toggle("on",active);st.classList.toggle("off",!active);}
+        updateWaitingScreen();
+      });
+      // Don't listen to old q3 responses — multi-phase handles it
+      return;
+    }
+    // Listen responses for non-JM questions
     fbDb.ref("icn-polls/responses/"+q.id).on("value", snap=>{
       const data = snap.val();
       const responses = data ? Object.values(data) : [];
@@ -1138,7 +1375,6 @@ function listenPolls(){
       const countEl = document.getElementById("poll-count-"+q.id);
       if(countEl) countEl.textContent = responses.length + " reponse" + (responses.length>1?"s":"");
       renderPollResults(q, responses);
-      if(q.id === "q3") updateJourneyMap(responses);
     });
     // Listen active state — one question at a time
     fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
@@ -1150,20 +1386,24 @@ function listenPolls(){
       if(st){st.classList.toggle("on",active);st.classList.toggle("off",!active);}
       // Show/hide waiting screen
       updateWaitingScreen();
-      // Show journey map when q3 is active or has responses
-      const jm = document.getElementById("jmBox");
-      if(jm && q.id==="q3") jm.classList.toggle("visible", active || (pollCache.q3 && pollCache.q3.length>0));
     });
   });
+  // Start multi-phase JM listeners
+  listenJmPhases();
 }
 
 function updateWaitingScreen(){
   const waiting = document.getElementById("pollWaiting");
   if(!waiting) return;
-  const anyActive = POLL_QUESTIONS.some(q=>{
+  const anyPollActive = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").some(q=>{
     const el = document.getElementById("poll-"+q.id);
     return el && el.classList.contains("active");
   });
+  const jmActive = !!window._jmActivePhase;
+  const anyActive = anyPollActive || jmActive;
+  // Also check if q3 is shown (JM phase active)
+  const q3El = document.getElementById("poll-q3");
+  if(q3El) q3El.classList.toggle("active", jmActive);
   waiting.style.display = anyActive ? "none" : "";
 }
 
@@ -1200,22 +1440,99 @@ function renderOpenText(container, responses){
 
 function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
+// Multi-phase JM state
+window._jmActivePhase = null; // current active participant phase id or null
+window._facActivePhase = null; // current active facilitator phase id or null
+const jmPhaseResponses = {}; // {phaseId: [{location, timestamp}, ...]}
+const jmFacPhaseResponses = {}; // {phaseId: {teamName: {location, facilitator, timestamp}}}
+
 function submitJourneyMap(locId){
+  // Legacy — redirects to multi-phase
+  submitJourneyMapPhase(locId);
+}
+
+function submitJourneyMapPhase(locId){
   if(!fbReady) return;
-  const uid = localStorage.getItem("icn_uid") || (()=>{const id="u_"+Math.random().toString(36).slice(2,10);localStorage.setItem("icn_uid",id);return id;})();
-  fbDb.ref("icn-polls/responses/q3").push({
-    text: locId, uid: uid, ts: Date.now()
+  const phase = window._jmActivePhase;
+  if(!phase) return;
+  const voteKey = `icn_jm_${phase}_voted`;
+  if(localStorage.getItem(voteKey)) return; // already voted this phase
+
+  fbDb.ref(`icn-polls/journey-map/responses/${phase}`).push({
+    location: locId,
+    timestamp: Date.now()
+  }).then(()=>{
+    localStorage.setItem(voteKey, locId);
+    // Visual feedback
+    document.querySelectorAll(".jm-selectable").forEach(el=>{
+      el.style.opacity = el.dataset.loc===locId ? "1" : "0.4";
+      el.style.transform = el.dataset.loc===locId ? "scale(1.05)" : "scale(0.95)";
+    });
+    setTimeout(()=>{
+      document.querySelectorAll(".jm-selectable").forEach(el=>{el.style.opacity="1";el.style.transform="";});
+      updateJmParticipantView();
+    }, 1200);
   });
-  localStorage.setItem("icn_voted_q3", "1");
-  // Visual feedback — highlight selected
-  document.querySelectorAll(".jm-selectable").forEach(el=>{
-    el.style.opacity = el.dataset.loc===locId ? "1" : "0.4";
-    el.style.transform = el.dataset.loc===locId ? "scale(1.05)" : "scale(0.95)";
-  });
-  setTimeout(()=>{
-    document.querySelectorAll(".jm-selectable").forEach(el=>{el.style.opacity="1";el.style.transform="";});
-    autoAdvancePoll("q3");
-  }, 1500);
+}
+
+function updateJmParticipantView(){
+  const phase = window._jmActivePhase;
+  const selectGrid = document.getElementById("jmSelect");
+  const votedDiv = document.getElementById("jm-already-voted");
+  const instruction = document.getElementById("jmInstruction");
+  const phaseLabel = document.getElementById("jm-active-phase-label");
+  const summaryContainer = document.getElementById("jm-summary-container");
+
+  if(!phase){
+    // No active phase — show summary of previous votes
+    if(selectGrid) selectGrid.style.display = "none";
+    if(votedDiv) votedDiv.style.display = "none";
+    if(instruction) instruction.style.display = "none";
+    if(phaseLabel) phaseLabel.style.display = "none";
+    // Build summary
+    if(summaryContainer){
+      let rows = "";
+      JM_PARTICIPANT_PHASES.forEach(ph=>{
+        const vote = localStorage.getItem(`icn_jm_${ph.id}_voted`);
+        if(vote){
+          const loc = JM_LOCATIONS.find(l=>l.id===vote);
+          if(loc){
+            rows += `<div class="jm-summary-row">
+              <div class="jm-summary-dot" style="background:${loc.color};"></div>
+              <div class="jm-summary-phase">${ph.fr} (${ph.time})</div>
+              <div class="jm-summary-loc" style="color:${loc.color};font-weight:600;">${currentLang==="en"?loc.name:loc.nameFr}</div>
+            </div>`;
+          }
+        }
+      });
+      if(rows){
+        summaryContainer.innerHTML = `<div class="jm-summary"><h4 data-fr="Ton parcours" data-en="Your journey">${currentLang==="en"?"Your journey":"Ton parcours"}</h4>${rows}</div>`;
+      } else {
+        summaryContainer.innerHTML = "";
+      }
+    }
+    return;
+  }
+
+  // Active phase
+  if(summaryContainer) summaryContainer.innerHTML = "";
+  const phaseObj = JM_PARTICIPANT_PHASES.find(p=>p.id===phase);
+  if(phaseLabel && phaseObj){
+    phaseLabel.style.display = "";
+    phaseLabel.innerHTML = `${currentLang==="en"?phaseObj.en:phaseObj.fr} <span class="jm-phase-badge">${phaseObj.time}</span>`;
+  }
+
+  const voteKey = `icn_jm_${phase}_voted`;
+  if(localStorage.getItem(voteKey)){
+    // Already voted
+    if(selectGrid) selectGrid.style.display = "none";
+    if(votedDiv) votedDiv.style.display = "";
+    if(instruction) instruction.style.display = "none";
+  } else {
+    if(selectGrid) selectGrid.style.display = "";
+    if(votedDiv) votedDiv.style.display = "none";
+    if(instruction) instruction.style.display = "";
+  }
 }
 
 function updateJourneyMap(responses){
@@ -1271,6 +1588,261 @@ function pollAdmin(action, target){
       location.reload();
     }
   }
+}
+
+// ============ JM PHASE ADMIN ============
+function jmPhaseAdmin(action, phaseId, phaseType){
+  if(!fbReady) return;
+  const basePath = phaseType==="facilitator" ? "icn-polls/journey-map-facilitators" : "icn-polls/journey-map";
+
+  if(action==="activate"){
+    // Set this phase as active, deactivate others of same type
+    fbDb.ref(`${basePath}/active-phase`).set(phaseId);
+  } else if(action==="deactivate"){
+    fbDb.ref(`${basePath}/active-phase`).set(null);
+  } else if(action==="reset"){
+    if(confirm(`Supprimer les réponses de ${phaseId} ?`)){
+      fbDb.ref(`${basePath}/responses/${phaseId}`).remove();
+      // Clear localStorage for this phase
+      if(phaseType==="participant"){
+        localStorage.removeItem(`icn_jm_${phaseId}_voted`);
+      } else {
+        TEAMS.forEach(t=>localStorage.removeItem(`icn_fac_${phaseId}_${t.name}`));
+      }
+    }
+  }
+}
+
+// ============ JM FIREBASE LISTENERS ============
+function listenJmPhases(){
+  if(!fbReady) return;
+
+  // --- Participant phases ---
+  fbDb.ref("icn-polls/journey-map/active-phase").on("value", snap=>{
+    const phase = snap.val() || null;
+    window._jmActivePhase = phase;
+    // Update admin badges
+    JM_PARTICIPANT_PHASES.forEach(ph=>{
+      const badge = document.getElementById(`adm-jm-badge-${ph.id}`);
+      if(badge){
+        badge.classList.toggle("active", ph.id===phase);
+        badge.style.background = ph.id===phase ? "#4CAF50" : "#616161";
+      }
+    });
+    // Update participant view
+    const q3El = document.getElementById("poll-q3");
+    if(phase){
+      // Show q3 poll if a JM phase is active
+      const el = document.getElementById("poll-q3");
+      if(el) el.classList.add("active");
+    }
+    updateJmParticipantView();
+    updateWaitingScreen();
+    // Show jmBox when any phase has data
+    const jmBox = document.getElementById("jmBox");
+    if(jmBox){
+      const hasData = Object.values(jmPhaseResponses).some(arr=>arr&&arr.length>0);
+      jmBox.classList.toggle("visible", !!phase || hasData);
+    }
+  });
+
+  // Listen to each participant phase responses
+  JM_PARTICIPANT_PHASES.forEach(ph=>{
+    fbDb.ref(`icn-polls/journey-map/responses/${ph.id}`).on("value", snap=>{
+      const data = snap.val();
+      const responses = data ? Object.values(data) : [];
+      jmPhaseResponses[ph.id] = responses;
+      // Update admin count
+      const countEl = document.getElementById(`adm-jm-count-${ph.id}`);
+      if(countEl) countEl.textContent = responses.length;
+      // Update heatmap, evolution, money shot
+      updateJmAdminHeatmap();
+      updateJmEvolution();
+      // Update the live results grid (aggregate all participant phases for display)
+      updateJourneyMapAggregate();
+      // Update q3 poll count
+      const totalResponses = JM_PARTICIPANT_PHASES.reduce((s,p)=>{
+        return s + (jmPhaseResponses[p.id]||[]).length;
+      }, 0);
+      const pollCount = document.getElementById("poll-count-q3");
+      if(pollCount) pollCount.textContent = totalResponses + " réponse" + (totalResponses>1?"s":"");
+    });
+  });
+
+  // --- Facilitator phases ---
+  fbDb.ref("icn-polls/journey-map-facilitators/active-phase").on("value", snap=>{
+    const phase = snap.val() || null;
+    window._facActivePhase = phase;
+    // Update admin badges
+    JM_FAC_PHASES.forEach(ph=>{
+      const badge = document.getElementById(`adm-jm-badge-${ph.id}`);
+      if(badge){
+        badge.classList.toggle("active", ph.id===phase);
+        badge.style.background = ph.id===phase ? "#4CAF50" : "#616161";
+      }
+    });
+    // Update facilitator tab
+    const phaseInfo = document.getElementById("facPhaseInfo");
+    if(phaseInfo){
+      if(phase){
+        const phObj = JM_FAC_PHASES.find(p=>p.id===phase);
+        phaseInfo.className = "fac-phase-info";
+        phaseInfo.innerHTML = `<div class="fac-phase-dot"></div> Phase active : <strong>${phObj?phObj.fr:phase}</strong> (${phObj?phObj.time:""})`;
+      } else {
+        phaseInfo.className = "fac-no-phase";
+        phaseInfo.textContent = currentLang==="en" ? "No active phase" : "Aucune phase active";
+      }
+    }
+    renderFacTeams();
+  });
+
+  // Listen to each facilitator phase responses
+  JM_FAC_PHASES.forEach(ph=>{
+    fbDb.ref(`icn-polls/journey-map-facilitators/responses/${ph.id}`).on("value", snap=>{
+      const data = snap.val();
+      jmFacPhaseResponses[ph.id] = data || {};
+      // Update admin count
+      const countEl = document.getElementById(`adm-jm-count-${ph.id}`);
+      if(countEl) countEl.textContent = Object.keys(jmFacPhaseResponses[ph.id]).length;
+      // Update facilitator heatmap
+      updateJmFacHeatmap();
+    });
+  });
+}
+
+function updateJourneyMapAggregate(){
+  // Show the most recent active phase's data in the live results grid
+  const grid = document.getElementById("jmGrid");
+  const box = document.getElementById("jmBox");
+  if(!grid) return;
+
+  // Aggregate: show the active phase data, or most recent phase with data
+  let displayPhase = window._jmActivePhase;
+  if(!displayPhase){
+    // Find most recent phase with data
+    for(let i=JM_PARTICIPANT_PHASES.length-1;i>=0;i--){
+      if((jmPhaseResponses[JM_PARTICIPANT_PHASES[i].id]||[]).length>0){
+        displayPhase = JM_PARTICIPANT_PHASES[i].id;
+        break;
+      }
+    }
+  }
+  if(!displayPhase){
+    grid.innerHTML = JM_LOCATIONS.map(loc=>`<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}20;">
+      <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${currentLang==="en"?loc.name:loc.nameFr}</div>
+      <div class="jm-c" style="color:${loc.color};">—</div>
+    </div>`).join("");
+    return;
+  }
+  if(box) box.classList.add("visible");
+  const responses = jmPhaseResponses[displayPhase] || [];
+  const locCounts = {};
+  JM_LOCATIONS.forEach(l=>locCounts[l.id]=0);
+  responses.forEach(r=>{
+    if(locCounts[r.location]!==undefined) locCounts[r.location]++;
+  });
+  const phObj = JM_PARTICIPANT_PHASES.find(p=>p.id===displayPhase);
+  grid.innerHTML = JM_LOCATIONS.map(loc=>{
+    const count = locCounts[loc.id]||0;
+    return `<div class="jm-loc" style="background:${loc.bg};border:2px solid ${loc.color}${count>0?'50':'15'};">
+      <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${currentLang==="en"?loc.name:loc.nameFr}</div>
+      <div class="jm-c" style="color:${loc.color};">${count||"—"}</div>
+      ${phObj?`<div class="jm-l" style="color:${loc.color};">${phObj.fr}</div>`:""}
+    </div>`;
+  }).join("");
+}
+
+function updateJmAdminHeatmap(){
+  const tbody = document.getElementById("jmHeatmapBody");
+  if(!tbody) return;
+  let html = "";
+  JM_PARTICIPANT_PHASES.forEach(ph=>{
+    const responses = jmPhaseResponses[ph.id] || [];
+    const total = responses.length;
+    const counts = {};
+    JM_LOCATIONS.forEach(l=>counts[l.id]=0);
+    responses.forEach(r=>{if(counts[r.location]!==undefined) counts[r.location]++;});
+    html += `<tr><td class="hm-label">${ph.fr} (${ph.time})</td>`;
+    JM_LOCATIONS.forEach(loc=>{
+      const c = counts[loc.id]||0;
+      const pct = total>0 ? Math.round(c/total*100) : 0;
+      const opacity = total>0 ? Math.max(0.15, c/total) : 0.1;
+      html += `<td style="background:${loc.color}${Math.round(opacity*255).toString(16).padStart(2,'0')};">${c}<br><span style="font-size:0.8em;opacity:.7;">${pct}%</span></td>`;
+    });
+    html += `<td style="background:#455A64;">${total}</td></tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+function updateJmEvolution(){
+  const container = document.getElementById("jmEvolution");
+  const msContainer = document.getElementById("jmMoneyShot");
+  if(!container) return;
+  let html = "";
+  const locColors = {};
+  JM_LOCATIONS.forEach(l=>locColors[l.id]=l.color);
+  const locIndex = {};
+  JM_LOCATIONS.forEach((l,i)=>locIndex[l.id]=i);
+
+  JM_PARTICIPANT_PHASES.forEach(ph=>{
+    const responses = jmPhaseResponses[ph.id] || [];
+    const total = responses.length || 1;
+    const counts = {};
+    JM_LOCATIONS.forEach(l=>counts[l.id]=0);
+    responses.forEach(r=>{if(counts[r.location]!==undefined) counts[r.location]++;});
+    html += `<div class="evo-row"><div class="evo-label">${ph.fr}</div><div class="evo-bar-container">`;
+    JM_LOCATIONS.forEach(loc=>{
+      const pct = Math.round((counts[loc.id]||0)/total*100);
+      if(pct>0) html += `<div class="evo-bar-seg" style="width:${pct}%;background:${loc.color};">${pct>8?pct+"%":""}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+
+  // Money shot: compare first and last participant phase
+  if(msContainer){
+    const first = jmPhaseResponses[JM_PARTICIPANT_PHASES[0]?.id] || [];
+    const last = jmPhaseResponses[JM_PARTICIPANT_PHASES[JM_PARTICIPANT_PHASES.length-1]?.id] || [];
+    if(first.length>0 && last.length>0){
+      // Average position
+      const avgFirst = first.reduce((s,r)=>(s+(locIndex[r.location]||0)),0)/first.length;
+      const avgLast = last.reduce((s,r)=>(s+(locIndex[r.location]||0)),0)/last.length;
+      // Count advanced
+      // Can't track individuals across phases, so compare distributions
+      // "X% ont avancé" = % of last phase responses that are further than the first phase median
+      const medianFirst = avgFirst;
+      const advanced = last.filter(r=>(locIndex[r.location]||0) > medianFirst).length;
+      const pct = Math.round(advanced/last.length*100);
+      msContainer.style.display = "";
+      document.getElementById("jmMsNumber").textContent = pct + "%";
+      document.getElementById("jmMsLabel").textContent = "ont avancé d'au moins une étape";
+    } else {
+      msContainer.style.display = "none";
+    }
+  }
+}
+
+function updateJmFacHeatmap(){
+  const tbody = document.getElementById("jmFacHeatmapBody");
+  if(!tbody) return;
+  let html = "";
+  JM_FAC_PHASES.forEach(ph=>{
+    const data = jmFacPhaseResponses[ph.id] || {};
+    const entries = Object.values(data);
+    const total = entries.length;
+    const counts = {};
+    JM_LOCATIONS.forEach(l=>counts[l.id]=0);
+    entries.forEach(r=>{if(r.location && counts[r.location]!==undefined) counts[r.location]++;});
+    html += `<tr><td class="hm-label">${ph.fr} (${ph.time})</td>`;
+    JM_LOCATIONS.forEach(loc=>{
+      const c = counts[loc.id]||0;
+      const pct = total>0 ? Math.round(c/total*100) : 0;
+      const opacity = total>0 ? Math.max(0.15, c/total) : 0.1;
+      html += `<td style="background:${loc.color}${Math.round(opacity*255).toString(16).padStart(2,'0')};">${c}<br><span style="font-size:0.8em;opacity:.7;">${pct}%</span></td>`;
+    });
+    html += `<td style="background:#455A64;">${total}</td></tr>`;
+  });
+  tbody.innerHTML = html;
 }
 
 // Export to Excel (CSV download)
@@ -1352,6 +1924,17 @@ initFirebase();
 const savedLang = localStorage.getItem("icn_lang");
 if(savedLang) setLang(savedLang);
 
+// Init facilitator select from localStorage
+(function(){
+  const facSelect = document.getElementById("facSelect");
+  if(facSelect){
+    const saved = localStorage.getItem("icn_fac_name");
+    if(saved && !facSelect.value){
+      facSelect.value = saved;
+    }
+  }
+})();
+
 // Mode banner
 (function(){
   const params = new URLSearchParams(window.location.search);
@@ -1369,6 +1952,13 @@ if(savedLang) setLang(savedLang);
     banner.style.color = "#fff";
     banner.textContent = "📺  MODE PRÉSENTATION — Affichage grand écran";
     document.title = "📺 PRÉSENTATION — ICN Creativ Day";
+  } else if(params.has("fac")){
+    banner.style.display = "";
+    banner.style.background = "#1B5E20";
+    banner.style.color = "#fff";
+    const facVal = params.get("fac");
+    banner.textContent = "🎯  MODE FACILITATEUR" + (facVal && facVal!=="1" ? " — " + facVal : "");
+    document.title = "🎯 FACILITATEUR — ICN Creativ Day";
   }
 })();
 </script>
