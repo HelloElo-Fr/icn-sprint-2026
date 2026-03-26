@@ -524,6 +524,34 @@ function buildPolls(){
   let html = `<div class="pnl" id="p-polls">`;
 
   if(isAdmin){
+    const base = "https://helloelo-fr.github.io/icn-sprint-2026/";
+    const links = [
+      {label:"Participants",url:base,icon:"📱",desc:"URL à partager / QR code"},
+      {label:"Admin — Régie",url:base+"?admin",icon:"⚙️",desc:"Lancer/stopper les sondages"},
+      {label:"Présentation",url:base+"?presenter",icon:"📺",desc:"Affichage grand écran"},
+      {label:"Fac — Zeenat",url:base+"?fac=Zeenat",icon:"🎯",desc:"V5 Cyan"},
+      {label:"Fac — John-Edwin",url:base+"?fac=John-Edwin",icon:"🎯",desc:"V3 Orange"},
+      {label:"Fac — Héloïse",url:base+"?fac=Héloïse",icon:"🎯",desc:"V2 Violet"},
+      {label:"Fac — Anne",url:base+"?fac=Anne",icon:"🎯",desc:"V1 Vert"},
+      {label:"Fac — Nash",url:base+"?fac=Nash",icon:"🎯",desc:"V4 Rose"},
+    ];
+    html += `<div class="adm-panel" style="background:#1a237e;margin-bottom:16px;">
+      <h3 style="margin-bottom:12px;">🔗 Super Admin — Tous les liens</h3>
+      <div style="display:grid;gap:6px;">
+      ${links.map(l=>`<div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border-radius:8px;padding:8px 12px;">
+        <span style="font-size:1.2em;">${l.icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:0.85em;">${l.label}</div>
+          <div style="font-size:0.65em;opacity:.6;">${l.desc}</div>
+        </div>
+        <a href="${l.url}" target="_blank" style="color:#90CAF9;font-size:0.7em;word-break:break-all;text-decoration:none;max-width:45%;" title="${l.url}">${l.url.replace(base,"…/")}</a>
+        <button onclick="navigator.clipboard.writeText('${l.url}');this.textContent='✓';setTimeout(()=>this.textContent='📋',1500)" style="background:#1565C0;color:#fff;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:0.8em;" title="Copier">📋</button>
+      </div>`).join("")}
+      </div>
+      <div style="margin-top:10px;text-align:center;">
+        <button onclick="const t=document.querySelectorAll('.adm-panel a[target]');const urls=[...t].map(a=>a.href).join('\\n');navigator.clipboard.writeText(urls);this.textContent='✓ Copié !';setTimeout(()=>this.textContent='📋 Copier tous les liens',1500)" style="background:#2196F3;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.8em;">📋 Copier tous les liens</button>
+      </div>
+    </div>`;
     html += `<div class="adm-panel" id="admPanel">
       <h3>Regie sondages</h3>`;
     POLL_QUESTIONS.forEach(q=>{
