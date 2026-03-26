@@ -330,10 +330,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
     <span class="close" id="chatClose">&#10005;</span>
   </div>
   <div class="chat-msgs" id="chatMsgs">
-    <div class="chat-msg bot">Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d'equipe</strong>, ou un sujet (<em>programme, wifi, dejeuner, methode...</em>).</div>
+    <div class="chat-msg bot">Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d'équipe</strong>, ou un sujet (<em>programme, wifi, déjeuner, méthode...</em>).</div>
   </div>
   <div class="chat-input">
-    <input type="text" id="chatIn" placeholder="Nom, equipe, ou sujet..." autocomplete="off">
+    <input type="text" id="chatIn" placeholder="Nom, équipe, ou sujet..." autocomplete="off">
     <button id="chatSend">&#10148;</button>
   </div>
 </div>
@@ -442,7 +442,7 @@ const tabDefs = [
   {id:"overview",fr:"Accueil",en:"Home"},
   {id:"agenda",fr:"Agenda",en:"Agenda"},
   {id:"polls",fr:"Sondages",en:"Polls"},
-  {id:"equipes",fr:"Mon equipe",en:"My team"},
+  {id:"equipes",fr:"Mon équipe",en:"My team"},
   {id:"phase1",fr:"Ma salle",en:"My room"},
   {id:"phase2",fr:"Mon village",en:"My village"},
   {id:"finale",fr:"Pitch Final",en:"Final Pitch"},
@@ -493,7 +493,7 @@ function buildOverview(){
   <div style="background:linear-gradient(135deg,#E65100,#F57F17);border-radius:14px;padding:20px;margin-bottom:16px;color:#fff;text-align:center;">
     <div style="font-size:2em;margin-bottom:8px;">&#127919;</div>
     <h2 style="font-size:1.15em;margin-bottom:8px;" data-fr="Bienvenue au Creativ Day !" data-en="Welcome to ICN Creativ Day!">Bienvenue au Creativ Day !</h2>
-    <p style="font-size:0.85em;opacity:.9;line-height:1.5;" data-fr="187 collaborateurs, 22 equipes, une journee pour imaginer l'ICN de demain." data-en="187 colleagues, 22 teams, one day to shape the future of ICN.">187 collaborateurs, 22 equipes, une journee pour imaginer l'ICN de demain.</p>
+    <p style="font-size:0.85em;opacity:.9;line-height:1.5;" data-fr="187 collaborateurs, 22 équipes, une journée pour imaginer l'ICN de demain." data-en="187 colleagues, 22 teams, one day to shape the future of ICN.">187 collaborateurs, 22 équipes, une journée pour imaginer l'ICN de demain.</p>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
     <div onclick="switchTab('agenda')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
@@ -508,13 +508,13 @@ function buildOverview(){
     </div>
     <div onclick="switchTab('equipes')" style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128101;</div>
-      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;" data-fr="Mon equipe" data-en="My team">Mon equipe</div>
-      <div style="font-size:0.68em;color:#607D8B;" data-fr="Trouve tes coequipiers" data-en="Find your teammates">Trouve tes coequipiers</div>
+      <div style="font-weight:700;font-size:0.82em;color:#2E7D32;" data-fr="Mon équipe" data-en="My team">Mon équipe</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Trouve tes coéquipiers" data-en="Find your teammates">Trouve tes coéquipiers</div>
     </div>
     <div onclick="switchTab('phase1')" style="background:#F3E5F5;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127970;</div>
       <div style="font-weight:700;font-size:0.82em;color:#7B1FA2;" data-fr="Ma salle" data-en="My room">Ma salle</div>
-      <div style="font-size:0.68em;color:#607D8B;" data-fr="Ou aller ?" data-en="Where to go?">Ou aller ?</div>
+      <div style="font-size:0.68em;color:#607D8B;" data-fr="Où aller ?" data-en="Where to go?">Où aller ?</div>
     </div>
     <div onclick="switchTab('phase2')" style="background:#E0F7FA;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#127963;</div>
@@ -528,7 +528,7 @@ function buildOverview(){
     </div>
   </div>
   <div style="background:#ECEFF1;border-radius:12px;padding:14px;font-size:0.8em;color:#455A64;text-align:center;line-height:1.5;">
-    <span data-fr="Perdu ? Clique sur le bouton rose en bas a droite pour trouver ta salle et ton equipe." data-en="Lost? Tap the pink button below to find your room and team.">Perdu ? Clique sur le bouton rose en bas a droite pour trouver ta salle et ton equipe.</span>
+    <span data-fr="Perdu ? Clique sur le bouton rose en bas à droite pour trouver ta salle et ton équipe." data-en="Lost? Tap the pink button below to find your room and team.">Perdu ? Clique sur le bouton rose en bas à droite pour trouver ta salle et ton équipe.</span>
   </div>
   </div>`;
 }
@@ -628,8 +628,8 @@ function buildPolls(){
   // Waiting screen
   html += `<div class="poll-waiting" id="pollWaiting">
     <div class="pw-icon">&#9997;</div>
-    <div class="pw-title" data-fr="Les sondages arrivent..." data-en="Polls are coming...">Les sondages arrivent...</div>
-    <div class="pw-sub" data-fr="Reste sur cette page, ca va commencer." data-en="Stay on this page, it's about to start.">Reste sur cette page, ca va commencer.</div>
+    <div class="pw-title" data-fr="Les sondages arrivent…" data-en="Polls are coming...">Les sondages arrivent…</div>
+    <div class="pw-sub" data-fr="Reste sur cette page, ça va commencer." data-en="Stay on this page, it's about to start.">Reste sur cette page, ça va commencer.</div>
   </div>`;
 
   POLL_QUESTIONS.forEach(q=>{
@@ -642,11 +642,15 @@ function buildPolls(){
         </div>
         <div class="poll-body">
           <div id="jm-active-phase-label" class="jm-phase-label" style="display:none;"></div>
-          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;" data-fr="Clique sur la zone qui te correspond" data-en="Tap the zone that fits you best" id="jmInstruction">Clique sur la zone qui te correspond</p>
+          <img src="journey-map.jpg" alt="Journey Map" style="width:100%;border-radius:10px;margin-bottom:12px;">
+          <p style="font-size:0.8em;color:#607D8B;margin-bottom:10px;" data-fr="Sélectionne l'étape qui te correspond, puis valide" data-en="Select the stage that fits you, then confirm" id="jmInstruction">Sélectionne l'étape qui te correspond, puis valide</p>
           <div class="jm-grid" id="jmSelect" style="cursor:pointer;">
-            ${JM_LOCATIONS.map(loc=>`<div class="jm-loc jm-selectable" data-loc="${loc.id}" style="background:${loc.bg};border:2px solid ${loc.color}30;" onclick="submitJourneyMapPhase('${loc.id}')">
+            ${JM_LOCATIONS.map(loc=>`<div class="jm-loc jm-selectable" data-loc="${loc.id}" style="background:${loc.bg};border:2px solid ${loc.color}30;" onclick="selectJmLoc('${loc.id}')">
               <div class="jm-n" style="color:${loc.color};" data-fr="${loc.nameFr}" data-en="${loc.name}">${loc.nameFr}</div>
             </div>`).join("")}
+          </div>
+          <div style="text-align:center;margin-top:12px;">
+            <button id="jmValidateBtn" onclick="validateJmSelection()" disabled style="background:#9E9E9E;color:#fff;border:none;border-radius:12px;padding:12px 32px;font-size:1em;font-weight:700;cursor:pointer;transition:all .2s;" data-fr="Valider mon choix" data-en="Confirm my choice">Valider mon choix</button>
           </div>
           <div id="jm-already-voted" class="poll-done" style="display:none;">
             <div class="pd-icon">✅</div>
@@ -1096,8 +1100,12 @@ function renderFacTeams(){
         const loc = JM_LOCATIONS.find(l=>l.id===alreadyVoted);
         cardHtml += `<div class="fac-submitted">✅ ${loc ? (currentLang==="en"?loc.name:loc.nameFr) : alreadyVoted}</div>`;
       } else {
-        cardHtml += `<div class="fac-jm-grid">
-          ${JM_LOCATIONS.map(loc=>`<div class="fac-jm-btn" data-loc="${loc.id}" data-team="${t.name}" style="background:${loc.bg};color:${loc.color};" onclick="submitFacJM('${t.name}','${loc.id}')">${currentLang==="en"?loc.name:loc.nameFr}</div>`).join("")}
+        const ts = t.name.replace(/\s/g,'-');
+        cardHtml += `<div class="fac-jm-grid" id="fac-jm-grid-${ts}">
+          ${JM_LOCATIONS.map(loc=>`<div class="fac-jm-btn" data-loc="${loc.id}" data-team="${t.name}" style="background:${loc.bg};color:${loc.color};" onclick="selectFacJmLoc('${ts}','${loc.id}')">${currentLang==="en"?loc.name:loc.nameFr}</div>`).join("")}
+        </div>
+        <div style="text-align:center;margin-top:6px;">
+          <button id="fac-validate-${ts}" onclick="validateFacJmSelection('${t.name}','${ts}')" disabled style="background:#9E9E9E;color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:0.8em;cursor:pointer;">Valider</button>
         </div>`;
       }
     }
@@ -1132,6 +1140,28 @@ function renderFacTeamSummary(teamName){
   });
   if(!rows) return `<div style="font-size:0.78em;color:#999;text-align:center;padding:8px;">Aucun vote</div>`;
   return `<div class="jm-summary"><h4 style="font-size:0.78em;">Votes précédents</h4>${rows}</div>`;
+}
+
+const _facJmSelections = {};
+function selectFacJmLoc(teamSlug, locId){
+  _facJmSelections[teamSlug] = locId;
+  const grid = document.getElementById("fac-jm-grid-"+teamSlug);
+  if(grid){
+    grid.querySelectorAll(".fac-jm-btn").forEach(el=>{
+      const sel = el.dataset.loc === locId;
+      el.style.transform = sel ? "scale(1.1)" : "scale(0.95)";
+      el.style.opacity = sel ? "1" : "0.4";
+      el.style.boxShadow = sel ? "0 0 0 3px "+el.style.color : "none";
+    });
+  }
+  const btn = document.getElementById("fac-validate-"+teamSlug);
+  if(btn){ btn.disabled = false; btn.style.background = "#1B5E20"; }
+}
+function validateFacJmSelection(teamName, teamSlug){
+  const locId = _facJmSelections[teamSlug];
+  if(!locId) return;
+  submitFacJM(teamName, locId);
+  delete _facJmSelections[teamSlug];
 }
 
 function submitFacJM(teamName, locId){
@@ -1294,14 +1324,14 @@ const CHAT_KB = {
 };
 
 const GEMINI_KEY = "AIzaSyDdpdQUBhFYXXHzQtRaEbgQtfd_d7ssi4o";
-const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+GEMINI_KEY;
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_KEY;
 // Mini-RAG: chunks thématiques, on n'envoie que le(s) chunk(s) pertinent(s)
 const CHAT_SYSTEM = `Tu es l'assistant du ICN Creativ' Day, seminaire d'ICN Business School le 28 mars 2026 a Nancy (Station A). ~200 participants, 22 equipes, 5 villages. Tutoie les gens. Sois concis (3-5 phrases max). Reponds dans la langue de la question. Utilise UNIQUEMENT le contexte fourni.`;
 
 const CHAT_CHUNKS = {
   contexte: {
     kw:["creativ","icn","design sprint","sprint","seminaire","journee","pourquoi","objectif","but","quoi","c'est quoi","what is","why","about","module 2","mvp","prototypage"],
-    text:`CONTEXTE: ~200 collaborateurs ICN participent a un mini Design Sprint: methode d'innovation rapide inspiree de Google Ventures. Objectif: generer des projets concrets en reponse a des questions strategiques. 22 tables de 7-10 personnes, 5 villages. Les meilleurs projets selectionnes par Francois Therin (DG) pour Module 2: programme de prototypage IA de 3 semaines. MODULE 2: les equipes selectionnees construisent un MVP avec l'IA.`
+    text:`CONTEXTE: ~200 collaborateurs ICN participent a un mini Design Sprint: methode d'innovation rapide inspiree de Google Ventures. Objectif: generer des projets concrets en réponse a des questions strategiques. 22 tables de 7-10 personnes, 5 villages. Les meilleurs projets selectionnes par Francois Therin (DG) pour Module 2: programme de prototypage IA de 3 semaines. MODULE 2: les equipes selectionnees construisent un MVP avec l'IA.`
   },
   regles: {
     kw:["regle","rule","together alone","silence","gommette","vote","timer","post-it","ecrire","dessiner","methode","method","comment ca marche","how does it work"],
@@ -1313,7 +1343,7 @@ const CHAT_CHUNKS = {
   },
   sprint_question: {
     kw:["sprint question","question","hmw","how might we","comment pourrait"],
-    text:`SPRINT QUESTION: Question strategique commencant par "Comment pourrait-on..." ou "Peut-on...". Formulee a partir des pain points du matin. Affichee sur chaque table. Exemples: "Comment pourrait-on ameliorer la visibilite d'ICN aupres des lyceens?", "Peut-on diviser par 2 le temps de reponse aux demandes etudiantes?", "Comment pourrait-on utiliser l'IA pour personnaliser le parcours etudiant?"`
+    text:`SPRINT QUESTION: Question strategique commencant par "Comment pourrait-on..." ou "Peut-on...". Formulee a partir des pain points du matin. Affichee sur chaque table. Exemples: "Comment pourrait-on ameliorer la visibilite d'ICN aupres des lyceens?", "Peut-on diviser par 2 le temps de réponse aux demandes etudiantes?", "Comment pourrait-on utiliser l'IA pour personnaliser le parcours etudiant?"`
   },
   programme_matin: {
     kw:["matin","morning","10h","11h","kick","accueil","ice-breaker","oeuvre d'art","programme","schedule","agenda","planning","dejeuner","lunch","pot luck"],
@@ -1321,7 +1351,7 @@ const CHAT_CHUNKS = {
   },
   exercice1: {
     kw:["lightning","demo","exercice 1","fiche 1","13h10","13:10","inspirer","exemple","ailleurs"],
-    text:`EXERCICE 1 — LIGHTNING DEMOS (13:10-13:29, 19 min): S'inspirer de ce qui existe ailleurs. Materiel: 1 post-it + marqueur. Etapes: (1) Reflexion individuelle silence 5 min — penser a un exemple vu AILLEURS qui inspire une reponse a la Sprint Question. Ecrire: NOM + en quoi ca inspire. (2) Tour de table 12 min (~1 min/pers.) — montrer post-it, expliquer 1 min max. On ecoute, on ne commente pas. Exemples: "L'appli de ma banque previent avant un decouvert", "Mentorat inverse chez Google", "Drive McDo = process ultra-simple". Pas d'idee? On peut passer!`
+    text:`EXERCICE 1 — LIGHTNING DEMOS (13:10-13:29, 19 min): S'inspirer de ce qui existe ailleurs. Materiel: 1 post-it + marqueur. Etapes: (1) Reflexion individuelle silence 5 min — penser a un exemple vu AILLEURS qui inspire une réponse a la Sprint Question. Ecrire: NOM + en quoi ca inspire. (2) Tour de table 12 min (~1 min/pers.) — montrer post-it, expliquer 1 min max. On ecoute, on ne commente pas. Exemples: "L'appli de ma banque previent avant un decouvert", "Mentorat inverse chez Google", "Drive McDo = process ultra-simple". Pas d'idee? On peut passer!`
   },
   exercice2: {
     kw:["hmw","how might we","exercice 2","fiche 2","13h29","13:29","vote","gommette"],
@@ -1453,7 +1483,7 @@ function sendChat(){
       } else {
         el.innerHTML = currentLang==="en"
           ? "Sorry, I couldn't answer that. Try asking about the schedule, exercises, wifi, or type a name to find your team."
-          : "Desole, je n'ai pas pu repondre. Essaie de demander le programme, les exercices, le wifi, ou tape un nom pour trouver ton equipe.";
+          : "Désolé, je n'ai pas pu repondre. Essaie de demander le programme, les exercices, le wifi, ou tape un nom pour trouver ton equipe.";
       }
     }
     msgs.scrollTop = msgs.scrollHeight;
@@ -1497,14 +1527,14 @@ document.addEventListener("input", e=>{
 // ============ POLLS ============
 const POLL_QUESTIONS = [
   {id:"q1",type:"wordcloud",num:"1/3",
-   fr:"Qu'est-ce qui t'empeche de faire du bon travail a l'ICN ?",
+   fr:"Qu'est-ce qui t'empêche de faire du bon travail a l'ICN ?",
    en:"What's getting in the way of doing great work at ICN?",
    placeholder_fr:"Un ou deux mots...",placeholder_en:"One or two words...",
    maxLen:40},
   {id:"q2",type:"opentext",num:"2/3",
-   fr:"Qu'est-ce qui freine le developpement de l'ICN selon toi ?",
+   fr:"Qu'est-ce qui freine le développement de l'ICN selon toi ?",
    en:"What's holding ICN back?",
-   placeholder_fr:"Ta reponse...",placeholder_en:"Your answer...",
+   placeholder_fr:"Ta réponse...",placeholder_en:"Your answer...",
    maxLen:200},
   {id:"q3",type:"journeymap",num:"3/3",
    fr:"Ou en es-tu dans le voyage du changement ?",
@@ -1590,7 +1620,7 @@ function submitPoll(qid){
     btn.disabled = false;
     updateCharCount(qid, parseInt(input.getAttribute("maxlength")));
     btn.style.background = "#2E7D32";
-    btn.textContent = currentLang==="fr" ? "Envoye !" : "Sent!";
+    btn.textContent = currentLang==="fr" ? "Envoyé !" : "Sent!";
     // Q1 et Q2: réponses multiples autorisées tant que le sondage est actif
     // Q3 (journeymap): une seule réponse par phase
     if(qid !== "q1" && qid !== "q2") localStorage.setItem("icn_voted_"+qid, "1");
@@ -1633,7 +1663,7 @@ function showThankYouScreen(){
     const sub = waiting.querySelector(".pw-sub");
     if(icon) icon.textContent = "\u2705";
     if(title){ title.dataset.fr = "Merci !"; title.dataset.en = "Thank you!"; title.textContent = currentLang==="fr" ? "Merci !" : "Thank you!"; }
-    if(sub){ sub.dataset.fr = "Tes reponses ont bien ete enregistrees."; sub.dataset.en = "Your answers have been recorded."; sub.textContent = currentLang==="fr" ? "Tes reponses ont bien ete enregistrees." : "Your answers have been recorded."; }
+    if(sub){ sub.dataset.fr = "Tes réponses ont bien ete enregistrees."; sub.dataset.en = "Your answers have been recorded."; sub.textContent = currentLang==="fr" ? "Tes réponses ont bien ete enregistrees." : "Your answers have been recorded."; }
   }
 }
 
@@ -1660,7 +1690,7 @@ function listenPolls(){
       const responses = data ? Object.values(data) : [];
       pollCache[q.id] = responses;
       const countEl = document.getElementById("poll-count-"+q.id);
-      if(countEl) countEl.textContent = responses.length + " reponse" + (responses.length>1?"s":"");
+      if(countEl) countEl.textContent = responses.length + " réponse" + (responses.length>1?"s":"");
       renderPollResults(q, responses);
       // Also update admin results view
       const admC = document.getElementById("adm-results-"+q.id);
@@ -1752,8 +1782,28 @@ window._facActivePhase = null; // current active facilitator phase id or null
 const jmPhaseResponses = {}; // {phaseId: [{location, timestamp}, ...]}
 const jmFacPhaseResponses = {}; // {phaseId: {teamName: {location, facilitator, timestamp}}}
 
+let _selectedJmLoc = null;
+function selectJmLoc(locId){
+  _selectedJmLoc = locId;
+  document.querySelectorAll("#jmSelect .jm-loc").forEach(el=>{
+    const isSelected = el.dataset.loc === locId;
+    el.style.transform = isSelected ? "scale(1.1)" : "scale(1)";
+    el.style.boxShadow = isSelected ? "0 0 0 4px "+JM_LOCATIONS.find(l=>l.id===locId).color : "none";
+    el.style.opacity = isSelected ? "1" : "0.5";
+  });
+  const btn = document.getElementById("jmValidateBtn");
+  if(btn){
+    btn.disabled = false;
+    btn.style.background = "#E65100";
+  }
+}
+function validateJmSelection(){
+  if(!_selectedJmLoc) return;
+  submitJourneyMapPhase(_selectedJmLoc);
+  _selectedJmLoc = null;
+}
+
 function submitJourneyMap(locId){
-  // Legacy — redirects to multi-phase
   submitJourneyMapPhase(locId);
 }
 
@@ -1893,7 +1943,7 @@ function pollAdmin(action, target){
       if(target==="q3") fbDb.ref("icn-polls/journey-map/active-phase").set(null);
     }
   } else if(action==="reset"){
-    const msg = target==="all" ? "Supprimer TOUTES les reponses ?" : "Supprimer les reponses de Q"+target.replace("q","")+" ?";
+    const msg = target==="all" ? "Supprimer TOUTES les réponses ?" : "Supprimer les réponses de Q"+target.replace("q","")+" ?";
     if(confirm(msg)){
       if(target==="all"){
         fbDb.ref("icn-polls/responses").remove();
@@ -2200,7 +2250,7 @@ function exportPollSingle(qid){
   }
   fbDb.ref("icn-polls/responses/"+qid).once("value", snap=>{
     const data = snap.val();
-    if(!data) return alert("Aucune reponse");
+    if(!data) return alert("Aucune réponse");
     let csv = "\uFEFF";
     Object.values(data).forEach(r=>{ csv += `${(r.text||'').replace(/;/g,',')}\n`; });
     dlCSV(csv, "Sondage_"+qid.toUpperCase());
@@ -2286,12 +2336,12 @@ function setLang(lang){
   const firstMsg = document.querySelector("#chatMsgs .chat-msg.bot");
   if(firstMsg && document.querySelectorAll("#chatMsgs .chat-msg").length <= 1){
     firstMsg.innerHTML = lang==="fr"
-      ? 'Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d\'equipe</strong>, ou un sujet (<em>programme, wifi, dejeuner, methode...</em>).'
+      ? 'Bonjour ! Tape ton <strong>nom</strong>, un <strong>nom d\'equipe</strong>, ou un sujet (<em>programme, wifi, déjeuner, méthode...</em>).'
       : 'Hello! Type your <strong>name</strong>, a <strong>team name</strong>, or a topic (<em>schedule, wifi, lunch, method...</em>).';
   }
   // Update chat placeholder
   const ci = document.getElementById("chatIn");
-  if(ci) ci.placeholder = lang==="fr" ? "Nom, equipe, ou sujet..." : "Name, team, or topic...";
+  if(ci) ci.placeholder = lang==="fr" ? "Nom, équipe, ou sujet..." : "Name, team, or topic...";
   // Update poll send buttons
   POLL_QUESTIONS.forEach(q=>{
     const btn = document.getElementById("poll-send-"+q.id);
