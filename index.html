@@ -1056,95 +1056,83 @@ const CHAT_KB = {
 
 const GEMINI_KEY = "AIzaSyAepOBo-w3fncoWjg8jPrzR83OC4vco81A";
 const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+GEMINI_KEY;
-const CHAT_CONTEXT_BASE = `Tu es l'assistant du ICN Creativ' Day, seminaire de transformation d'ICN Business School le 28 mars 2026 a Nancy (Station A). ~200 participants, 22 equipes, 5 villages. Tutoie les gens. Sois concis (3-5 phrases max). Reponds dans la langue de la question.
+// Mini-RAG: chunks thématiques, on n'envoie que le(s) chunk(s) pertinent(s)
+const CHAT_SYSTEM = `Tu es l'assistant du ICN Creativ' Day, seminaire d'ICN Business School le 28 mars 2026 a Nancy (Station A). ~200 participants, 22 equipes, 5 villages. Tutoie les gens. Sois concis (3-5 phrases max). Reponds dans la langue de la question. Utilise UNIQUEMENT le contexte fourni.`;
 
-CONTEXTE: Aujourd'hui ~200 collaborateurs ICN participent a un mini Design Sprint : methode d'innovation rapide inspiree de Google Ventures. Objectif : generer des projets concrets en reponse a des questions strategiques. 22 tables de 7-10 personnes, 5 villages. Les meilleurs projets seront selectionnes par Francois Therin (DG) pour passer en Module 2 : programme de prototypage IA de 3 semaines.
+const CHAT_CHUNKS = {
+  contexte: {
+    kw:["creativ","icn","design sprint","sprint","seminaire","journee","pourquoi","objectif","but","quoi","c'est quoi","what is","why","about","module 2","mvp","prototypage"],
+    text:`CONTEXTE: ~200 collaborateurs ICN participent a un mini Design Sprint: methode d'innovation rapide inspiree de Google Ventures. Objectif: generer des projets concrets en reponse a des questions strategiques. 22 tables de 7-10 personnes, 5 villages. Les meilleurs projets selectionnes par Francois Therin (DG) pour Module 2: programme de prototypage IA de 3 semaines. MODULE 2: les equipes selectionnees construisent un MVP avec l'IA.`
+  },
+  regles: {
+    kw:["regle","rule","together alone","silence","gommette","vote","timer","post-it","ecrire","dessiner","methode","method","comment ca marche","how does it work"],
+    text:`4 REGLES: 1. TOGETHER ALONE: reflechir seul d'abord, puis partager. Pas de brainstorming a voix haute. 2. ON ECRIT, ON DESSINE: si c'est pas sur papier, ca n'existe pas. 1 idee = 1 post-it, ecrit GROS. 3. ON VOTE PAR GOMMETTES: pas de debat, chaque gommette a la meme valeur. 4. QUAND LE TIMER SONNE, ON PASSE: meme si c'est imparfait.`
+  },
+  roles: {
+    kw:["capitaine","captain","time keeper","timekeeper","role","qui fait quoi","who does what","facilitateur","facilitation","elodie","anne","zeenat","heloise","john-edwin","nash"],
+    text:`ROLES A LA TABLE: CAPITAINE: lit les consignes a voix haute, donne la parole equitablement, maintient le silence. TIME KEEPER: lance le timer, annonce "Plus qu'une minute!" puis "Stop!". Strict. L'appli Chrono suffit.\nEQUIPE DE FACILITATION: Elodie Hughes (meta-facilitation, timer, IA live, pitchs finaux), Anne Corbel-Trinh (matinee, ice-breaker, village PM), Zeenat Fayaz (cadrage strategique, Sprint Questions, village PM), Heloise Lemeillet (facilitatrice flottante PM), John-Edwin Graff (facilitateur flottant PM, IA avec Elodie), Nash Hughes (interviews, captation video).`
+  },
+  sprint_question: {
+    kw:["sprint question","question","hmw","how might we","comment pourrait"],
+    text:`SPRINT QUESTION: Question strategique commencant par "Comment pourrait-on..." ou "Peut-on...". Formulee a partir des pain points du matin. Affichee sur chaque table. Exemples: "Comment pourrait-on ameliorer la visibilite d'ICN aupres des lyceens?", "Peut-on diviser par 2 le temps de reponse aux demandes etudiantes?", "Comment pourrait-on utiliser l'IA pour personnaliser le parcours etudiant?"`
+  },
+  programme_matin: {
+    kw:["matin","morning","10h","11h","kick","accueil","ice-breaker","oeuvre d'art","programme","schedule","agenda","planning","dejeuner","lunch","pot luck"],
+    text:`PROGRAMME MATIN: 10h00 Cafe d'accueil | 10h15 Kick-off Francois Therin (DG) | 10h30 Agenda + equipe (Anne) | 10h35 Collecte pain points en silence | 10h45 Pause cafe (Elodie clusterise avec IA) | 11h05 Francois presente les clusters | 11h20 Presentation du sprint PM | 11h35 Ice-breaker "Si j'etais une oeuvre d'art..." par groupes de 4-5 | 11h55 Pot luck. DEJEUNER 12h00-13h00.`
+  },
+  exercice1: {
+    kw:["lightning","demo","exercice 1","fiche 1","13h10","13:10","inspirer","exemple","ailleurs"],
+    text:`EXERCICE 1 — LIGHTNING DEMOS (13:10-13:29, 19 min): S'inspirer de ce qui existe ailleurs. Materiel: 1 post-it + marqueur. Etapes: (1) Reflexion individuelle silence 5 min — penser a un exemple vu AILLEURS qui inspire une reponse a la Sprint Question. Ecrire: NOM + en quoi ca inspire. (2) Tour de table 12 min (~1 min/pers.) — montrer post-it, expliquer 1 min max. On ecoute, on ne commente pas. Exemples: "L'appli de ma banque previent avant un decouvert", "Mentorat inverse chez Google", "Drive McDo = process ultra-simple". Pas d'idee? On peut passer!`
+  },
+  exercice2: {
+    kw:["hmw","how might we","exercice 2","fiche 2","13h29","13:29","vote","gommette"],
+    text:`EXERCICE 2 — HMW + VOTE (13:29-13:47, 18 min): Transformer problemes en questions ouvertes positives. HMW = How Might We = Comment pourrait-on. Materiel: 3 post-its + marqueur + 3 gommettes. Etapes: (1) Ecriture silence 3 min — 3 post-its "Comment pourrait-on..." Rester OUVERT. (2) Lecture silencieuse 3 min. (3) Vote gommettes 2 min — en silence. (4) Top 3 + choix HMW 5 min. Bon: "Comment rendre le 1er jour moins stressant?" Mauvais: "Comment creer une appli?" (c'est deja une solution!)`
+  },
+  exercice3: {
+    kw:["solution sketch","sketch","exercice 3","fiche 3","13h57","13:57","gallery walk","a4","dessiner","heatmap"],
+    text:`EXERCICE 3 — SOLUTION SKETCH + VOTE (13:57-14:36, 39 min): Coeur creatif. Chacun developpe SA solution sur papier. Materiel: 1 A4 pliee en 4 cases + marqueurs + gommettes. Etapes: (1) Sketch silence 10 min — Case 1 PROBLEME, Case 2 SOLUTION + schema, Case 3 COMMENT CA MARCHE, Case 4 ACTION LUNDI. Bonhommes-batons = parfait! (2) Gallery Walk silencieux 3 min. (3) Tour de table flash 5 min — "Mon idee c'est..." 20s max. (4) Echange ouvert 10 min — SEUL moment de discussion libre! (5) Heatmap Vote 5 min. (6) Annonce concept retenu 2 min.`
+  },
+  exercice4: {
+    kw:["pitch canvas","poster","exercice 4","fiche 4","15h06","15:06","a2","pitcher","repeter","titre"],
+    text:`EXERCICE 4 — PITCH CANVAS (15:06-15:38, 32 min): Construire le pitch sur poster A2. Materiel: 1 poster A2 fourni + marqueurs couleur. Etapes: (1) Repartition zones 1 min — PROBLEME, SOLUTION, BENEFICE, ACTION LUNDI. (2) Remplissage 15 min — GROS, mots-cles, lisible de loin, schemas. Penser TITRE ACCROCHEUR! (3) Repetition 14 min — pitch 2 MIN. Structure: Probleme 20s, Solution 40s, Benefice 30s, Action lundi 20s, Titre 10s. Repeter 2 fois min! Exemples titres: "ICN Pocket" / "Le Campus qui Repond" / "Zero Attente"`
+  },
+  exercice5: {
+    kw:["village","pitch","exercice 5","fiche 5","15h43","15:43","pleniere","final","francois","selectionne","board ia"],
+    text:`EXERCICE 5 — VILLAGES + PITCH FINAL (15:43-16:50): Round 1 VILLAGES (30 min): chaque table pitche 2 min devant son village (40-50 pers.). Vote 2 gommettes. 2 gagnants par village = 8-10 finalistes. Boards IA (15 min): equipe genere visuel IA par finaliste. Round 2 PLENIERE (20 min): 8-10 equipes pitchent 2 min devant les 200. Board IA projete. Francois SELECTIONNE les projets a financer. C'est le DG qui decide, pas un vote! Structure: Titre 10s, Probleme 20s, Solution 40s, Benefice 30s, Action lundi 20s.`
+  },
+  logistique: {
+    kw:["pause","cafe","coffee","break","fin","end","heure","time","quand","when","materiel","wifi","train","station","lieu","where","salle","room","etage","floor"],
+    text:`LOGISTIQUE: Lieu: Station A, Nancy. Pause cafe: 14:51-15:06. Marge facilitateur: 14:36-14:51. Fin nominale: 17h00. Materiel sur table: post-its, marqueurs noirs, gommettes rondes, feuilles A4, poster Pitch Canvas A2. Fiches: le capitaine a les fiches pour chaque exercice.\nSALLES: 1er etage: Salle du Conseil, 101 Marie Curie, 104 Simone de Beauvoir, 107 Charles Darwin, 112 Dorothy Vaughan. 2eme etage: 202 Rosa Parks, 205 Emile Galle, 206 Jean Prouve, 207 Bobby Fisher.`
+  },
+  equipes: {
+    kw:["equipe","team","mixte","bilingue","fr pur","comex","type"],
+    text:`22 EQUIPES (P1=exercices 13h-15h38, P2=pitchs villages 15h43+): TOKYO(9p,Mixte)V2 P1:Conseil P2:112 | BARCELONA(8p,Mixte)V5 P1:Conseil P2:206 | MONTREAL(9p,Mixte)V1 P1:Conseil P2:207 | NAIROBI(9p,Mixte)V3 P1:Conseil P2:101 | MARSEILLE(9p,FR)V2 P1:104 P2:112 | COMEX(7p)V3 P1:107 P2:101 | AMSTERDAM(9p,Mixte)V1 P1:207 P2:207 | SYDNEY(9p,Mixte)V1 P1:207 P2:207 | MUMBAI(8p,Mixte)V1 P1:207 P2:207 | LISBONNE(9p,Bil)V4 P1:205 P2:205 | DUBLIN(8p,Bil)V5 P1:206 P2:206 | LYON(8p,FR)V5 P1:202 P2:206 | SAN FRANCISCO(7p,Mixte)V2 P1:112 P2:112 | BERLIN(9p,Mixte)V2 P1:112 P2:112 | SINGAPOUR(9p,Mixte)V2 P1:112 P2:112 | VANCOUVER(9p,Bil)V4 P1:205 P2:205 | BUENOS AIRES(9p,Bil)V5 P1:206 P2:206 | SEOUL(9p,Mixte)V3 P1:101 P2:101 | MARRAKECH(8p,Bil)V3 P1:101 P2:101 | LE CAP(8p,Bil)V3 P1:101 P2:101 | HELSINKI(8p,Bil)V4 P1:202 P2:205 | RIO(9p,Bil)V1 P1:207 P2:207\nTYPES: MIXTE=FR+EN melanges, FR PUR=francophones uniquement, BILINGUE=tous parlent FR+EN, COMEX=comite executif.`
+  },
+  villages: {
+    kw:["village","v1","v2","v3","v4","v5","vert","violet","orange","rose","cyan","facilitateur par village"],
+    text:`VILLAGES: V1 Vert (salle 207) — MONTREAL, AMSTERDAM, SYDNEY, MUMBAI, RIO — Facilitatrice Anne — ~46p. V2 Violet (salle 112) — TOKYO, MARSEILLE, SAN FRANCISCO, BERLIN, SINGAPOUR — Facilitatrice Heloise — ~37p. V3 Orange (salle 101) — NAIROBI, COMEX, SEOUL, MARRAKECH, LE CAP — Facilitateur John-Edwin — ~38p. V4 Rose (salle 205) — LISBONNE, VANCOUVER, HELSINKI — Facilitateur Nash — ~24p. V5 Cyan (salle 206) — BARCELONA, DUBLIN, LYON, BUENOS AIRES — Facilitatrice Zeenat — ~42p.`
+  }
+};
 
-4 REGLES DU JEU:
-1. TOGETHER ALONE: on reflechit seul d'abord, puis on partage. Pas de brainstorming a voix haute. Chaque voix compte.
-2. ON ECRIT, ON DESSINE: si c'est pas sur le papier, ca n'existe pas. 1 idee = 1 post-it, ecrit GROS au marqueur.
-3. ON VOTE PAR GOMMETTES: pas de debat. Chaque gommette a la meme valeur, qu'on soit directeur ou assistant.
-4. QUAND LE TIMER SONNE, ON PASSE: meme si c'est imparfait. La contrainte force a aller a l'essentiel.
-
-ROLES A LA TABLE:
-- CAPITAINE: lit les consignes de chaque exercice a voix haute, donne la parole equitablement (tour de table), maintient le silence quand demande. Pas besoin d'etre expert.
-- TIME KEEPER: lance le timer sur son telephone a chaque etape, annonce "Plus qu'une minute !" puis "Stop !". Strict : quand c'est fini, c'est fini. L'appli Chrono suffit.
-
-SPRINT QUESTION: Question strategique commencant par "Comment pourrait-on..." ou "Peut-on...". Formulee a partir des pain points du matin. Affichee sur chaque table. Exemples : "Comment pourrait-on ameliorer la visibilite d'ICN aupres des lyceens ?", "Peut-on diviser par 2 le temps de reponse aux demandes etudiantes ?", "Comment pourrait-on utiliser l'IA pour personnaliser le parcours etudiant ?"
-
-PROGRAMME MATIN (Amphitheatre):
-10h00 Cafe d'accueil | 10h15 Kick-off Francois Therin (DG) | 10h30 Agenda + equipe (Anne) | 10h35 Collecte pain points en silence | 10h45 Pause cafe (Elodie clusterise avec IA) | 11h05 Francois presente les clusters | 11h20 Presentation du sprint PM | 11h35 Ice-breaker "Si j'etais une oeuvre d'art..." | 11h55 Pot luck
-DEJEUNER 12h00-13h00
-
-PROGRAMME APRES-MIDI — 5 EXERCICES:
-
-EXERCICE 1 — LIGHTNING DEMOS (13:10-13:29, 19 min):
-Objectif: s'inspirer de ce qui existe ailleurs avant de chercher des solutions. Eviter de reinventer la roue.
-Materiel: 1 post-it par personne + marqueur noir.
-Etapes: (1) Reflexion individuelle en silence 5 min — penser a un exemple vu AILLEURS (autre entreprise, appli, service) qui pourrait inspirer une reponse a la Sprint Question. Ecrire sur post-it: le NOM + en quoi ca inspire. (2) Tour de table 12 min (~1 min/pers.) — chacun montre son post-it et explique en 1 min max. On ecoute, on ne commente pas.
-Exemples: "L'appli de ma banque me previent avant un decouvert -> on pourrait prevenir nos equipes avant un probleme." / "Le mentorat inverse chez Google : les juniors forment les seniors au digital -> on pourrait faire pareil pour l'IA." / "Le drive de McDo : process ultra-simple -> on pourrait simplifier notre onboarding etudiant."
-Si quelqu'un n'a pas d'idee, pas grave, il peut passer !
-
-EXERCICE 2 — HMW + VOTE (13:29-13:47, 18 min):
-Objectif: transformer les problemes en questions ouvertes positives. HMW = How Might We = Comment pourrait-on... La technique qui passe du ralage a l'action.
-Materiel: 3 post-its par personne + marqueur + 3 gommettes rondes par personne.
-Etapes: (1) Ecriture individuelle en silence 3 min — 3 post-its commencant par "Comment pourrait-on..." en lien avec la Sprint Question. Rester OUVERT, pas de solution deguisee. 1 question par post-it, ecrit GROS. (2) Lecture silencieuse 3 min — poser post-its au centre, lire tout en silence. (3) Vote par gommettes 2 min — 3 gommettes chacun, voter pour les questions les plus importantes. On peut mettre plusieurs gommettes sur le meme. En silence. (4) Annonce top 3 + choix HMW 5 min — capitaine compte, annonce les 3 plus votees. Choisir EN GROUPE la HMW qui guidera le Solution Sketch.
-Bons exemples: "Comment pourrait-on rendre le premier jour moins stressant ?" / "Comment pourrait-on avoir l'info au bon moment ?"
-Mauvais exemple: "Comment pourrait-on creer une appli ?" (c'est deja une solution!)
-
-13:47 COLLECTE HMW + SYNTHESE IA (10 min) — equipe facilitation photographie les top 3 HMW.
-
-EXERCICE 3 — SOLUTION SKETCH + VOTE (13:57-14:36, 39 min):
-Objectif: coeur creatif de l'apres-midi. Chacun developpe SA solution sur papier, puis on partage, on discute et on vote.
-Materiel: 1 feuille A4 par personne (pliee en 4 cases) + marqueurs + stylos + gommettes.
-Etapes: (1) Solution Sketch en silence 10 min — plier A4 en 4 cases (pli en croix). Case 1 PROBLEME: quel probleme concret on regle? Case 2 SOLUTION: idee en 1 phrase + schema. Case 3 COMMENT CA MARCHE: concretement, etape par etape. Case 4 ACTION LUNDI: qui fait quoi des lundi matin. Pas besoin de savoir dessiner, bonhommes-batons = parfait! (2) Gallery Walk silencieux 3 min — poser feuilles au centre, se lever et regarder. Pas de commentaires. (3) Tour de table flash 5 min — chacun dit UNE phrase "Mon idee c'est..." 20 sec max. (4) Echange ouvert 10 min — discussion libre! Quelles connexions? Combiner des idees? C'est le SEUL moment de discussion libre de l'apres-midi! (5) Heatmap Vote 5 min — debout autour de la table, coller gommettes sur les projets les plus prometteurs, en silence. (6) Annonce du concept retenu 2 min — le capitaine annonce.
-
-14:36 MARGE FACILITATEUR (15 min) — buffer pour tables en retard + illustrations IA
-14:51 PAUSE CAFE (15 min)
-
-EXERCICE 4 — PITCH CANVAS (15:06-15:38, 32 min):
-Objectif: construire le pitch sur un poster A2. Ce pitch sera presente devant le village, puis peut-etre devant les 200 personnes.
-Materiel: 1 poster Pitch Canvas A2 (fourni) + marqueurs couleur.
-Etapes: (1) Repartition par zones 1 min — 4 zones: PROBLEME (quel probleme concret?), SOLUTION (idee en 3 phrases max), BENEFICE (gain concret pour ICN?), ACTION LUNDI (premiere etape concrete). (2) Remplissage poster 15 min — ecrire GROS, en mots-cles, lisible de loin. Pas de pave de texte. Ajouter schemas, dessins, fleches. Penser a un TITRE ACCROCHEUR! (3) Repetition du pitch 14 min — preparer un pitch de 2 MINUTES. Choisir le pitcher. Structure: Probleme 20s, Solution 40s, Benefice 30s, Action lundi 20s, Titre 10s. Repeter au moins 2 fois. Chronometrer!
-Exemple: PROBLEME "Les etudiants ne trouvent pas les infos sur le campus" / SOLUTION "Un chatbot IA campus qui repond en 30 secondes" / BENEFICE "-50% d'appels au secretariat" / ACTION LUNDI "3 personnes testent le prompt avec 10 questions frequentes"
-Le titre accrocheur fait la difference ! Exemples: "ICN Pocket" / "Le Campus qui Repond" / "Zero Attente"
-
-15:38 TRANSITION VILLAGES (5 min)
-
-EXERCICE 5 — VILLAGES + PITCH FINAL (15:43-16:50, ~67 min):
-Round 1 PITCHS EN VILLAGES (30 min): rejoindre son village. Chaque table pitche 2 min devant les 4-5 autres tables. Ambiance intime 40-50 personnes. Facilitateur chronometre et coupe a 2 min. Puis vote: 2 gommettes par personne, voter pour les 2 meilleurs. Les 2 gagnants passent en pleniere. 5 villages x 2 = 8-10 finalistes.
-Boards IA (15 min): pause pendant que l'equipe genere un visuel IA pour chaque finaliste. Si selectionne: affiner le pitch!
-Round 2 PITCHS FINAUX EN PLENIERE (20 min): 8-10 equipes pitchent 2 MIN devant les 200. Board IA projete derriere. Francois Therin ecoute et SELECTIONNE les projets a financer dans Module 2. C'est le DG qui decide, pas un vote. Energie, clarte, concret!
-Structure pitch 2 min: Titre accrocheur + presentez-vous 10s, Probleme 20s, Solution 40s (montrer board IA), Benefice 30s (chiffrer si possible), "Des lundi, on fait..." 20s.
-
-16:50 CLOSING + ANNONCE (10 min): fresque IA de synthese, Francois annonce projets retenus + Module 2, photo de groupe. FIN 17h00.
-
-VILLAGES:
-V1 Vert — Tables 1-5 — Facilitateur Zeenat — ~46 pers.
-V2 Violet — Tables 6-9 — Facilitateur John-Edwin — ~37 pers.
-V3 Orange — Tables 10-13 — Facilitatrice Heloise — ~38 pers.
-V4 Rose — Tables 14-18 — Facilitatrice Anne — ~42 pers.
-V5 Cyan — Tables 19-22 — Facilitateur Nash — ~24 pers.
-
-MODULE 2: Programme de prototypage IA de 3 semaines apres le seminaire. Francois selectionne les meilleurs projets parmi les finalistes. Les equipes construisent un MVP avec l'aide de l'IA. C'est la suite concrete de ce que vous creez aujourd'hui.
-
-EQUIPE DE FACILITATION:
-- Elodie Hughes: meta-facilitation, timer central, moments IA live, brief Sprint, pitchs finaux
-- Anne Corbel-Trinh: facilitation matinee, ice-breaker, collecte HMW, village PM
-- Zeenat Fayaz: cadrage strategique, Sprint Questions, village PM
-- Heloise Lemeillet: facilitatrice flottante PM, circule et debloque
-- John-Edwin Graff: facilitateur flottant PM, generation IA avec Elodie
-- Nash Hughes: interviews COMEX matin, interviews terrain PM, captation video
-
-LOGISTIQUE:
-- Lieu: Station A, Nancy
-- Pause cafe: 14:51-15:06
-- Fin nominale: 17h00
-- Materiel sur table: post-its, marqueurs noirs, gommettes rondes, feuilles A4, poster Pitch Canvas A2
-- Fiches: le capitaine a les fiches detaillees pour chaque exercice
-- App live: https://helloelo-fr.github.io/icn-sprint-2026/
-
-Si on te demande un nom de personne ou une equipe, cherche dans les donnees de l'app. Si tu ne trouves pas, dis de taper le nom dans la barre de recherche de l'onglet "Mon equipe".`;
+function selectChunks(query){
+  const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const scores = [];
+  for(const [key, chunk] of Object.entries(CHAT_CHUNKS)){
+    let score = 0;
+    for(const kw of chunk.kw){
+      if(q.includes(kw)) score += kw.length * 2;
+      else {
+        const words = kw.split(" ");
+        words.forEach(w => { if(w.length >= 3 && q.includes(w)) score += w.length; });
+      }
+    }
+    if(score > 0) scores.push({key, score, text: chunk.text});
+  }
+  scores.sort((a,b) => b.score - a.score);
+  // Toujours inclure contexte si rien de pertinent, sinon top 3 max
+  if(scores.length === 0) return CHAT_CHUNKS.contexte.text + "\n" + CHAT_CHUNKS.programme_matin.text + "\n" + CHAT_CHUNKS.logistique.text;
+  return scores.slice(0, 3).map(s => s.text).join("\n");
+}
 
 function localSearch(query){
   const q = query.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
@@ -1177,7 +1165,8 @@ function localSearch(query){
 
 async function askGemini(query){
   const langInstruction = currentLang==="en" ? "IMPORTANT: Answer in ENGLISH only." : "IMPORTANT: Reponds en FRANCAIS uniquement.";
-  const sysPrompt = langInstruction + "\n" + CHAT_CONTEXT_BASE;
+  const relevantContext = selectChunks(query);
+  const sysPrompt = CHAT_SYSTEM + "\n" + langInstruction + "\n\nCONTEXTE PERTINENT:\n" + relevantContext;
   try{
     const res = await fetch(GEMINI_URL, {
       method:"POST",
