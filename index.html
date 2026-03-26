@@ -1352,8 +1352,13 @@ function submitPoll(qid){
     updateCharCount(qid, parseInt(input.getAttribute("maxlength")));
     btn.style.background = "#2E7D32";
     btn.textContent = currentLang==="fr" ? "Envoye !" : "Sent!";
-    localStorage.setItem("icn_voted_"+qid, "1");
-    setTimeout(()=>{ autoAdvancePoll(qid); }, 1500);
+    // Q1 et Q2: réponses multiples autorisées tant que le sondage est actif
+    // Q3 (journeymap): une seule réponse par phase
+    if(qid !== "q1" && qid !== "q2") localStorage.setItem("icn_voted_"+qid, "1");
+    setTimeout(()=>{
+      btn.style.background = "";
+      btn.textContent = currentLang==="fr" ? "Envoyer" : "Submit";
+    }, 1500);
   }).catch(err=>{
     btn.disabled = false;
     btn.textContent = currentLang==="fr" ? "Envoyer" : "Submit";
