@@ -828,9 +828,9 @@ const CHAT_KB = {
   }
 };
 
-const GEMINI_KEY = "AIzaSyC3cAtd0BPo04J7k16FVPcPY_f-M5qy7c";
-const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_KEY;
-const CHAT_CONTEXT = `Tu es l'assistant du ICN Creativ Day, seminaire de transformation d'ICN Business School le 28 mars 2026 a Nancy (Station A). 187 participants, 22 equipes. Reponds en ${currentLang==="en"?"anglais":"francais"}, de facon concise et utile. Tutoie les gens.
+const GEMINI_KEY = "AIzaSyCJicAud0BPo04J7k16FVPcPY_f-M5qy7c";
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+GEMINI_KEY;
+const CHAT_CONTEXT_BASE = `Tu es l'assistant du ICN Creativ Day, seminaire de transformation d'ICN Business School le 28 mars 2026 a Nancy (Station A). 187 participants, 22 equipes. Tutoie les gens. Sois concis (3-5 phrases max).
 
 PROGRAMME MATIN (Amphitheatre):
 10h00 Cafe d'accueil | 10h15 Kick-off Francois Therin (DG) - perspective, defis | 10h30 Agenda + equipe (Anne) | 10h35 Collecte pain points sur l'app en silence | 10h45 Pause cafe - Elodie clusterise avec l'IA | 11h05 Francois presente les clusters et reagit | 11h20 Presentation du programme PM (Elodie + Zeenat + Anne) | 11h35 Ice-breaker "Si j'etais une oeuvre d'art..." par groupes de 4-5 | 11h55 Dejeuner partage (pot luck)
@@ -896,7 +896,8 @@ function localSearch(query){
 }
 
 async function askGemini(query){
-  const sysPrompt = CHAT_CONTEXT.replace("${currentLang===\"en\"?\"anglais\":\"francais\"}", currentLang==="en"?"anglais":"francais");
+  const langInstruction = currentLang==="en" ? "IMPORTANT: Answer in ENGLISH only." : "IMPORTANT: Reponds en FRANCAIS uniquement.";
+  const sysPrompt = langInstruction + "\n" + CHAT_CONTEXT_BASE;
   try{
     const res = await fetch(GEMINI_URL, {
       method:"POST",
