@@ -1952,7 +1952,11 @@ function pollAdmin(action, target){
         fbDb.ref("icn-polls/responses/"+target).remove();
         localStorage.removeItem("icn_voted_"+target);
       }
-      location.reload();
+      // Stay on admin page, just clear the displayed results
+      const resEl = document.getElementById("adm-results-"+target);
+      if(resEl) resEl.innerHTML = "";
+      const countEl = document.getElementById("poll-count-"+target);
+      if(countEl) countEl.textContent = "0 réponse";
     }
   }
 }
