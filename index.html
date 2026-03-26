@@ -189,6 +189,20 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .jm-loc .jm-n{font-weight:700;font-size:0.75em;margin-bottom:2px;}
 .jm-loc .jm-c{font-size:1.3em;font-weight:700;}
 .jm-loc .jm-l{font-size:0.58em;opacity:.7;margin-top:2px;}
+/* Facilitator sub-tabs */
+.fac-tabs{display:flex;background:#E3F2FD;border-radius:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:0;margin-bottom:14px;padding:3px;}
+.fac-tab{flex:0 0 auto;padding:8px 12px;text-align:center;cursor:pointer;font-weight:600;font-size:0.72em;border-radius:8px;color:#607D8B;white-space:nowrap;transition:all .2s;}
+.fac-tab.act{background:#1565C0;color:#fff;box-shadow:0 2px 6px rgba(21,101,192,.3);}
+.fac-tab:active{opacity:.7;}
+.fac-panel{display:none;}
+.fac-panel.act{display:block;}
+.fac-dist-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.8em;}
+.fac-dist-label{min-width:90px;font-weight:600;font-size:0.82em;}
+.fac-dist-bar-bg{flex:1;height:24px;background:#f0f0f0;border-radius:6px;overflow:hidden;position:relative;}
+.fac-dist-bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:0.7em;font-weight:700;color:#fff;min-width:0;transition:width .5s;}
+.fac-dist-count{min-width:40px;text-align:right;font-weight:600;color:#607D8B;font-size:0.85em;}
+.fac-team-group-label{font-size:0.82em;font-weight:700;color:#1565C0;margin:14px 0 8px;padding:6px 10px;background:#E3F2FD;border-radius:8px;}
+.fac-team-group-label.other{color:#607D8B;background:#ECEFF1;}
 /* Presenter mode */
 .presenter .hdr,.presenter .tabs,.presenter .chat-btn,.presenter .chat-box{display:none!important;}
 .presenter .pnl{max-width:100%;padding:20px 40px;}
@@ -561,7 +575,9 @@ function buildPolls(){
         <button class="adm-btn adm-btn-go" onclick="pollAdmin('activate','${q.id}')">Lancer</button>
         <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','${q.id}')">Stop</button>
         <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','${q.id}')">RAZ</button>
-      </div>`;
+        ${q.type!=="journeymap"?`<button class="adm-btn adm-btn-export" onclick="exportPollSingle('${q.id}')" style="background:#1565C0;">CSV</button>`:''}
+      </div>
+      ${q.type!=="journeymap"?`<div id="adm-results-${q.id}" style="margin:0 0 10px 0;max-height:300px;overflow-y:auto;"></div>`:''}`;
     });
     html += `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','all')">RAZ tout</button>
@@ -878,27 +894,175 @@ function buildFacilitateur(){
   const preselect = facParam === "1" ? "" : facParam;
 
   let html = `<div class="pnl" id="p-facilitateur">
-  <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
-    <h2 style="font-size:1.05em;color:#1565C0;margin-bottom:6px;" data-fr="Facilitateur — Journey Map" data-en="Facilitator — Journey Map">Facilitateur — Journey Map</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;" data-fr="Evalue ou en est chaque equipe dans le voyage du changement." data-en="Evaluate where each team stands on the journey of change.">Evalue ou en est chaque equipe dans le voyage du changement.</p>
-  </div>
-  <select class="fac-select" id="facSelect" onchange="onFacSelect()">
+  <select class="fac-select" id="facSelect" onchange="onFacSelect()" style="margin-bottom:8px;">
     <option value="">-- Choisis ton nom --</option>
     ${FAC_NAMES.map(n=>`<option value="${n}" ${n===preselect?"selected":""}>${n}</option>`).join("")}
   </select>
-  <div id="facPhaseInfo" class="fac-no-phase" data-fr="Aucune phase active" data-en="No active phase">Aucune phase active</div>
-  <div id="facTeamsList"></div>
-  <div style="margin-top:20px;background:#263238;border-radius:14px;padding:16px;">
-    <h3 style="color:#fff;font-size:0.95em;margin-bottom:12px;" data-fr="Vue globale — Toutes les equipes" data-en="Global view — All teams">Vue globale — Toutes les equipes</h3>
-    <div id="facGlobalView" style="color:#fff;font-size:0.82em;"></div>
+  <div class="fac-tabs" id="facTabs">
+    <div class="fac-tab act" onclick="switchFacTab('fac-home')" data-fr="Accueil" data-en="Home">Accueil</div>
+    <div class="fac-tab" onclick="switchFacTab('fac-s1')" data-fr="S1" data-en="S1">S1</div>
+    <div class="fac-tab" onclick="switchFacTab('fac-s2')" data-fr="S2" data-en="S2">S2</div>
+    <div class="fac-tab" onclick="switchFacTab('fac-s3')" data-fr="S3" data-en="S3">S3</div>
+    <div class="fac-tab" onclick="switchFacTab('fac-eval')" data-fr="Mon éval." data-en="My eval.">Mon éval.</div>
+    <div class="fac-tab" onclick="switchFacTab('fac-synth')" data-fr="Synthèse" data-en="Summary">Synthèse</div>
   </div>
+
+  <!-- Accueil -->
+  <div class="fac-panel act" id="fac-home">
+    <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:20px;margin-bottom:14px;text-align:center;">
+      <div style="font-size:2em;margin-bottom:8px;">&#127919;</div>
+      <h2 style="font-size:1.1em;color:#1565C0;margin-bottom:6px;" id="facWelcomeTitle" data-fr="Bienvenue !" data-en="Welcome!">Bienvenue !</h2>
+      <div id="facWelcomeName" style="font-size:1em;color:#455A64;font-weight:600;margin-bottom:10px;"></div>
+    </div>
+    <div id="facHomeTeams" style="margin-bottom:14px;"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div onclick="switchFacTab('fac-s1')" style="background:#FFF3E0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+        <div style="font-size:1.2em;margin-bottom:4px;">&#128172;</div>
+        <div style="font-weight:700;font-size:0.78em;color:#E65100;" data-fr="Sondage 1" data-en="Poll 1">Sondage 1</div>
+        <div style="font-size:0.65em;color:#607D8B;" data-fr="Nuage de mots" data-en="Word cloud">Nuage de mots</div>
+      </div>
+      <div onclick="switchFacTab('fac-s2')" style="background:#FCE4EC;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+        <div style="font-size:1.2em;margin-bottom:4px;">&#128221;</div>
+        <div style="font-weight:700;font-size:0.78em;color:#C2185B;" data-fr="Sondage 2" data-en="Poll 2">Sondage 2</div>
+        <div style="font-size:0.65em;color:#607D8B;" data-fr="Mur de post-its" data-en="Post-it wall">Mur de post-its</div>
+      </div>
+      <div onclick="switchFacTab('fac-s3')" style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+        <div style="font-size:1.2em;margin-bottom:4px;">&#128506;</div>
+        <div style="font-weight:700;font-size:0.78em;color:#2E7D32;" data-fr="Sondage 3" data-en="Poll 3">Sondage 3</div>
+        <div style="font-size:0.65em;color:#607D8B;" data-fr="Journey Map" data-en="Journey Map">Journey Map</div>
+      </div>
+      <div onclick="switchFacTab('fac-eval')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+        <div style="font-size:1.2em;margin-bottom:4px;">&#9997;</div>
+        <div style="font-weight:700;font-size:0.78em;color:#1565C0;" data-fr="Mon évaluation" data-en="My evaluation">Mon évaluation</div>
+        <div style="font-size:0.65em;color:#607D8B;" data-fr="Voter par équipe" data-en="Vote per team">Voter par équipe</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sondage 1 -->
+  <div class="fac-panel" id="fac-s1">
+    <div style="background:#FFF3E0;border-radius:12px;padding:14px;margin-bottom:14px;">
+      <h3 style="font-size:0.95em;color:#E65100;margin-bottom:4px;" data-fr="Sondage 1 — Nuage de mots" data-en="Poll 1 — Word Cloud">Sondage 1 — Nuage de mots</h3>
+      <p style="font-size:0.8em;color:#795548;" data-fr="${POLL_QUESTIONS[0].fr}" data-en="${POLL_QUESTIONS[0].en}">${POLL_QUESTIONS[0].fr}</p>
+    </div>
+    <div id="fac-count-q1" style="font-size:0.8em;color:#607D8B;text-align:center;margin-bottom:8px;font-weight:600;"></div>
+    <div id="fac-results-q1"></div>
+  </div>
+
+  <!-- Sondage 2 -->
+  <div class="fac-panel" id="fac-s2">
+    <div style="background:#FCE4EC;border-radius:12px;padding:14px;margin-bottom:14px;">
+      <h3 style="font-size:0.95em;color:#C2185B;margin-bottom:4px;" data-fr="Sondage 2 — Mur de post-its" data-en="Poll 2 — Post-it Wall">Sondage 2 — Mur de post-its</h3>
+      <p style="font-size:0.8em;color:#795548;" data-fr="${POLL_QUESTIONS[1].fr}" data-en="${POLL_QUESTIONS[1].en}">${POLL_QUESTIONS[1].fr}</p>
+    </div>
+    <div id="fac-count-q2" style="font-size:0.8em;color:#607D8B;text-align:center;margin-bottom:8px;font-weight:600;"></div>
+    <div id="fac-results-q2"></div>
+  </div>
+
+  <!-- Sondage 3 — Journey Map participants -->
+  <div class="fac-panel" id="fac-s3">
+    <div style="background:#E8F5E9;border-radius:12px;padding:14px;margin-bottom:14px;">
+      <h3 style="font-size:0.95em;color:#2E7D32;margin-bottom:4px;" data-fr="Sondage 3 — Journey Map participants" data-en="Poll 3 — Participant Journey Map">Sondage 3 — Journey Map participants</h3>
+      <p style="font-size:0.8em;color:#455A64;" data-fr="Distribution des votes par phase" data-en="Vote distribution per phase">Distribution des votes par phase</p>
+    </div>
+    <div id="fac-s3-content"></div>
+  </div>
+
+  <!-- Mon évaluation -->
+  <div class="fac-panel" id="fac-eval">
+    <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
+      <h2 style="font-size:1.05em;color:#1565C0;margin-bottom:6px;" data-fr="Mon évaluation — Journey Map" data-en="My evaluation — Journey Map">Mon évaluation — Journey Map</h2>
+      <p style="font-size:0.8em;color:#455A64;line-height:1.4;" data-fr="Évalue où en est chaque équipe dans le voyage du changement." data-en="Evaluate where each team stands on the journey of change.">Évalue où en est chaque équipe dans le voyage du changement.</p>
+    </div>
+    <div id="facPhaseInfo" class="fac-no-phase" data-fr="Aucune phase active" data-en="No active phase">Aucune phase active</div>
+    <div id="facTeamsList"></div>
+  </div>
+
+  <!-- Synthèse équipes -->
+  <div class="fac-panel" id="fac-synth">
+    <div style="background:#263238;border-radius:14px;padding:16px;">
+      <h3 style="color:#fff;font-size:0.95em;margin-bottom:12px;" data-fr="Vue globale — Toutes les équipes" data-en="Global view — All teams">Vue globale — Toutes les équipes</h3>
+      <div id="facGlobalView" style="color:#fff;font-size:0.82em;"></div>
+    </div>
+  </div>
+
   </div>`;
   return html;
+}
+
+function switchFacTab(id){
+  document.querySelectorAll('.fac-tab').forEach(t => t.classList.toggle('act', t.getAttribute('onclick').includes(id)));
+  document.querySelectorAll('.fac-panel').forEach(p => p.classList.toggle('act', p.id===id));
+  // Trigger rendering for specific tabs
+  if(id==='fac-home') renderFacHome();
+  if(id==='fac-s3') renderFacS3();
+  if(id==='fac-eval') renderFacTeams();
+  if(id==='fac-synth') renderFacGlobalView();
+}
+
+function renderFacHome(){
+  const facName = document.getElementById("facSelect")?.value || localStorage.getItem("icn_fac_name") || "";
+  const nameEl = document.getElementById("facWelcomeName");
+  const teamsEl = document.getElementById("facHomeTeams");
+  if(!nameEl || !teamsEl) return;
+  if(!facName){
+    nameEl.textContent = currentLang==="en" ? "Select your name above" : "Sélectionne ton nom ci-dessus";
+    teamsEl.innerHTML = "";
+    return;
+  }
+  const facKey = Object.keys(FAC_MAP).find(k=>FAC_MAP[k].name===facName);
+  const facData = facKey ? FAC_MAP[facKey] : null;
+  nameEl.textContent = facData ? facData.fullName : facName;
+  if(!facKey){ teamsEl.innerHTML=""; return; }
+  const myTeams = TEAMS.filter(t=>t.fac===facKey);
+  let html = `<h3 style="font-size:0.88em;color:#263238;margin-bottom:8px;" data-fr="Mes équipes (${myTeams.length})" data-en="My teams (${myTeams.length})">${currentLang==="en"?"My teams":"Mes équipes"} (${myTeams.length})</h3>`;
+  myTeams.forEach(t=>{
+    const v = VILLAGES[t.village];
+    html += `<div style="background:#fff;border-left:4px solid ${t.vColor};border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:6px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;" onclick="showTeamModal('${t.name}')">
+      <div style="font-weight:700;font-size:0.88em;">${t.name} <span style="font-size:0.75em;color:#607D8B;font-weight:400;">${t.members.length} pers.</span></div>
+      <div style="font-size:0.72em;color:#607D8B;">${v.name} — ${ROOM_NAMES[t.p2Room]}</div>
+    </div>`;
+  });
+  teamsEl.innerHTML = html;
+}
+
+function renderFacS3(){
+  const container = document.getElementById("fac-s3-content");
+  if(!container) return;
+  let html = "";
+  JM_PARTICIPANT_PHASES.forEach(ph=>{
+    const responses = jmPhaseResponses[ph.id] || [];
+    const total = responses.length;
+    const counts = {};
+    JM_LOCATIONS.forEach(l=>counts[l.id]=0);
+    responses.forEach(r=>{if(counts[r.location]!==undefined) counts[r.location]++;});
+    html += `<div style="background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+      <h4 style="font-size:0.88em;color:#263238;margin-bottom:10px;">${currentLang==="en"?ph.en:ph.fr} <span style="font-size:0.75em;color:#607D8B;">(${ph.time})</span> <span style="font-size:0.72em;background:#E3F2FD;color:#1565C0;padding:2px 8px;border-radius:10px;margin-left:6px;">${total} vote${total>1?"s":""}</span></h4>`;
+    if(total===0){
+      html += `<div style="text-align:center;color:#B0BEC5;font-size:0.82em;padding:10px;">${currentLang==="en"?"No votes yet":"Aucun vote pour l'instant"}</div>`;
+    } else {
+      JM_LOCATIONS.forEach(loc=>{
+        const c = counts[loc.id]||0;
+        const pct = total>0 ? Math.round(c/total*100) : 0;
+        html += `<div class="fac-dist-bar">
+          <div class="fac-dist-label" style="color:${loc.color};">${currentLang==="en"?loc.name:loc.nameFr}</div>
+          <div class="fac-dist-bar-bg">
+            <div class="fac-dist-bar-fill" style="width:${pct}%;background:${loc.color};">${pct>10?pct+"%":""}</div>
+          </div>
+          <div class="fac-dist-count">${c} <span style="font-size:0.8em;color:#B0BEC5;">(${pct}%)</span></div>
+        </div>`;
+      });
+    }
+    html += `</div>`;
+  });
+  if(!html) html = `<div style="text-align:center;color:#607D8B;padding:20px;">${currentLang==="en"?"No data yet":"Pas encore de données"}</div>`;
+  container.innerHTML = html;
 }
 
 function onFacSelect(){
   const name = document.getElementById("facSelect").value;
   if(name) localStorage.setItem("icn_fac_name", name);
+  renderFacHome();
   renderFacTeams();
 }
 
@@ -913,33 +1077,39 @@ function renderFacTeams(){
   if(!facKey){ container.innerHTML = `<p style="color:#C62828;font-size:0.85em;">Facilitateur non trouvé</p>`; return; }
 
   const myTeams = TEAMS.filter(t=>t.fac===facKey);
+  const otherTeams = TEAMS.filter(t=>t.fac!==facKey);
   const activePhase = window._facActivePhase || null;
 
-  let html = "";
-  myTeams.forEach(t=>{
-    html += `<div class="fac-team-card">
+  function renderTeamCard(t, highlight){
+    let cardHtml = `<div class="fac-team-card" ${!highlight?'style="opacity:0.85;"':''}>
       <div class="fac-team-hdr" style="background:${t.vColor};">
         <span>${t.name}</span>
-        <span style="font-size:0.75em;opacity:.8;">${t.members.length} pers.</span>
+        <span style="font-size:0.75em;opacity:.8;">${t.members.length} pers.${!highlight?' — '+t.fac:''}</span>
       </div>
       <div class="fac-team-body" id="fac-team-${t.name.replace(/\s/g,'-')}">`;
     if(!activePhase){
-      // Show previous votes summary
-      html += renderFacTeamSummary(t.name);
+      cardHtml += renderFacTeamSummary(t.name);
     } else {
       const voteKey = `icn_fac_${activePhase}_${t.name}`;
       const alreadyVoted = localStorage.getItem(voteKey);
       if(alreadyVoted){
         const loc = JM_LOCATIONS.find(l=>l.id===alreadyVoted);
-        html += `<div class="fac-submitted">✅ ${loc ? (currentLang==="en"?loc.name:loc.nameFr) : alreadyVoted}</div>`;
+        cardHtml += `<div class="fac-submitted">✅ ${loc ? (currentLang==="en"?loc.name:loc.nameFr) : alreadyVoted}</div>`;
       } else {
-        html += `<div class="fac-jm-grid">
+        cardHtml += `<div class="fac-jm-grid">
           ${JM_LOCATIONS.map(loc=>`<div class="fac-jm-btn" data-loc="${loc.id}" data-team="${t.name}" style="background:${loc.bg};color:${loc.color};" onclick="submitFacJM('${t.name}','${loc.id}')">${currentLang==="en"?loc.name:loc.nameFr}</div>`).join("")}
         </div>`;
       }
     }
-    html += `</div></div>`;
-  });
+    cardHtml += `</div></div>`;
+    return cardHtml;
+  }
+
+  let html = `<div class="fac-team-group-label" data-fr="Mes équipes (${myTeams.length})" data-en="My teams (${myTeams.length})">${currentLang==="en"?"My teams":"Mes équipes"} (${myTeams.length})</div>`;
+  myTeams.forEach(t=>{ html += renderTeamCard(t, true); });
+
+  html += `<div class="fac-team-group-label other" data-fr="Autres équipes (${otherTeams.length})" data-en="Other teams (${otherTeams.length})">${currentLang==="en"?"Other teams":"Autres équipes"} (${otherTeams.length})</div>`;
+  otherTeams.forEach(t=>{ html += renderTeamCard(t, false); });
 
   container.innerHTML = html;
 }
@@ -1492,6 +1662,20 @@ function listenPolls(){
       const countEl = document.getElementById("poll-count-"+q.id);
       if(countEl) countEl.textContent = responses.length + " reponse" + (responses.length>1?"s":"");
       renderPollResults(q, responses);
+      // Also update admin results view
+      const admC = document.getElementById("adm-results-"+q.id);
+      if(admC){
+        if(q.type==="wordcloud") renderWordCloud(admC, responses);
+        else renderOpenText(admC, responses);
+      }
+      // Also update facilitator view
+      const facC = document.getElementById("fac-results-"+q.id);
+      if(facC){
+        if(q.type==="wordcloud") renderWordCloud(facC, responses);
+        else renderOpenText(facC, responses);
+      }
+      const facCount = document.getElementById("fac-count-"+q.id);
+      if(facCount) facCount.textContent = responses.length + " réponse" + (responses.length>1?"s":"");
     });
     // Listen active state — one question at a time
     fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
@@ -1782,6 +1966,8 @@ function listenJmPhases(){
       updateJmEvolution();
       // Update the live results grid (aggregate all participant phases for display)
       updateJourneyMapAggregate();
+      // Update facilitator S3 view
+      renderFacS3();
       // Update q3 poll count
       const totalResponses = JM_PARTICIPANT_PHASES.reduce((s,p)=>{
         return s + (jmPhaseResponses[p.id]||[]).length;
@@ -1969,6 +2155,54 @@ function updateJmFacHeatmap(){
 }
 
 // Export to Excel (CSV download)
+function exportPollSingle(qid){
+  if(!fbReady) return;
+  if(qid==="jm-participants"){
+    fbDb.ref("icn-polls/journey-map/responses").once("value", snap=>{
+      const data = snap.val() || {};
+      let csv = "\uFEFF";
+      JM_PARTICIPANT_PHASES.forEach(ph=>{
+        const phData = data[ph.id] ? Object.values(data[ph.id]) : [];
+        phData.forEach(r=>{
+          const loc = JM_LOCATIONS.find(l=>l.id===r.location);
+          csv += `${loc?loc.nameFr:r.location}\n`;
+        });
+      });
+      dlCSV(csv, "S3_JourneyMap_Participants");
+    });
+    return;
+  }
+  if(qid==="jm-facilitateurs"){
+    fbDb.ref("icn-polls/journey-map-facilitators/responses").once("value", snap=>{
+      const data = snap.val() || {};
+      let csv = "\uFEFFEquipe;Etape\n";
+      JM_FAC_PHASES.forEach(ph=>{
+        const phData = data[ph.id] || {};
+        Object.entries(phData).forEach(([team, r])=>{
+          const loc = JM_LOCATIONS.find(l=>l.id===r.location);
+          csv += `${team.replace(/_/g,' ')};${loc?loc.nameFr:r.location}\n`;
+        });
+      });
+      dlCSV(csv, "JM_Facilitateurs");
+    });
+    return;
+  }
+  fbDb.ref("icn-polls/responses/"+qid).once("value", snap=>{
+    const data = snap.val();
+    if(!data) return alert("Aucune reponse");
+    let csv = "\uFEFF";
+    Object.values(data).forEach(r=>{ csv += `${(r.text||'').replace(/;/g,',')}\n`; });
+    dlCSV(csv, "Sondage_"+qid.toUpperCase());
+  });
+}
+function dlCSV(csv, name){
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "ICN_"+name+"_"+new Date().toISOString().slice(0,10)+".csv";
+  link.click();
+}
+
 function exportPolls(){
   if(!fbReady) return;
   Promise.all([
@@ -1980,31 +2214,23 @@ function exportPolls(){
     const jmData = jmSnap.val() || {};
     const facData = facSnap.val() || {};
     let csv = "\uFEFF";
-    // Q1 & Q2
     POLL_QUESTIONS.filter(q=>q.type!=="journeymap").forEach(q=>{
-      csv += `\n=== ${q.fr} (${q.type}) ===\nReponse;Timestamp\n`;
       const responses = pollData[q.id] ? Object.values(pollData[q.id]) : [];
-      responses.forEach(r=>{
-        const date = new Date(r.ts).toLocaleString("fr-FR");
-        csv += `"${(r.text||'').replace(/"/g,'""').replace(/;/g,',')}";${date}\n`;
-      });
+      responses.forEach(r=>{ csv += `${(r.text||'').replace(/;/g,',')}\n`; });
+      csv += `\n`;
     });
-    // Journey Map participants
-    csv += `\n=== Journey Map — Participants ===\nPhase;Etape;Timestamp\n`;
     JM_PARTICIPANT_PHASES.forEach(ph=>{
       const phData = jmData[ph.id] ? Object.values(jmData[ph.id]) : [];
       phData.forEach(r=>{
         const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-        csv += `${ph.fr};${loc?loc.nameFr:r.location};${new Date(r.timestamp).toLocaleString("fr-FR")}\n`;
+        csv += `${loc?loc.nameFr:r.location}\n`;
       });
     });
-    // Journey Map facilitateurs
-    csv += `\n=== Journey Map — Facilitateurs ===\nPhase;Equipe;Etape;Facilitateur;Timestamp\n`;
     JM_FAC_PHASES.forEach(ph=>{
       const phData = facData[ph.id] || {};
       Object.entries(phData).forEach(([team, r])=>{
         const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-        csv += `${ph.fr};${team.replace(/_/g,' ')};${loc?loc.nameFr:r.location};${r.facilitator||''};${new Date(r.timestamp).toLocaleString("fr-FR")}\n`;
+        csv += `${team.replace(/_/g,' ')};${loc?loc.nameFr:r.location}\n`;
       });
     });
     const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
@@ -2035,6 +2261,10 @@ function setLang(lang){
   // Update tab labels
   document.querySelectorAll(".tb").forEach(tb=>{
     if(tb.dataset[lang]) tb.textContent = tb.dataset[lang];
+  });
+  // Update fac sub-tab labels
+  document.querySelectorAll(".fac-tab").forEach(ft=>{
+    if(ft.dataset[lang]) ft.textContent = ft.dataset[lang];
   });
   // Update chatbot button
   document.getElementById("chatBtn").innerHTML = lang==="fr" ? "&#128269; Mon assistant" : "&#128269; My assistant";
@@ -2079,6 +2309,7 @@ if(savedLang) setLang(savedLang);
     if(saved && !facSelect.value){
       facSelect.value = saved;
     }
+    renderFacHome();
   }
 })();
 
