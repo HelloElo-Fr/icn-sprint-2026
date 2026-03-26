@@ -1878,9 +1878,20 @@ function pollAdmin(action, target){
     POLL_QUESTIONS.forEach(q=>{
       fbDb.ref("icn-polls/active/"+q.id).set(q.id===target);
     });
+    // If activating q3, also activate first available JM participant phase
+    if(target==="q3"){
+      const nextPhase = JM_PARTICIPANT_PHASES.find(ph=>!localStorage.getItem(`icn_jm_${ph.id}_done`)) || JM_PARTICIPANT_PHASES[0];
+      fbDb.ref("icn-polls/journey-map/active-phase").set(nextPhase.id);
+    }
   } else if(action==="deactivate"){
-    if(target==="all") POLL_QUESTIONS.forEach(q=>fbDb.ref("icn-polls/active/"+q.id).set(false));
-    else fbDb.ref("icn-polls/active/"+target).set(false);
+    if(target==="all"){
+      POLL_QUESTIONS.forEach(q=>fbDb.ref("icn-polls/active/"+q.id).set(false));
+      fbDb.ref("icn-polls/journey-map/active-phase").set(null);
+    }
+    else {
+      fbDb.ref("icn-polls/active/"+target).set(false);
+      if(target==="q3") fbDb.ref("icn-polls/journey-map/active-phase").set(null);
+    }
   } else if(action==="reset"){
     const msg = target==="all" ? "Supprimer TOUTES les reponses ?" : "Supprimer les reponses de Q"+target.replace("q","")+" ?";
     if(confirm(msg)){
