@@ -1291,16 +1291,16 @@ document.addEventListener("input", e=>{
 
 // ============ POLLS ============
 const POLL_QUESTIONS = [
-  {id:"q1",type:"opentext",num:"1/3",
+  {id:"q1",type:"wordcloud",num:"1/3",
    fr:"Qu'est-ce qui t'empeche de faire du bon travail a l'ICN ?",
    en:"What's getting in the way of doing great work at ICN?",
-   placeholder_fr:"Ta reponse courte...",placeholder_en:"Your short answer...",
-   maxLen:200},
-  {id:"q2",type:"wordcloud",num:"2/3",
-   fr:"Qu'est-ce qui freine le developpement de l'ICN selon toi ?",
-   en:"What's holding ICN back?",
    placeholder_fr:"Un ou deux mots...",placeholder_en:"One or two words...",
    maxLen:40},
+  {id:"q2",type:"opentext",num:"2/3",
+   fr:"Qu'est-ce qui freine le developpement de l'ICN selon toi ?",
+   en:"What's holding ICN back?",
+   placeholder_fr:"Ta reponse...",placeholder_en:"Your answer...",
+   maxLen:200},
   {id:"q3",type:"journeymap",num:"3/3",
    fr:"Ou en es-tu dans le voyage du changement ?",
    en:"Where are you on the journey?",
@@ -1517,7 +1517,12 @@ function renderWordCloud(container, responses){
 
 function renderOpenText(container, responses){
   const items = responses.slice(-200).reverse();
-  container.innerHTML = `<div class="ot-list">${items.map(r=>`<div class="ot-item">${escHtml(r.text)}</div>`).join("")}</div>`;
+  const postItColors = ["#FFF9C4","#FFECB3","#FFE0B2","#F8BBD0","#E1BEE7","#C8E6C9","#B3E5FC","#DCEDC8","#FFE082","#B2EBF2"];
+  container.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:10px;padding:10px;">${items.map((r,i)=>{
+    const bg = postItColors[i % postItColors.length];
+    const rot = (Math.random()*6-3).toFixed(1);
+    return `<div style="background:${bg};padding:14px 16px;border-radius:4px;box-shadow:2px 3px 8px rgba(0,0,0,.12);min-width:120px;max-width:220px;flex:1 1 180px;transform:rotate(${rot}deg);font-size:0.85em;line-height:1.4;word-break:break-word;border-bottom:3px solid rgba(0,0,0,.06);">${escHtml(r.text)}</div>`;
+  }).join("")}</div>`;
 }
 
 function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
@@ -1930,17 +1935,40 @@ function updateJmFacHeatmap(){
 // Export to Excel (CSV download)
 function exportPolls(){
   if(!fbReady) return;
-  fbDb.ref("icn-polls/responses").once("value", snap=>{
-    const data = snap.val();
-    if(!data) return alert("Aucune reponse");
-    let csv = "\uFEFF"; // BOM for Excel UTF-8
-    csv += "Question;Type;Reponse;Timestamp\n";
-    POLL_QUESTIONS.forEach(q=>{
-      const responses = data[q.id] ? Object.values(data[q.id]) : [];
+  Promise.all([
+    fbDb.ref("icn-polls/responses").once("value"),
+    fbDb.ref("icn-polls/journey-map/responses").once("value"),
+    fbDb.ref("icn-polls/journey-map-facilitators/responses").once("value")
+  ]).then(([pollSnap, jmSnap, facSnap])=>{
+    const pollData = pollSnap.val() || {};
+    const jmData = jmSnap.val() || {};
+    const facData = facSnap.val() || {};
+    let csv = "\uFEFF";
+    // Q1 & Q2
+    POLL_QUESTIONS.filter(q=>q.type!=="journeymap").forEach(q=>{
+      csv += `\n=== ${q.fr} (${q.type}) ===\nReponse;Timestamp\n`;
+      const responses = pollData[q.id] ? Object.values(pollData[q.id]) : [];
       responses.forEach(r=>{
         const date = new Date(r.ts).toLocaleString("fr-FR");
-        const text = r.text.replace(/"/g,'""').replace(/;/g,",");
-        csv += `"${q.fr}";"${q.type}";"${text}";"${date}"\n`;
+        csv += `"${(r.text||'').replace(/"/g,'""').replace(/;/g,',')}";${date}\n`;
+      });
+    });
+    // Journey Map participants
+    csv += `\n=== Journey Map — Participants ===\nPhase;Etape;Timestamp\n`;
+    JM_PARTICIPANT_PHASES.forEach(ph=>{
+      const phData = jmData[ph.id] ? Object.values(jmData[ph.id]) : [];
+      phData.forEach(r=>{
+        const loc = JM_LOCATIONS.find(l=>l.id===r.location);
+        csv += `${ph.fr};${loc?loc.nameFr:r.location};${new Date(r.timestamp).toLocaleString("fr-FR")}\n`;
+      });
+    });
+    // Journey Map facilitateurs
+    csv += `\n=== Journey Map — Facilitateurs ===\nPhase;Equipe;Etape;Facilitateur;Timestamp\n`;
+    JM_FAC_PHASES.forEach(ph=>{
+      const phData = facData[ph.id] || {};
+      Object.entries(phData).forEach(([team, r])=>{
+        const loc = JM_LOCATIONS.find(l=>l.id===r.location);
+        csv += `${ph.fr};${team.replace(/_/g,' ')};${loc?loc.nameFr:r.location};${r.facilitator||''};${new Date(r.timestamp).toLocaleString("fr-FR")}\n`;
       });
     });
     const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
