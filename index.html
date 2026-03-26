@@ -1923,10 +1923,9 @@ function exportPolls(){
   });
 }
 
-// Presenter mode — auto-switch to polls tab and show results full-screen
+// Presenter mode
 if(window.location.search.includes("presenter")){
   document.body.classList.add("presenter");
-  switchTab("polls");
 }
 
 // ============ LANG ============
@@ -1974,6 +1973,7 @@ function setLang(lang){
 
 // ============ INIT ============
 init();
+if(window.location.search.includes("presenter")) switchTab("polls");
 initFirebase();
 // Restore language
 const savedLang = localStorage.getItem("icn_lang");
