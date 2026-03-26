@@ -615,6 +615,10 @@ function buildPolls(){
         <div class="ms-label" id="jmMsLabel">ont avancé d'au moins une étape</div>
       </div>
     </div>`;
+    html += `<div style="margin:10px 0;display:flex;gap:6px;">
+      <button class="adm-btn adm-btn-export" onclick="exportPollSingle('jm-participants')" style="background:#1565C0;">CSV Participants</button>
+      <button class="adm-btn adm-btn-export" onclick="exportPollSingle('jm-facilitateurs')" style="background:#1B5E20;">CSV Facilitateurs</button>
+    </div>`;
     // Facilitator heatmap
     html += `<div class="adm-jm-section"><h4>Heatmap — Facilitateurs</h4>
       <table class="hm-table" id="jmFacHeatmap">
