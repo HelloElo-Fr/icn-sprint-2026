@@ -575,7 +575,7 @@ function buildPolls(){
         <button class="adm-btn adm-btn-go" onclick="pollAdmin('activate','${q.id}')">Lancer</button>
         <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','${q.id}')">Stop</button>
         <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','${q.id}')">RAZ</button>
-        ${q.type!=="journeymap"?`<button class="adm-btn adm-btn-export" onclick="exportSinglePoll('${q.id}')" style="background:#1565C0;">📥 Excel</button>`:''}
+        ${q.type!=="journeymap"?`<button class="adm-btn adm-btn-export" onclick="exportPollSingle('${q.id}')" style="background:#1565C0;">📥 Excel</button>`:''}
       </div>
       ${q.type!=="journeymap"?`<div id="adm-results-${q.id}" style="margin:0 0 10px 0;max-height:300px;overflow-y:auto;"></div>`:''}`;
     });
@@ -2349,8 +2349,8 @@ function exportFacilitators(){
 }
 function exportPolls(){
   if(!fbReady) return;
-  exportSinglePoll("q1");
-  setTimeout(()=>exportSinglePoll("q2"), 500);
+  exportPollSingle("q1");
+  setTimeout(()=>exportPollSingle("q2"), 500);
   setTimeout(()=>exportJourneyMap(), 1000);
   setTimeout(()=>exportFacilitators(), 1500);
 }
