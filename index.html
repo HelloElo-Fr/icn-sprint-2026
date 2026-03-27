@@ -2299,54 +2299,65 @@ function exportPollSingle(qid){
   fbDb.ref("icn-polls/responses/"+qid).once("value", snap=>{
     const data = snap.val();
     if(!data) return alert("Aucune réponse");
-    let csv = "\uFEFF";
-    Object.values(data).forEach(r=>{ csv += `${(r.text||'').replace(/;/g,',')}\n`; });
-    dlCSV(csv, "Sondage_"+qid.toUpperCase());
+    const label = qid==="q1" ? "Quotidien" : "Freins_ICN";
+    const rows = Object.values(data).map(r=>[r.text||'']);
+    dlXLSX(rows, "Sondage_"+label, ["Réponse"]);
   });
 }
-function dlCSV(csv, name){
-  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "ICN_"+name+"_"+new Date().toISOString().slice(0,10)+".csv";
-  link.click();
+
+// SheetJS for real .xlsx exports
+const _sheetJS = document.createElement("script");
+_sheetJS.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
+document.head.appendChild(_sheetJS);
+
+function dlXLSX(rows, name, headers){
+  if(typeof XLSX === "undefined") return alert("Chargement Excel en cours, réessaie dans 2 secondes");
+  const ws = XLSX.utils.aoa_to_sheet(headers ? [headers, ...rows] : rows);
+  const colW = (headers||rows[0]||[]).map((_,i)=>{
+    let max = headers ? (headers[i]||'').length : 0;
+    rows.forEach(r=>{ if(r[i]) max = Math.max(max, String(r[i]).length); });
+    return {wch: Math.min(Math.max(max+2, 10), 60)};
+  });
+  ws['!cols'] = colW;
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, name.substring(0,31));
+  XLSX.writeFile(wb, "ICN_"+name+"_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
 
 function exportJourneyMap(){
   if(!fbReady) return;
   fbDb.ref("icn-polls/journey-map/responses").once("value", snap=>{
     const data = snap.val() || {};
-    let csv = "\uFEFFPhase;Reponse\n";
+    const rows = [];
     JM_PARTICIPANT_PHASES.forEach(ph=>{
       const phData = data[ph.id] ? Object.values(data[ph.id]) : [];
       phData.forEach(r=>{
         const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-        csv += `${ph.labelFr};${loc?loc.nameFr:r.location}\n`;
+        rows.push([ph.labelFr, loc?loc.nameFr:r.location]);
       });
     });
-    if(csv.split("\n").length<=2) return alert("Aucune réponse Journey Map");
-    dlCSV(csv, "JourneyMap_Participants");
+    if(!rows.length) return alert("Aucune réponse Journey Map");
+    dlXLSX(rows, "JourneyMap_Participants", ["Phase","Étape choisie"]);
   });
 }
 function exportFacilitators(){
   if(!fbReady) return;
   fbDb.ref("icn-polls/journey-map-facilitators/responses").once("value", snap=>{
     const data = snap.val() || {};
-    let csv = "\uFEFFPhase;Equipe;Facilitateur;Etape\n";
+    const rows = [];
     JM_FAC_PHASES.forEach(ph=>{
       const phData = data[ph.id] || {};
       Object.entries(phData).forEach(([team, r])=>{
         const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-        csv += `${ph.labelFr};${team.replace(/_/g,' ')};${r.facilitator||''};${loc?loc.nameFr:r.location}\n`;
+        rows.push([ph.labelFr, team.replace(/_/g,' '), r.facilitator||'', loc?loc.nameFr:r.location]);
       });
     });
-    if(csv.split("\n").length<=2) return alert("Aucune évaluation facilitateur");
-    dlCSV(csv, "JourneyMap_Facilitateurs");
+    if(!rows.length) return alert("Aucune évaluation facilitateur");
+    dlXLSX(rows, "JourneyMap_Facilitateurs", ["Phase","Équipe","Facilitateur","Étape"]);
   });
 }
 function exportPolls(){
   if(!fbReady) return;
-  // Export each poll separately
   exportSinglePoll("q1");
   setTimeout(()=>exportSinglePoll("q2"), 500);
   setTimeout(()=>exportJourneyMap(), 1000);
