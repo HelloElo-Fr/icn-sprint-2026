@@ -581,8 +581,17 @@ function buildPolls(){
     });
     html += `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','all')">RAZ tout</button>
-      <button class="adm-btn adm-btn-export" onclick="exportPolls()">Exporter Excel</button>
       <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','all')">Tout fermer</button>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid #ddd;">
+      <strong>📥 Exports individuels</strong>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+        <button class="adm-btn adm-btn-export" onclick="exportSinglePoll('q1')">Export S1 (quotidien)</button>
+        <button class="adm-btn adm-btn-export" onclick="exportSinglePoll('q2')">Export S2 (freins ICN)</button>
+        <button class="adm-btn adm-btn-export" onclick="exportJourneyMap()">Export Journey Map</button>
+        <button class="adm-btn adm-btn-export" onclick="exportFacilitators()">Export Facilitateurs</button>
+        <button class="adm-btn adm-btn-export" onclick="exportPolls()">⬇ Tout exporter</button>
+      </div>
     </div></div>`;
 
     // === ADMIN: Regie Journey Map ===
@@ -2303,42 +2312,45 @@ function dlCSV(csv, name){
   link.click();
 }
 
-function exportPolls(){
+function exportJourneyMap(){
   if(!fbReady) return;
-  Promise.all([
-    fbDb.ref("icn-polls/responses").once("value"),
-    fbDb.ref("icn-polls/journey-map/responses").once("value"),
-    fbDb.ref("icn-polls/journey-map-facilitators/responses").once("value")
-  ]).then(([pollSnap, jmSnap, facSnap])=>{
-    const pollData = pollSnap.val() || {};
-    const jmData = jmSnap.val() || {};
-    const facData = facSnap.val() || {};
-    let csv = "\uFEFF";
-    POLL_QUESTIONS.filter(q=>q.type!=="journeymap").forEach(q=>{
-      const responses = pollData[q.id] ? Object.values(pollData[q.id]) : [];
-      responses.forEach(r=>{ csv += `${(r.text||'').replace(/;/g,',')}\n`; });
-      csv += `\n`;
-    });
+  fbDb.ref("icn-polls/journey-map/responses").once("value", snap=>{
+    const data = snap.val() || {};
+    let csv = "\uFEFFPhase;Reponse\n";
     JM_PARTICIPANT_PHASES.forEach(ph=>{
-      const phData = jmData[ph.id] ? Object.values(jmData[ph.id]) : [];
+      const phData = data[ph.id] ? Object.values(data[ph.id]) : [];
       phData.forEach(r=>{
         const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-        csv += `${loc?loc.nameFr:r.location}\n`;
+        csv += `${ph.labelFr};${loc?loc.nameFr:r.location}\n`;
       });
     });
+    if(csv.split("\n").length<=2) return alert("Aucune réponse Journey Map");
+    dlCSV(csv, "JourneyMap_Participants");
+  });
+}
+function exportFacilitators(){
+  if(!fbReady) return;
+  fbDb.ref("icn-polls/journey-map-facilitators/responses").once("value", snap=>{
+    const data = snap.val() || {};
+    let csv = "\uFEFFPhase;Equipe;Facilitateur;Etape\n";
     JM_FAC_PHASES.forEach(ph=>{
-      const phData = facData[ph.id] || {};
+      const phData = data[ph.id] || {};
       Object.entries(phData).forEach(([team, r])=>{
         const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-        csv += `${team.replace(/_/g,' ')};${loc?loc.nameFr:r.location}\n`;
+        csv += `${ph.labelFr};${team.replace(/_/g,' ')};${r.facilitator||''};${loc?loc.nameFr:r.location}\n`;
       });
     });
-    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "ICN_Sondages_"+new Date().toISOString().slice(0,10)+".csv";
-    link.click();
+    if(csv.split("\n").length<=2) return alert("Aucune évaluation facilitateur");
+    dlCSV(csv, "JourneyMap_Facilitateurs");
   });
+}
+function exportPolls(){
+  if(!fbReady) return;
+  // Export each poll separately
+  exportSinglePoll("q1");
+  setTimeout(()=>exportSinglePoll("q2"), 500);
+  setTimeout(()=>exportJourneyMap(), 1000);
+  setTimeout(()=>exportFacilitators(), 1500);
 }
 
 // Presenter mode
