@@ -1429,10 +1429,11 @@ function localSearch(query){
     });});
     return r;
   };
+  const STOP_WORDS = new Set(["est","une","des","les","que","qui","quoi","pour","dans","sur","par","avec","pas","mon","ton","son","nos","vos","leur","mais","donc","comment","pourquoi","quel","quelle","quels","quelles","cette","tout","tous","ici","bien","plus","aussi","comme","fait","etre","avoir","dire","faire","aller","voir","venir","peut","doit","faut","suis","sont","sera","salle","equipe","phase","village","sprint","design","pitch","canvas","vote","fiche","exercice","atelier","programme","agenda","horaire","pause","cafe","wifi","train","dejeuner","matin","midi","apres","question","the","and","for","what","how","why","who","where","when","which","this","that","with","from","your","team","room","floor"]);
   found = searchWord(q);
-  // If no match on full query, try each word (handles "je suis Marie" or "où va Dupont")
+  // If no match on full query, try each word ≥4 chars, skip stop words
   if(found.length===0){
-    const words = q.split(/[\s,;.!?]+/).filter(w=>w.length>=3);
+    const words = q.split(/[\s,;.!?']+/).filter(w=>w.length>=4 && !STOP_WORDS.has(w));
     for(const w of words){
       const r = searchWord(w);
       if(r.length>0 && r.length<=10){found=r;break;}
@@ -1467,12 +1468,18 @@ async function askLLM(query){
         messages:[{role:"user",content:query}]
       })
     });
-    const data = await res.json();
-    if(data.content && data.content[0]){
-      return data.content[0].text.replace(/\n/g,"<br>").replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+    if(!res.ok){
+      console.error("LLM proxy error:",res.status,res.statusText);
+      return null;
     }
+    const data = await res.json();
+    console.log("LLM response:",JSON.stringify(data).substring(0,200));
+    if(data.content && data.content[0]){
+      return data.content[0].text.replace(/\n/g,"<br>").replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>").replace(/##\s*([^\n<]+)/g,"<strong>$1</strong>");
+    }
+    if(data.error){console.error("LLM API error:",data.error.message);}
     return null;
-  }catch(e){return null;}
+  }catch(e){console.error("LLM fetch error:",e);return null;}
 }
 
 function sendChat(){
@@ -1491,7 +1498,7 @@ function sendChat(){
     return;
   }
 
-  // Otherwise use Gemini LLM
+  // Otherwise use Claude LLM
   const loadingId = "loading-"+Date.now();
   msgs.innerHTML += `<div class="chat-msg bot" id="${loadingId}"><em>${currentLang==="en"?"Thinking...":"Je reflechis..."}</em></div>`;
   msgs.scrollTop = msgs.scrollHeight;
