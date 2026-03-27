@@ -1416,12 +1416,28 @@ function localSearch(query){
       ? `<strong>Team ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1: ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}`
       : `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1 : ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}`;
   }
-  // Search person
+  // Search person — try full query first, then each word ≥3 chars
   let found = [];
-  TEAMS.forEach(t=>{t.members.forEach(m=>{
-    const full = (m[0]+" "+m[1]).toLowerCase();
-    if(full.includes(q) || m[1].toLowerCase().includes(q) || m[0].toLowerCase().includes(q)) found.push({person:m, team:t});
-  });});
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const searchWord = (w) => {
+    let r = [];
+    TEAMS.forEach(t=>{t.members.forEach(m=>{
+      const fn = norm(m[0]), ln = norm(m[1]), full = fn+" "+ln;
+      if(full.includes(w) || ln.includes(w) || fn.includes(w)){
+        if(!r.find(x=>x.person[0]===m[0]&&x.person[1]===m[1])) r.push({person:m, team:t});
+      }
+    });});
+    return r;
+  };
+  found = searchWord(q);
+  // If no match on full query, try each word (handles "je suis Marie" or "où va Dupont")
+  if(found.length===0){
+    const words = q.split(/[\s,;.!?]+/).filter(w=>w.length>=3);
+    for(const w of words){
+      const r = searchWord(w);
+      if(r.length>0 && r.length<=10){found=r;break;}
+    }
+  }
   if(found.length===1){
     const {person:m, team:t} = found[0];
     const v = VILLAGES[t.village];
