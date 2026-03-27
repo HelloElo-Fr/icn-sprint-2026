@@ -1243,8 +1243,8 @@ document.getElementById("modalBg").addEventListener("click",e=>{if(e.target.id==
 document.getElementById("modalClose").addEventListener("click",()=>document.getElementById("modalBg").classList.remove("open"));
 
 // ============ CHATBOT ============
-document.getElementById("chatBtn").addEventListener("click",()=>document.getElementById("chatBox").classList.toggle("open"));
-document.getElementById("chatClose").addEventListener("click",()=>document.getElementById("chatBox").classList.remove("open"));
+document.getElementById("chatBtn").addEventListener("click",()=>{const b=document.getElementById("chatBox");b.style.display=b.style.display==="flex"?"none":"flex";});
+document.getElementById("chatClose").addEventListener("click",()=>{document.getElementById("chatBox").style.display="none";});
 
 const CHAT_KB = {
   programme: {
