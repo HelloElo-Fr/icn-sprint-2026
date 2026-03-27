@@ -575,7 +575,7 @@ function buildPolls(){
         <button class="adm-btn adm-btn-go" onclick="pollAdmin('activate','${q.id}')">Lancer</button>
         <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','${q.id}')">Stop</button>
         <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','${q.id}')">RAZ</button>
-        ${q.type!=="journeymap"?`<button class="adm-btn adm-btn-export" onclick="exportPollSingle('${q.id}')" style="background:#1565C0;">CSV</button>`:''}
+        ${q.type!=="journeymap"?`<button class="adm-btn adm-btn-export" onclick="exportSinglePoll('${q.id}')" style="background:#1565C0;">📥 Excel</button>`:''}
       </div>
       ${q.type!=="journeymap"?`<div id="adm-results-${q.id}" style="margin:0 0 10px 0;max-height:300px;overflow-y:auto;"></div>`:''}`;
     });
@@ -583,16 +583,7 @@ function buildPolls(){
       <button class="adm-btn adm-btn-danger" onclick="pollAdmin('reset','all')">RAZ tout</button>
       <button class="adm-btn adm-btn-stop" onclick="pollAdmin('deactivate','all')">Tout fermer</button>
     </div>
-    <div style="margin-top:12px;padding-top:12px;border-top:1px solid #ddd;">
-      <strong>📥 Exports individuels</strong>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
-        <button class="adm-btn adm-btn-export" onclick="exportSinglePoll('q1')">Export S1 (quotidien)</button>
-        <button class="adm-btn adm-btn-export" onclick="exportSinglePoll('q2')">Export S2 (freins ICN)</button>
-        <button class="adm-btn adm-btn-export" onclick="exportJourneyMap()">Export Journey Map</button>
-        <button class="adm-btn adm-btn-export" onclick="exportFacilitators()">Export Facilitateurs</button>
-        <button class="adm-btn adm-btn-export" onclick="exportPolls()">⬇ Tout exporter</button>
-      </div>
-    </div></div>`;
+    </div>`;
 
     // === ADMIN: Regie Journey Map ===
     html += `<div class="adm-panel" id="admJmPanel">
@@ -625,8 +616,8 @@ function buildPolls(){
       </div>
     </div>`;
     html += `<div style="margin:10px 0;display:flex;gap:6px;">
-      <button class="adm-btn adm-btn-export" onclick="exportPollSingle('jm-participants')" style="background:#1565C0;">CSV Participants</button>
-      <button class="adm-btn adm-btn-export" onclick="exportPollSingle('jm-facilitateurs')" style="background:#1B5E20;">CSV Facilitateurs</button>
+      <button class="adm-btn adm-btn-export" onclick="exportJourneyMap()" style="background:#1565C0;">📥 Excel Journey Map</button>
+      <button class="adm-btn adm-btn-export" onclick="exportFacilitators()" style="background:#1B5E20;">📥 Excel Facilitateurs</button>
     </div>`;
     // Facilitator heatmap
     html += `<div class="adm-jm-section"><h4>Heatmap — Facilitateurs</h4>
