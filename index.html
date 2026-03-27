@@ -1430,7 +1430,10 @@ function localSearch(query){
       : `<strong>${m[0]} ${m[1]}</strong><br>Equipe : <strong>${t.name}</strong><br>Phase 1 : ${ROOM_NAMES[t.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[t.p2Room]}`;
   }
   if(found.length>1){
-    return found.map(f=>`<strong>${f.person[0]} ${f.person[1]}</strong> → ${f.team.name}`).join("<br>");
+    const header = currentLang==="en"
+      ? `I found ${found.length} people. Can you be more specific? 😊`
+      : `J'ai trouvé ${found.length} personnes. Tu peux préciser ? 😊`;
+    return header + "<br><br>" + found.map(f=>`• <strong>${f.person[0]} ${f.person[1]}</strong> → equipe ${f.team.name}`).join("<br>");
   }
   return null;
 }
