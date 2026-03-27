@@ -2257,36 +2257,8 @@ function updateJmFacHeatmap(){
 // Export to Excel (CSV download)
 function exportPollSingle(qid){
   if(!fbReady) return;
-  if(qid==="jm-participants"){
-    fbDb.ref("icn-polls/journey-map/responses").once("value", snap=>{
-      const data = snap.val() || {};
-      let csv = "\uFEFF";
-      JM_PARTICIPANT_PHASES.forEach(ph=>{
-        const phData = data[ph.id] ? Object.values(data[ph.id]) : [];
-        phData.forEach(r=>{
-          const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-          csv += `${loc?loc.nameFr:r.location}\n`;
-        });
-      });
-      dlCSV(csv, "S3_JourneyMap_Participants");
-    });
-    return;
-  }
-  if(qid==="jm-facilitateurs"){
-    fbDb.ref("icn-polls/journey-map-facilitators/responses").once("value", snap=>{
-      const data = snap.val() || {};
-      let csv = "\uFEFFEquipe;Etape\n";
-      JM_FAC_PHASES.forEach(ph=>{
-        const phData = data[ph.id] || {};
-        Object.entries(phData).forEach(([team, r])=>{
-          const loc = JM_LOCATIONS.find(l=>l.id===r.location);
-          csv += `${team.replace(/_/g,' ')};${loc?loc.nameFr:r.location}\n`;
-        });
-      });
-      dlCSV(csv, "JM_Facilitateurs");
-    });
-    return;
-  }
+  if(qid==="jm-participants"){ exportJourneyMap(); return; }
+  if(qid==="jm-facilitateurs"){ exportFacilitators(); return; }
   fbDb.ref("icn-polls/responses/"+qid).once("value", snap=>{
     const data = snap.val();
     if(!data) return alert("Aucune réponse");
@@ -2296,23 +2268,35 @@ function exportPollSingle(qid){
   });
 }
 
-// SheetJS for real .xlsx exports
-const _sheetJS = document.createElement("script");
-_sheetJS.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
-document.head.appendChild(_sheetJS);
+// SheetJS for real .xlsx exports — loaded early
+let _xlsxReady = false;
+(function(){
+  const s = document.createElement("script");
+  s.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
+  s.onload = ()=>{ _xlsxReady = true; console.log("SheetJS loaded"); };
+  document.head.appendChild(s);
+})();
 
 function dlXLSX(rows, name, headers){
-  if(typeof XLSX === "undefined") return alert("Chargement Excel en cours, réessaie dans 2 secondes");
-  const ws = XLSX.utils.aoa_to_sheet(headers ? [headers, ...rows] : rows);
-  const colW = (headers||rows[0]||[]).map((_,i)=>{
-    let max = headers ? (headers[i]||'').length : 0;
-    rows.forEach(r=>{ if(r[i]) max = Math.max(max, String(r[i]).length); });
-    return {wch: Math.min(Math.max(max+2, 10), 60)};
-  });
-  ws['!cols'] = colW;
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, name.substring(0,31));
-  XLSX.writeFile(wb, "ICN_"+name+"_"+new Date().toISOString().slice(0,10)+".xlsx");
+  if(!_xlsxReady || typeof XLSX === "undefined"){
+    alert("Excel pas encore chargé. Réessaie dans 2 secondes.");
+    return;
+  }
+  try{
+    const ws = XLSX.utils.aoa_to_sheet(headers ? [headers, ...rows] : rows);
+    const colW = (headers||rows[0]||[]).map((_,i)=>{
+      let max = headers ? (headers[i]||'').length : 0;
+      rows.forEach(r=>{ if(r[i]) max = Math.max(max, String(r[i]).length); });
+      return {wch: Math.min(Math.max(max+2, 10), 60)};
+    });
+    ws['!cols'] = colW;
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, name.substring(0,31));
+    XLSX.writeFile(wb, "ICN_"+name+"_"+new Date().toISOString().slice(0,10)+".xlsx");
+  }catch(e){
+    console.error("Excel export error:", e);
+    alert("Erreur export: " + e.message);
+  }
 }
 
 function exportJourneyMap(){
