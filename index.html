@@ -527,6 +527,11 @@ function buildOverview(){
     <h2 style="font-size:1.15em;margin-bottom:8px;" data-fr="Bienvenue au Creativ Day !" data-en="Welcome to ICN Creativ Day!">Bienvenue au Creativ Day !</h2>
     <p style="font-size:0.85em;opacity:.9;line-height:1.5;" data-fr="187 collaborateurs, 22 équipes, une journée pour imaginer l'ICN de demain." data-en="187 colleagues, 22 teams, one day to shape the future of ICN.">187 collaborateurs, 22 équipes, une journée pour imaginer l'ICN de demain.</p>
   </div>
+  <div onclick="switchTab('polls')" style="background:linear-gradient(135deg,#C2185B,#E91E63);border-radius:14px;padding:18px;margin-bottom:16px;color:#fff;text-align:center;cursor:pointer;box-shadow:0 4px 15px rgba(194,24,91,.3);animation:pulse 2s ease-in-out infinite;">
+    <div style="font-size:1.8em;margin-bottom:6px;">📣</div>
+    <div style="font-weight:800;font-size:1.1em;" data-fr="Participe au sondage en direct !" data-en="Join the live poll now!">Participe au sondage en direct !</div>
+    <div style="font-size:0.8em;opacity:.85;margin-top:4px;" data-fr="Clique ici pour donner ton avis" data-en="Tap here to share your opinion">Clique ici pour donner ton avis</div>
+  </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
     <div onclick="switchTab('agenda')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
       <div style="font-size:1.4em;margin-bottom:4px;">&#128197;</div>
@@ -2894,4 +2899,3 @@ if(savedLang) setLang(savedLang);
 </script>
 </body>
 </html>
-<!-- cache-bust 1774692335 -->
