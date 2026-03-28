@@ -1750,6 +1750,13 @@ function listenPolls(){
     fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
       const active = snap.val() === true;
       const el = document.getElementById("poll-"+q.id);
+      // In presenter mode: only one question visible at a time
+      if(active && document.body.classList.contains("presenter")){
+        POLL_QUESTIONS.forEach(oq=>{
+          const oel = document.getElementById("poll-"+oq.id);
+          if(oel && oq.id !== q.id) oel.classList.remove("active");
+        });
+      }
       if(el) el.classList.toggle("active", active);
       // Update admin status indicator
       const st = document.getElementById("adm-st-"+q.id);
