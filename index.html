@@ -208,7 +208,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .presenter .pnl{max-width:100%;padding:20px 40px;}
 .presenter .poll-waiting{padding:80px 20px;}
 .presenter .poll-waiting .pw-icon{font-size:4em;}
-.presenter .poll-waiting .pw-title{font-size:1.6em;}
+.presenter .poll-waiting .pw-title{font-size:2em;}
+.presenter .pw-presenter-only{display:block!important;}
+.presenter .poll-waiting .pw-icon{animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:.8}}
 .presenter .wc-box{min-height:350px;}
 .presenter .wc-word{font-size:1.3em!important;padding:6px 18px!important;margin:5px!important;}
 .presenter .ot-list{max-height:500px;}
@@ -225,7 +228,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .presenter .poll-q{display:none!important;}
 .presenter .poll-q.active{display:block!important;}
 .presenter .adm-panel{display:none!important;}
-.presenter .poll-waiting{display:none!important;}
+.presenter .poll-waiting{display:flex!important;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;}
 .presenter #jmBox{display:none!important;}
 .presenter #p-polls{display:block!important;}
 .presenter .pnl:not(#p-polls){display:none!important;}
@@ -889,8 +892,10 @@ Use ICN brand charter colors. Bilingual title (FR/EN). Typography readable and a
 
   // Waiting screen
   html += `<div class="poll-waiting" id="pollWaiting">
-    <div class="pw-icon">&#9997;</div>
-    <div class="pw-title" data-fr="Les sondages arrivent…" data-en="Polls are coming...">Les sondages arrivent…</div>
+    <div class="pw-icon">🎯</div>
+    <div class="pw-title" data-fr="Prépare-toi à donner ton avis !" data-en="Get ready to share your opinion!">Prépare-toi à donner ton avis !</div>
+    <div class="pw-sub pw-presenter-only" style="display:none;margin-top:16px;font-size:1.2em;color:#E65100;font-weight:600;">ICN CREATIV DAY</div>
+    <div class="pw-sub pw-presenter-only" style="display:none;margin-top:8px;font-size:0.9em;color:#607D8B;">Sondage en direct — Live poll coming up</div>
     <div class="pw-sub" data-fr="Reste sur cette page, ça va commencer." data-en="Stay on this page, it's about to start.">Reste sur cette page, ça va commencer.</div>
   </div>`;
 
