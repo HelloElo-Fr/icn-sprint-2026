@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>const APP_V="12";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")&&!location.search.includes("presenter")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}
+<script>const APP_V="13";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")&&!location.search.includes("presenter")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}
 // Clear stale JM localStorage on version bump
 if(localStorage.getItem("icn_app_v")!==APP_V){localStorage.removeItem("icn_jm_jm-morning_voted");localStorage.removeItem("icn_jm_jm-midday_voted");localStorage.removeItem("icn_jm_jm-afternoon_voted");localStorage.removeItem("icn_voted_q3");localStorage.setItem("icn_app_v",APP_V);}
 </script>
@@ -2631,12 +2631,11 @@ function listenJmPhases(){
       updateJourneyMapAggregate();
       // Update facilitator S3 view
       renderFacS3();
-      // Update q3 poll count
-      const totalResponses = JM_PARTICIPANT_PHASES.reduce((s,p)=>{
-        return s + (jmPhaseResponses[p.id]||[]).length;
-      }, 0);
+      // Update q3 poll count — show only active phase count
+      const activePhaseId = window._jmActivePhase;
+      const activeCount = activePhaseId ? (jmPhaseResponses[activePhaseId]||[]).length : 0;
       const pollCount = document.getElementById("poll-count-q3");
-      if(pollCount) pollCount.textContent = totalResponses + " réponse" + (totalResponses>1?"s":"");
+      if(pollCount) pollCount.textContent = activeCount + " réponse" + (activeCount>1?"s":"");
     });
   });
 
