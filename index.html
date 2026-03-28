@@ -2051,15 +2051,31 @@ function listenPolls(){
 function updateWaitingScreen(){
   const waiting = document.getElementById("pollWaiting");
   if(!waiting) return;
+  const isAdmin = window.location.search.includes("admin");
   const anyPollActive = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").some(q=>{
     const el = document.getElementById("poll-"+q.id);
     return el && el.classList.contains("active");
   });
   const jmActive = !!window._jmActivePhase;
   const anyActive = anyPollActive || jmActive;
-  // Also check if q3 is shown (JM phase active)
   const q3El = document.getElementById("poll-q3");
-  if(q3El) q3El.classList.toggle("active", jmActive);
+  if(q3El){
+    if(isAdmin){
+      // Admin sees q3 when JM is active
+      q3El.classList.toggle("active", jmActive);
+    } else {
+      // Non-admin: q3 only if JM active AND no other poll active
+      const showQ3 = jmActive && !anyPollActive;
+      q3El.classList.toggle("active", showQ3);
+      // If q3 activates, hide other polls
+      if(showQ3){
+        POLL_QUESTIONS.filter(q=>q.id!=="q3").forEach(q=>{
+          const el = document.getElementById("poll-"+q.id);
+          if(el) el.classList.remove("active");
+        });
+      }
+    }
+  }
   waiting.style.display = anyActive ? "none" : "";
 }
 
