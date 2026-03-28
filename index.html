@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>const APP_V="9";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}</script>
+<script>const APP_V="10";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}</script>
 <title>ICN Creativ Day — 28 mars 2026</title>
 <style>
 :root {
@@ -1249,8 +1249,23 @@ function buildEquipes(){
     <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;" data-fr="Trouve ton equipe" data-en="Find your team">Trouve ton equipe</h2>
     <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;" data-fr="Tape ton nom pour trouver ta salle et tes coequipiers." data-en="Type your name to find your room and teammates.">Tape ton nom pour trouver ta salle et tes coequipiers.</p>
     <input type="text" id="eqSearch" placeholder="&#128269; Ton nom ou une equipe..." data-ph-fr="&#128269; Ton nom ou une equipe..." data-ph-en="&#128269; Your name or a team..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
-  </div>
-  <div class="eq-grid" id="eqGrid">`;
+  </div>`;
+  // Facilitator: show their challenge as banner
+  if(isFacMode && currentFacKey){
+    const facData = FAC_MAP[currentFacKey];
+    const sq = facData ? SPRINT_QUESTIONS.find(s=>s.fac===facData.name) : null;
+    if(sq){
+      html += `<div style="border:2px solid ${sq.color};border-radius:14px;padding:16px;margin-bottom:14px;background:${sq.color}10;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span style="font-size:1.5em;">${sq.icon}</span>
+          <span style="font-weight:800;font-size:1em;color:${sq.color};" data-fr="Mon défi — ${sq.theme}" data-en="My Challenge — ${sq.theme}">Mon défi — ${sq.theme}</span>
+        </div>
+        <div style="font-size:0.88em;color:#263238;line-height:1.5;font-style:italic;margin-bottom:4px;" data-fr="${sq.questionFr}" data-en="${sq.questionEn}">${sq.questionFr}</div>
+        <div style="font-size:0.75em;color:#607D8B;" data-fr="${sq.contextFr}" data-en="${sq.contextEn}">${sq.contextFr}</div>
+      </div>`;
+    }
+  }
+  html += `<div class="eq-grid" id="eqGrid">`;
   const teamsToShow = isFacMode && currentFacKey ? getFacTeams() : TEAMS;
   teamsToShow.forEach(t => {
     const typeLabel = t.type==="COMEX"?"":` | ${t.type}`;
