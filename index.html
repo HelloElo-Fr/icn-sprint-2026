@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>const APP_V="14";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")&&!location.search.includes("presenter")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}
+<script>const APP_V="15";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")&&!location.search.includes("presenter")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}
 // Clear stale JM localStorage on version bump
 if(localStorage.getItem("icn_app_v")!==APP_V){localStorage.removeItem("icn_jm_jm-morning_voted");localStorage.removeItem("icn_jm_jm-midday_voted");localStorage.removeItem("icn_jm_jm-afternoon_voted");localStorage.removeItem("icn_voted_q3");localStorage.setItem("icn_app_v",APP_V);}
 </script>
@@ -489,7 +489,7 @@ const FAC_NAMES = Object.values(FAC_MAP).map(f=>f.name);
 const JM_PHASES = [
   {id:"jm-morning",fr:"Matin",en:"Morning",time:"10:35",type:"participant"},
   {id:"jm-midday",fr:"Midi",en:"Midday",time:"12:00",type:"participant"},
-  {id:"jm-afternoon",fr:"Après-midi",en:"Afternoon",time:"16:15",type:"participant"},
+  {id:"jm-afternoon",fr:"THE END",en:"THE END",time:"16:15",type:"participant"},
   {id:"fac-start",fr:"Fac Début",en:"Fac Start",time:"13:10",type:"facilitator"},
   {id:"fac-end",fr:"Fac Fin",en:"Fac End",time:"15:06",type:"facilitator"}
 ];
