@@ -2061,31 +2061,49 @@ function updateWaitingScreen(){
   const waiting = document.getElementById("pollWaiting");
   if(!waiting) return;
   const isAdmin = window.location.search.includes("admin");
-  const anyPollActive = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").some(q=>{
-    const el = document.getElementById("poll-"+q.id);
-    return el && el.classList.contains("active");
-  });
   const jmActive = !!window._jmActivePhase;
-  const anyActive = anyPollActive || jmActive;
-  const q3El = document.getElementById("poll-q3");
-  if(q3El){
-    if(isAdmin){
-      // Admin sees q3 when JM is active
-      q3El.classList.toggle("active", jmActive);
+
+  if(isAdmin){
+    // Admin mode: show all active polls independently
+    const q3El = document.getElementById("poll-q3");
+    if(q3El) q3El.classList.toggle("active", jmActive);
+    const anyRegularActive = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").some(q=>{
+      const el = document.getElementById("poll-"+q.id);
+      return el && el.classList.contains("active");
+    });
+    waiting.style.display = (anyRegularActive || jmActive) ? "none" : "";
+  } else {
+    // Non-admin (participant, facilitator, presenter): EXACTLY ONE poll visible
+    // Priority: regular poll (q1/q2) > JM q3 > waiting screen
+    const activeRegularQ = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").find(q=>{
+      const el = document.getElementById("poll-"+q.id);
+      return el && el.classList.contains("active");
+    });
+    const q3El = document.getElementById("poll-q3");
+
+    if(activeRegularQ){
+      // A regular poll is active: show ONLY that poll, hide q3
+      if(q3El) q3El.classList.remove("active");
+      waiting.style.display = "none";
+    } else if(jmActive){
+      // No regular poll active, but JM phase is active: show ONLY q3
+      POLL_QUESTIONS.filter(q=>q.type!=="journeymap").forEach(q=>{
+        const el = document.getElementById("poll-"+q.id);
+        if(el) el.classList.remove("active");
+      });
+      if(q3El) q3El.classList.add("active");
+      waiting.style.display = "none";
     } else {
-      // Non-admin: q3 only if JM active AND no other poll active
-      const showQ3 = jmActive && !anyPollActive;
-      q3El.classList.toggle("active", showQ3);
-      // If q3 activates, hide other polls
-      if(showQ3){
-        POLL_QUESTIONS.filter(q=>q.id!=="q3").forEach(q=>{
-          const el = document.getElementById("poll-"+q.id);
-          if(el) el.classList.remove("active");
-        });
-      }
+      // Nothing active: hide q3, show waiting screen
+      if(q3El) q3El.classList.remove("active");
+      waiting.style.display = "";
     }
   }
-  waiting.style.display = anyActive ? "none" : "";
+}
+
+// Enforce single-poll visibility rule (called from JM listener and poll listeners)
+function enforceSinglePoll(){
+  updateWaitingScreen();
 }
 
 function renderPollResults(q, responses){
@@ -2348,15 +2366,10 @@ function listenJmPhases(){
         badge.style.background = ph.id===phase ? "#4CAF50" : "#616161";
       }
     });
-    // Update participant view
-    const q3El = document.getElementById("poll-q3");
-    if(phase){
-      // Show q3 poll if a JM phase is active
-      const el = document.getElementById("poll-q3");
-      if(el) el.classList.add("active");
-    }
+    // Update participant view — do NOT directly toggle q3 active here,
+    // let enforceSinglePoll() handle visibility to avoid race conditions
     updateJmParticipantView();
-    updateWaitingScreen();
+    enforceSinglePoll();
     // Show jmBox when any phase has data
     const jmBox = document.getElementById("jmBox");
     if(jmBox){
