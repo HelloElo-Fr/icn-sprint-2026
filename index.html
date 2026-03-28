@@ -2023,22 +2023,15 @@ function listenPolls(){
       const facCount = document.getElementById("fac-count-"+q.id);
       if(facCount) facCount.textContent = responses.length + " réponse" + (responses.length>1?"s":"");
     });
-    // Listen active state — one question at a time
+    // Listen active state
     fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
       const active = snap.val() === true;
-      const el = document.getElementById("poll-"+q.id);
       const isAdmin = window.location.search.includes("admin");
-      // All modes except admin: only one question visible at a time
-      if(active && !isAdmin){
-        POLL_QUESTIONS.forEach(oq=>{
-          const oel = document.getElementById("poll-"+oq.id);
-          if(oel && oq.id !== q.id) oel.classList.remove("active");
-        });
-        // Also hide JM q3 if a regular poll activates
-        const q3 = document.getElementById("poll-q3");
-        if(q3 && q.id !== "q3") q3.classList.remove("active");
-      }
-      if(el) el.classList.toggle("active", active);
+      // Update source of truth
+      _pollStates[q.id] = active;
+      // Update admin status indicator
+      const st = document.getElementById("adm-st-"+q.id);
+      if(st){st.classList.toggle("on",active);st.classList.toggle("off",!active);}
       // Non-admin: clear results display when question is deactivated
       if(!active && !isAdmin){
         const rc = document.getElementById("poll-results-"+q.id);
@@ -2046,10 +2039,7 @@ function listenPolls(){
         const cc = document.getElementById("poll-count-"+q.id);
         if(cc) cc.textContent = "";
       }
-      // Update admin status indicator
-      const st = document.getElementById("adm-st-"+q.id);
-      if(st){st.classList.toggle("on",active);st.classList.toggle("off",!active);}
-      // Show/hide waiting screen
+      // Enforce single poll visibility + waiting screen
       updateWaitingScreen();
     });
   });
@@ -2057,51 +2047,49 @@ function listenPolls(){
   listenJmPhases();
 }
 
+// Track Firebase active states directly (source of truth)
+const _pollStates = {q1:false, q2:false};
+
 function updateWaitingScreen(){
   const waiting = document.getElementById("pollWaiting");
   if(!waiting) return;
   const isAdmin = window.location.search.includes("admin");
   const jmActive = !!window._jmActivePhase;
+  const anyRegularActive = _pollStates.q1 || _pollStates.q2;
 
-  if(isAdmin){
-    // Admin mode: show all active polls independently
-    const q3El = document.getElementById("poll-q3");
-    if(q3El) q3El.classList.toggle("active", jmActive);
-    const anyRegularActive = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").some(q=>{
-      const el = document.getElementById("poll-"+q.id);
-      return el && el.classList.contains("active");
-    });
-    waiting.style.display = (anyRegularActive || jmActive) ? "none" : "";
-  } else {
-    // Non-admin (participant, facilitator, presenter): EXACTLY ONE poll visible
-    // Priority: regular poll (q1/q2) > JM q3 > waiting screen
-    const activeRegularQ = POLL_QUESTIONS.filter(q=>q.type!=="journeymap").find(q=>{
-      const el = document.getElementById("poll-"+q.id);
-      return el && el.classList.contains("active");
-    });
-    const q3El = document.getElementById("poll-q3");
-
-    if(activeRegularQ){
-      // A regular poll is active: show ONLY that poll, hide q3
-      if(q3El) q3El.classList.remove("active");
-      waiting.style.display = "none";
-    } else if(jmActive){
-      // No regular poll active, but JM phase is active: show ONLY q3
-      POLL_QUESTIONS.filter(q=>q.type!=="journeymap").forEach(q=>{
-        const el = document.getElementById("poll-"+q.id);
-        if(el) el.classList.remove("active");
-      });
-      if(q3El) q3El.classList.add("active");
-      waiting.style.display = "none";
+  // First: set all poll elements visibility
+  POLL_QUESTIONS.forEach(q=>{
+    const el = document.getElementById("poll-"+q.id);
+    if(!el) return;
+    if(q.type==="journeymap"){
+      if(isAdmin){
+        el.classList.toggle("active", jmActive);
+      } else {
+        // Non-admin: show q3 ONLY if JM active AND no regular poll active
+        el.classList.toggle("active", jmActive && !anyRegularActive);
+      }
     } else {
-      // Nothing active: hide q3, show waiting screen
-      if(q3El) q3El.classList.remove("active");
-      waiting.style.display = "";
+      if(isAdmin){
+        el.classList.toggle("active", _pollStates[q.id]);
+      } else {
+        // Non-admin: show only the active regular poll, hide if JM takes priority
+        el.classList.toggle("active", _pollStates[q.id]);
+        // If another regular poll is active, hide this one
+        if(!isAdmin && _pollStates[q.id]){
+          POLL_QUESTIONS.filter(oq=>oq.id!==q.id && oq.type!=="journeymap").forEach(oq=>{
+            const oel = document.getElementById("poll-"+oq.id);
+            if(oel) oel.classList.remove("active");
+          });
+        }
+      }
     }
-  }
+  });
+
+  // Then: waiting screen — hide if ANY poll is showing
+  const anyVisible = anyRegularActive || (jmActive && (isAdmin || !anyRegularActive));
+  waiting.style.display = anyVisible ? "none" : "";
 }
 
-// Enforce single-poll visibility rule (called from JM listener and poll listeners)
 function enforceSinglePoll(){
   updateWaitingScreen();
 }
