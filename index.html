@@ -478,8 +478,7 @@ const tabDefs = [
   {id:"equipes",fr:"Mon équipe",en:"My team"},
   {id:"phase1",fr:"Ma salle",en:"My room"},
   {id:"phase2",fr:"Mon village",en:"My village"},
-  {id:"finale",fr:"Pitch Final",en:"Final Pitch"},
-  ...(isFacMode ? [{id:"facilitateur",fr:"Facilitateur",en:"Facilitator"}] : [])
+  {id:"finale",fr:"Pitch Final",en:"Final Pitch"}
 ];
 
 function init(){
@@ -495,7 +494,7 @@ function init(){
     tb.addEventListener("click", () => switchTab(t.id));
     tabsEl.appendChild(tb);
   });
-  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPolls() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale() + (isFacMode ? buildFacilitateur() : "");
+  panelsEl.innerHTML = buildOverview() + buildAgenda() + buildPolls() + buildPhase1() + buildPhase2() + buildEquipes() + buildFinale();
   document.querySelectorAll(".team-click").forEach(el => {
     el.addEventListener("click", () => showTeamModal(el.dataset.team));
   });
@@ -888,7 +887,112 @@ Use ICN brand charter colors. Bilingual title (FR/EN). Typography readable and a
 
       </div>
     </div>`;
-  }
+  } else if(isFacMode){
+    // === Facilitator sondage UI (replaces participant poll UI) ===
+    const facParams = new URLSearchParams(window.location.search);
+    const facParamVal = facParams.get("fac") || "";
+    const facPreselect = facParamVal === "1" ? "" : facParamVal;
+
+    html += `
+    <select class="fac-select" id="facSelect" onchange="onFacSelect()" style="margin-bottom:8px;">
+      <option value="">-- Choisis ton nom --</option>
+      ${FAC_NAMES.map(n=>`<option value="${n}" ${n===facPreselect?"selected":""}>${n}</option>`).join("")}
+    </select>
+    <div class="fac-tabs" id="facTabs">
+      <div class="fac-tab act" onclick="switchFacTab('fac-home')" data-fr="Accueil" data-en="Home">Accueil</div>
+      <div class="fac-tab" onclick="switchFacTab('fac-s1')" data-fr="S1" data-en="S1">S1</div>
+      <div class="fac-tab" onclick="switchFacTab('fac-s2')" data-fr="S2" data-en="S2">S2</div>
+      <div class="fac-tab" onclick="switchFacTab('fac-s3')" data-fr="S3" data-en="S3">S3</div>
+      <div class="fac-tab" onclick="switchFacTab('fac-eval')" data-fr="Mon éval." data-en="My eval.">Mon éval.</div>
+      <div class="fac-tab" onclick="switchFacTab('fac-synth')" data-fr="Synthèse" data-en="Summary">Synthèse</div>
+    </div>
+
+    <!-- Accueil -->
+    <div class="fac-panel act" id="fac-home">
+      <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:20px;margin-bottom:14px;text-align:center;">
+        <div style="font-size:2em;margin-bottom:8px;">&#127919;</div>
+        <h2 style="font-size:1.1em;color:#1565C0;margin-bottom:6px;" id="facWelcomeTitle" data-fr="Bienvenue !" data-en="Welcome!">Bienvenue !</h2>
+        <div id="facWelcomeName" style="font-size:1em;color:#455A64;font-weight:600;margin-bottom:10px;"></div>
+      </div>
+      <div id="facHomeTeams" style="margin-bottom:14px;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div onclick="switchFacTab('fac-s1')" style="background:#FFF3E0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:1.2em;margin-bottom:4px;">&#128172;</div>
+          <div style="font-weight:700;font-size:0.78em;color:#E65100;" data-fr="Sondage 1" data-en="Poll 1">Sondage 1</div>
+          <div style="font-size:0.65em;color:#607D8B;" data-fr="Nuage de mots" data-en="Word cloud">Nuage de mots</div>
+        </div>
+        <div onclick="switchFacTab('fac-s2')" style="background:#FCE4EC;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:1.2em;margin-bottom:4px;">&#128221;</div>
+          <div style="font-weight:700;font-size:0.78em;color:#C2185B;" data-fr="Sondage 2" data-en="Poll 2">Sondage 2</div>
+          <div style="font-size:0.65em;color:#607D8B;" data-fr="Mur de post-its" data-en="Post-it wall">Mur de post-its</div>
+        </div>
+        <div onclick="switchFacTab('fac-s3')" style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:1.2em;margin-bottom:4px;">&#128506;</div>
+          <div style="font-weight:700;font-size:0.78em;color:#2E7D32;" data-fr="Sondage 3" data-en="Poll 3">Sondage 3</div>
+          <div style="font-size:0.65em;color:#607D8B;" data-fr="Journey Map" data-en="Journey Map">Journey Map</div>
+        </div>
+        <div onclick="switchFacTab('fac-eval')" style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:1.2em;margin-bottom:4px;">&#9997;</div>
+          <div style="font-weight:700;font-size:0.78em;color:#1565C0;" data-fr="Mon évaluation" data-en="My evaluation">Mon évaluation</div>
+          <div style="font-size:0.65em;color:#607D8B;" data-fr="Voter par équipe" data-en="Vote per team">Voter par équipe</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sondage 1 -->
+    <div class="fac-panel" id="fac-s1">
+      <div style="background:#FFF3E0;border-radius:12px;padding:14px;margin-bottom:14px;">
+        <h3 style="font-size:0.95em;color:#E65100;margin-bottom:4px;" data-fr="Sondage 1 — Nuage de mots" data-en="Poll 1 — Word Cloud">Sondage 1 — Nuage de mots</h3>
+        <p style="font-size:0.8em;color:#795548;" data-fr="${POLL_QUESTIONS[0].fr}" data-en="${POLL_QUESTIONS[0].en}">${POLL_QUESTIONS[0].fr}</p>
+      </div>
+      <div style="text-align:center;margin-bottom:10px;"><button class="adm-btn adm-btn-export" onclick="exportPollSingle('q1')" style="background:#E65100;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">📥 Excel S1</button></div>
+      <div id="fac-count-q1" style="font-size:0.8em;color:#607D8B;text-align:center;margin-bottom:8px;font-weight:600;"></div>
+      <div id="fac-results-q1"></div>
+      <div id="fac-wf-q1" style="display:none;margin-top:16px;"></div>
+    </div>
+
+    <!-- Sondage 2 -->
+    <div class="fac-panel" id="fac-s2">
+      <div style="background:#FCE4EC;border-radius:12px;padding:14px;margin-bottom:14px;">
+        <h3 style="font-size:0.95em;color:#C2185B;margin-bottom:4px;" data-fr="Sondage 2 — Mur de post-its" data-en="Poll 2 — Post-it Wall">Sondage 2 — Mur de post-its</h3>
+        <p style="font-size:0.8em;color:#795548;" data-fr="${POLL_QUESTIONS[1].fr}" data-en="${POLL_QUESTIONS[1].en}">${POLL_QUESTIONS[1].fr}</p>
+      </div>
+      <div style="text-align:center;margin-bottom:10px;"><button class="adm-btn adm-btn-export" onclick="exportPollSingle('q2')" style="background:#7B1FA2;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">📥 Excel S2</button></div>
+      <div id="fac-count-q2" style="font-size:0.8em;color:#607D8B;text-align:center;margin-bottom:8px;font-weight:600;"></div>
+      <div id="fac-results-q2"></div>
+      <div id="fac-wf-q2" style="display:none;margin-top:16px;"></div>
+    </div>
+
+    <!-- Sondage 3 — Journey Map participants -->
+    <div class="fac-panel" id="fac-s3">
+      <div style="background:#E8F5E9;border-radius:12px;padding:14px;margin-bottom:14px;">
+        <h3 style="font-size:0.95em;color:#2E7D32;margin-bottom:4px;" data-fr="Sondage 3 — Journey Map participants" data-en="Poll 3 — Participant Journey Map">Sondage 3 — Journey Map participants</h3>
+        <p style="font-size:0.8em;color:#455A64;" data-fr="Distribution des votes par phase" data-en="Vote distribution per phase">Distribution des votes par phase</p>
+      </div>
+      <div style="text-align:center;margin-bottom:10px;"><button class="adm-btn adm-btn-export" onclick="exportJourneyMap()" style="background:#00838F;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">📥 Excel Journey Map</button></div>
+      <div id="fac-s3-content"></div>
+      <div id="fac-wf-q3" style="display:none;margin-top:16px;"></div>
+    </div>
+
+    <!-- Mon évaluation -->
+    <div class="fac-panel" id="fac-eval">
+      <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
+        <h2 style="font-size:1.05em;color:#1565C0;margin-bottom:6px;" data-fr="Mon évaluation — Journey Map" data-en="My evaluation — Journey Map">Mon évaluation — Journey Map</h2>
+        <p style="font-size:0.8em;color:#455A64;line-height:1.4;" data-fr="Évalue où en est chaque équipe dans le voyage du changement." data-en="Evaluate where each team stands on the journey of change.">Évalue où en est chaque équipe dans le voyage du changement.</p>
+      </div>
+      <div id="facPhaseInfo" class="fac-no-phase" data-fr="Aucune phase active" data-en="No active phase">Aucune phase active</div>
+      <div id="facTeamsList"></div>
+    </div>
+
+    <!-- Synthèse équipes -->
+    <div class="fac-panel" id="fac-synth">
+      <div style="background:#263238;border-radius:14px;padding:16px;">
+        <h3 style="color:#fff;font-size:0.95em;margin-bottom:12px;" data-fr="Vue globale — Toutes les équipes" data-en="Global view — All teams">Vue globale — Toutes les équipes</h3>
+        <div id="facGlobalView" style="color:#fff;font-size:0.82em;"></div>
+      </div>
+    </div>
+    `;
+  } else {
 
   // Waiting screen
   html += `<div class="poll-waiting" id="pollWaiting">
@@ -954,6 +1058,8 @@ Use ICN brand charter colors. Bilingual title (FR/EN). Typography readable and a
     <h3 style="font-size:0.95em;color:#263238;margin-bottom:4px;" data-fr="Carte du voyage — Resultats live" data-en="Journey Map — Live results">Carte du voyage — Resultats live</h3>
     <div class="jm-grid" id="jmGrid"></div>
   </div>`;
+
+  } // end else (participant UI)
 
   html += `</div>`;
   return html;
@@ -2768,6 +2874,7 @@ function setLang(lang){
 // ============ INIT ============
 init();
 if(window.location.search.includes("presenter")) switchTab("polls");
+if(isFacMode) switchTab("polls");
 initFirebase();
 // Restore language
 const savedLang = localStorage.getItem("icn_lang");
