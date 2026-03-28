@@ -218,6 +218,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .presenter .jm-loc .jm-n{font-size:0.85em;}
 .presenter .poll-qh h3{font-size:1.6em;}
 .presenter .poll-qh .poll-sub{font-size:1em;}
+.presenter .poll-bilingual{display:block!important;font-size:1.1em!important;opacity:.9!important;margin-top:6px!important;}
 .presenter .poll-count{font-size:1.1em;}
 .presenter .poll-body .poll-input,.presenter .poll-body .poll-send,.presenter .poll-body .char-count,.presenter .poll-body textarea,.presenter .poll-body button.poll-send{display:none!important;}
 .presenter .poll-body{padding:20px 40px;}
@@ -900,6 +901,7 @@ Use ICN brand charter colors. Bilingual title (FR/EN). Typography readable and a
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
           <h3 data-fr="${q.fr}" data-en="${q.en}">${q.fr}</h3>
+          <div class="poll-sub poll-bilingual" style="display:none;margin-top:4px;opacity:.85;font-style:italic;">${q.en}</div>
         </div>
         <div class="poll-body">
           <div id="jm-active-phase-label" class="jm-phase-label" style="display:none;"></div>
@@ -927,6 +929,7 @@ Use ICN brand charter colors. Bilingual title (FR/EN). Typography readable and a
         <div class="poll-qh">
           <div class="poll-qnum">Question ${q.num}</div>
           <h3 data-fr="${q.fr}" data-en="${q.en}">${q.fr}</h3>
+          <div class="poll-sub poll-bilingual" style="display:none;margin-top:4px;opacity:.85;font-style:italic;">${q.en}</div>
         </div>
         <div class="poll-body">
           <div id="poll-form-${q.id}">
