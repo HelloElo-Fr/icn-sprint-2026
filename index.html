@@ -224,6 +224,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .presenter .poll-q{display:none!important;}
 .presenter .poll-q.active{display:block!important;}
 .presenter .adm-panel{display:none!important;}
+.presenter .poll-waiting{display:none!important;}
+.presenter #jmBox{display:none!important;}
 .presenter #p-polls{display:block!important;}
 .presenter .pnl:not(#p-polls){display:none!important;}
 .presenter .poll-q.active .poll-body{display:block!important;min-height:400px;}
@@ -304,6 +306,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
   .vg{grid-template-columns:repeat(3,1fr);}
   .eq-grid{grid-template-columns:repeat(3,1fr);}
 }
+/* Workflow Infographies */
+.wf-panel{background:#1a2327;border-radius:12px;margin-top:14px;overflow:hidden;}
+.wf-panel-title{padding:12px 16px;font-size:0.92em;font-weight:700;display:flex;align-items:center;gap:8px;}
+.wf-bloc{border-top:1px solid #37474F;padding:14px 16px;}
+.wf-bloc-hdr{padding:8px 12px;border-radius:8px;font-weight:700;font-size:0.85em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.wf-step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #2a3439;}
+.wf-step:last-child{border-bottom:none;}
+.wf-step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.82em;color:#fff;}
+.wf-step-body{flex:1;min-width:0;}
+.wf-step-title{font-weight:700;font-size:0.82em;margin-bottom:3px;}
+.wf-step-desc{font-size:0.75em;color:#B0BEC5;line-height:1.4;}
+.wf-prompt{background:#263238;border:1px solid #455A64;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:0.7em;color:#CFD8DC;white-space:pre-wrap;max-height:180px;overflow-y:auto;line-height:1.5;font-family:'Courier New',monospace;}
+.wf-copy-btn{display:inline-flex;align-items:center;gap:4px;background:#1565C0;color:#fff;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:0.72em;font-weight:600;margin-top:6px;transition:all .15s;}
+.wf-copy-btn:active{transform:scale(.95);}
+.wf-copy-btn.copied{background:#2E7D32;}
+.wf-slides-btn{display:inline-flex;align-items:center;gap:4px;background:#1565C0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:0.78em;font-weight:600;margin-top:8px;text-decoration:none;transition:all .15s;}
+.wf-slides-btn:hover{background:#1976D2;}
 </style>
 </head>
 <body>
@@ -637,6 +656,234 @@ function buildPolls(){
       </table>
     </div>`;
     html += `</div>`;
+
+    // === ADMIN: Workflow Infographies IA ===
+    const slidesUrl = "https://docs.google.com/presentation/d/1auWJ9aIMcd8WGLFol7z5FowJ-ivQJ7gS/edit?usp=sharing&ouid=114514625229434666204&rtpof=true&sd=true";
+    const wfCopy = function(btnId, text) {
+      return `navigator.clipboard.writeText(document.getElementById('${btnId}').dataset.prompt);const b=this;b.innerHTML='✓ Copié !';b.classList.add('copied');setTimeout(()=>{b.innerHTML='📋 Copier le prompt';b.classList.remove('copied')},2000)`;
+    };
+
+    html += `<div class="adm-panel">
+      <div class="wf-panel">
+        <div class="wf-panel-title" style="color:#fff;">🎨 Workflow Infographies IA — Matin Creativ Day</div>
+
+        <!-- BLOC Q1 — John-Edwin -->
+        <div class="wf-bloc">
+          <div class="wf-bloc-hdr" style="background:#E65100;color:#fff;">Q1 — Nuage de mots → Infographie (John-Edwin)</div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#E65100;">1</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Collecter</div>
+              <div class="wf-step-desc">Exporter le CSV depuis la régie ci-dessus (bouton 📥 Excel sur Q1)</div>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#E65100;">2</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Pondérer (Claude Cowork)</div>
+              <div class="wf-step-desc">Ouvrir Claude Cowork. Coller le CSV exporté + ce prompt :</div>
+              <div class="wf-prompt" id="wf-prompt-q1-claude" data-prompt="Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026.\n187 collaborateurs ont répondu à la question : &quot;Qu'est-ce qui t'empêche de faire du bon travail à l'ICN ?&quot;\nChaque réponse fait 1 à 3 mots maximum.\n\nVoici les réponses (le CSV est collé ci-dessous).\n\nFais une pondération de ces réponses :\n1. Regroupe les réponses par thème sémantique (synonymes, variantes)\n2. Compte le nombre d'occurrences par thème\n3. Classe les thèmes du plus fréquent au moins fréquent\n4. Donne le % de chaque thème\n\nPuis écris un prompt que je vais insérer dans NotebookLM pour créer une infographie.\nLe prompt doit :\n- Préciser d'utiliser un style facilitation graphique (sketch note)\n- Être rédigé en anglais\n- Inclure la pondération complète\n- Demander de l'humour et d'être pédagogique\n- Utiliser les couleurs de la charte ICN">Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026.
+187 collaborateurs ont répondu à la question : "Qu'est-ce qui t'empêche de faire du bon travail à l'ICN ?"
+Chaque réponse fait 1 à 3 mots maximum.
+
+Voici les réponses (le CSV est collé ci-dessous).
+
+Fais une pondération de ces réponses :
+1. Regroupe les réponses par thème sémantique (synonymes, variantes)
+2. Compte le nombre d'occurrences par thème
+3. Classe les thèmes du plus fréquent au moins fréquent
+4. Donne le % de chaque thème
+
+Puis écris un prompt que je vais insérer dans NotebookLM pour créer une infographie.
+Le prompt doit :
+- Préciser d'utiliser un style facilitation graphique (sketch note)
+- Être rédigé en anglais
+- Inclure la pondération complète
+- Demander de l'humour et d'être pédagogique
+- Utiliser les couleurs de la charte ICN</div>
+              <button class="wf-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('wf-prompt-q1-claude').dataset.prompt);this.innerHTML='✓ Copié !';this.classList.add('copied');setTimeout(()=>{this.innerHTML='📋 Copier le prompt';this.classList.remove('copied')},2000)">📋 Copier le prompt</button>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#E65100;">3</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Infographie (NotebookLM)</div>
+              <div class="wf-step-desc">Dans NotebookLM : ajouter la charte ICN.pdf + le CSV comme sources. Coller le prompt généré par Claude. Options : Sketch Note + Mode standard.</div>
+              <div class="wf-prompt" id="wf-prompt-q1-nlm" data-prompt="Create a synthetic infographic from the analyzed word list with the following weighting:\n\n[COLLER LA PONDÉRATION GÉNÉRÉE PAR CLAUDE ICI]\n\nUsing the ICN brand charter colors and best practices, create a graphic facilitation-style infographic of the responses from ICN Creativ Day participants (March 28, 2026) who answered: &quot;What prevents you from doing a good job at ICN?&quot;\n\nAdd humor and be pedagogical. Use a sketch note / graphic facilitation visual style. Bilingual title (FR/EN). Typography should be readable and airy.">Create a synthetic infographic from the analyzed word list with the following weighting:
+
+[COLLER LA PONDÉRATION GÉNÉRÉE PAR CLAUDE ICI]
+
+Using the ICN brand charter colors and best practices, create a graphic facilitation-style infographic of the responses from ICN Creativ Day participants (March 28, 2026) who answered: "What prevents you from doing a good job at ICN?"
+
+Add humor and be pedagogical. Use a sketch note / graphic facilitation visual style. Bilingual title (FR/EN). Typography should be readable and airy.</div>
+              <button class="wf-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('wf-prompt-q1-nlm').dataset.prompt);this.innerHTML='✓ Copié !';this.classList.add('copied');setTimeout(()=>{this.innerHTML='📋 Copier le prompt';this.classList.remove('copied')},2000)">📋 Copier le prompt</button>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#E65100;">4</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Envoyer</div>
+              <div class="wf-step-desc">Envoyer l'infographie à Elodie (WhatsApp ou AirDrop). Elle l'insère dans la présentation.</div>
+              <a href="${slidesUrl}" target="_blank" class="wf-slides-btn">📊 Ouvrir la présentation Google Slides</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOC Q2 — Héloïse -->
+        <div class="wf-bloc">
+          <div class="wf-bloc-hdr" style="background:#7B1FA2;color:#fff;">Q2 — Texte libre → Infographie (Héloïse)</div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#7B1FA2;">1</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Collecter</div>
+              <div class="wf-step-desc">Exporter le CSV depuis la régie ci-dessus (bouton 📥 Excel sur Q2)</div>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#7B1FA2;">2</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Pondérer (Claude Cowork)</div>
+              <div class="wf-step-desc">Ouvrir Claude Cowork. Coller le CSV exporté + ce prompt :</div>
+              <div class="wf-prompt" id="wf-prompt-q2-claude" data-prompt="Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026.\n187 collaborateurs ont répondu à la question : &quot;Qu'est-ce qui freine le développement de l'ICN selon toi ?&quot;\nLes réponses sont en texte libre (jusqu'à 200 caractères).\n\nVoici les réponses (le CSV est collé ci-dessous).\n\nFais une pondération de ces réponses :\n1. Identifie les thèmes principaux qui émergent\n2. Regroupe les réponses par thème sémantique\n3. Compte le nombre d'occurrences par thème\n4. Classe les thèmes du plus fréquent au moins fréquent\n5. Donne le % de chaque thème\n6. Extrais 2-3 verbatims marquants par thème\n\nPuis écris un prompt que je vais insérer dans NotebookLM pour créer une infographie.\nLe prompt doit :\n- Préciser d'utiliser un style facilitation graphique (sketch note)\n- Être rédigé en anglais\n- Inclure la pondération complète avec les verbatims\n- Demander de l'humour et d'être pédagogique\n- Utiliser les couleurs de la charte ICN\n- Donner un titre accrocheur bilingue FR/EN">Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026.
+187 collaborateurs ont répondu à la question : "Qu'est-ce qui freine le développement de l'ICN selon toi ?"
+Les réponses sont en texte libre (jusqu'à 200 caractères).
+
+Voici les réponses (le CSV est collé ci-dessous).
+
+Fais une pondération de ces réponses :
+1. Identifie les thèmes principaux qui émergent
+2. Regroupe les réponses par thème sémantique
+3. Compte le nombre d'occurrences par thème
+4. Classe les thèmes du plus fréquent au moins fréquent
+5. Donne le % de chaque thème
+6. Extrais 2-3 verbatims marquants par thème
+
+Puis écris un prompt que je vais insérer dans NotebookLM pour créer une infographie.
+Le prompt doit :
+- Préciser d'utiliser un style facilitation graphique (sketch note)
+- Être rédigé en anglais
+- Inclure la pondération complète avec les verbatims
+- Demander de l'humour et d'être pédagogique
+- Utiliser les couleurs de la charte ICN
+- Donner un titre accrocheur bilingue FR/EN</div>
+              <button class="wf-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('wf-prompt-q2-claude').dataset.prompt);this.innerHTML='✓ Copié !';this.classList.add('copied');setTimeout(()=>{this.innerHTML='📋 Copier le prompt';this.classList.remove('copied')},2000)">📋 Copier le prompt</button>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#7B1FA2;">3</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Infographie (NotebookLM)</div>
+              <div class="wf-step-desc">Dans NotebookLM : ajouter la charte ICN.pdf + le CSV comme sources. Coller le prompt généré par Claude. Options : Sketch Note + Mode standard.</div>
+              <div class="wf-prompt" id="wf-prompt-q2-nlm" data-prompt="Create a synthetic infographic from the analyzed free-text responses with the following weighting and key verbatims:\n\n[COLLER LA PONDÉRATION + VERBATIMS GÉNÉRÉS PAR CLAUDE ICI]\n\nUsing the ICN brand charter colors and best practices, create a graphic facilitation-style infographic of the responses from ICN Creativ Day participants (March 28, 2026) who answered: &quot;What is holding ICN back in its development?&quot;\n\nAdd humor and be pedagogical. Use a sketch note / graphic facilitation visual style. Bilingual title (FR/EN). Include the most impactful verbatims as quote bubbles. Typography should be readable and airy.">Create a synthetic infographic from the analyzed free-text responses with the following weighting and key verbatims:
+
+[COLLER LA PONDÉRATION + VERBATIMS GÉNÉRÉS PAR CLAUDE ICI]
+
+Using the ICN brand charter colors and best practices, create a graphic facilitation-style infographic of the responses from ICN Creativ Day participants (March 28, 2026) who answered: "What is holding ICN back in its development?"
+
+Add humor and be pedagogical. Use a sketch note / graphic facilitation visual style. Bilingual title (FR/EN). Include the most impactful verbatims as quote bubbles. Typography should be readable and airy.</div>
+              <button class="wf-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('wf-prompt-q2-nlm').dataset.prompt);this.innerHTML='✓ Copié !';this.classList.add('copied');setTimeout(()=>{this.innerHTML='📋 Copier le prompt';this.classList.remove('copied')},2000)">📋 Copier le prompt</button>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#7B1FA2;">4</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Envoyer</div>
+              <div class="wf-step-desc">Envoyer l'infographie à Elodie (WhatsApp ou AirDrop). Elle l'insère dans la présentation.</div>
+              <a href="${slidesUrl}" target="_blank" class="wf-slides-btn">📊 Ouvrir la présentation Google Slides</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOC Q3 — Nash -->
+        <div class="wf-bloc">
+          <div class="wf-bloc-hdr" style="background:#00838F;color:#fff;">Q3 — Journey Map → Infographie (Nash)</div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#00838F;">1</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Collecter</div>
+              <div class="wf-step-desc">Relever la distribution des votes depuis la heatmap Journey Map ci-dessus (ou bouton 📥 Excel Journey Map)</div>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#00838F;">2</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Analyser (Claude Cowork)</div>
+              <div class="wf-step-desc">Ouvrir Claude Cowork. Coller la distribution des votes + ce prompt :</div>
+              <div class="wf-prompt" id="wf-prompt-q3-claude" data-prompt="Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026.\n187 collaborateurs ont répondu à la question : &quot;Où en es-tu dans le voyage du changement ?&quot;\n\nIls ont voté en se positionnant sur une des 5 étapes du voyage :\n1. Camp de base — &quot;Je n'ai pas encore commencé&quot;\n2. Le doute — &quot;Je me demande si c'est la bonne direction&quot;\n3. La peur — &quot;J'ai peur de ce que ça implique&quot;\n4. L'effort — &quot;Je suis en route, c'est dur mais j'avance&quot;\n5. La réussite — &quot;J'y suis, je vois les résultats&quot;\n\nVoici la distribution des votes :\n- Camp de base : XX votes (XX%)\n- Le doute : XX votes (XX%)\n- La peur : XX votes (XX%)\n- L'effort : XX votes (XX%)\n- La réussite : XX votes (XX%)\n\nAnalyse cette distribution :\n1. Où se concentre la majorité des collaborateurs ?\n2. Quel est le &quot;centre de gravité&quot; émotionnel de l'organisation ?\n3. Qu'est-ce que ça dit de la maturité du changement chez ICN ?\n4. Quels messages François devrait-il porter en réaction ?\n\nPuis écris un prompt que je vais insérer dans NotebookLM pour créer une infographie.\nLe prompt doit :\n- Préciser d'utiliser un style facilitation graphique (sketch note)\n- Être rédigé en anglais\n- Représenter visuellement le voyage comme une montagne ou un chemin avec les 5 étapes\n- Montrer la distribution des votes avec des icônes de personnes proportionnelles\n- Indiquer le &quot;centre de gravité&quot; organisationnel\n- Ajouter des insights et un message d'espoir\n- Utiliser les couleurs de la charte ICN\n- Donner un titre accrocheur bilingue FR/EN">Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026.
+187 collaborateurs ont répondu à la question : "Où en es-tu dans le voyage du changement ?"
+
+Ils ont voté en se positionnant sur une des 5 étapes du voyage :
+1. Camp de base — "Je n'ai pas encore commencé"
+2. Le doute — "Je me demande si c'est la bonne direction"
+3. La peur — "J'ai peur de ce que ça implique"
+4. L'effort — "Je suis en route, c'est dur mais j'avance"
+5. La réussite — "J'y suis, je vois les résultats"
+
+Voici la distribution des votes :
+- Camp de base : XX votes (XX%)
+- Le doute : XX votes (XX%)
+- La peur : XX votes (XX%)
+- L'effort : XX votes (XX%)
+- La réussite : XX votes (XX%)
+
+Analyse cette distribution :
+1. Où se concentre la majorité des collaborateurs ?
+2. Quel est le "centre de gravité" émotionnel de l'organisation ?
+3. Qu'est-ce que ça dit de la maturité du changement chez ICN ?
+4. Quels messages François devrait-il porter en réaction ?
+
+Puis écris un prompt que je vais insérer dans NotebookLM pour créer une infographie.
+Le prompt doit :
+- Préciser d'utiliser un style facilitation graphique (sketch note)
+- Être rédigé en anglais
+- Représenter visuellement le voyage comme une montagne ou un chemin avec les 5 étapes
+- Montrer la distribution des votes avec des icônes de personnes proportionnelles
+- Indiquer le "centre de gravité" organisationnel
+- Ajouter des insights et un message d'espoir
+- Utiliser les couleurs de la charte ICN
+- Donner un titre accrocheur bilingue FR/EN</div>
+              <button class="wf-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('wf-prompt-q3-claude').dataset.prompt);this.innerHTML='✓ Copié !';this.classList.add('copied');setTimeout(()=>{this.innerHTML='📋 Copier le prompt';this.classList.remove('copied')},2000)">📋 Copier le prompt</button>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#00838F;">3</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Infographie (NotebookLM)</div>
+              <div class="wf-step-desc">Dans NotebookLM : ajouter la charte ICN.pdf + la distribution comme sources. Coller le prompt généré par Claude. Options : Sketch Note + Mode standard.</div>
+              <div class="wf-prompt" id="wf-prompt-q3-nlm" data-prompt="Create a journey map infographic showing where ICN's 187 employees stand in their change journey, based on this vote distribution:\n\n[COLLER L'ANALYSE + DISTRIBUTION GÉNÉRÉE PAR CLAUDE ICI]\n\nVisual style: graphic facilitation / sketch note. Show the journey as a mountain path with 5 stages (Base Camp → Doubt → Fear → Effort → Success). Use person icons proportional to vote counts at each stage. Highlight the organizational &quot;center of gravity.&quot; Add an encouraging insight message.\n\nUse ICN brand charter colors. Bilingual title (FR/EN). Typography readable and airy.">Create a journey map infographic showing where ICN's 187 employees stand in their change journey, based on this vote distribution:
+
+[COLLER L'ANALYSE + DISTRIBUTION GÉNÉRÉE PAR CLAUDE ICI]
+
+Visual style: graphic facilitation / sketch note. Show the journey as a mountain path with 5 stages (Base Camp → Doubt → Fear → Effort → Success). Use person icons proportional to vote counts at each stage. Highlight the organizational "center of gravity." Add an encouraging insight message.
+
+Use ICN brand charter colors. Bilingual title (FR/EN). Typography readable and airy.</div>
+              <button class="wf-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('wf-prompt-q3-nlm').dataset.prompt);this.innerHTML='✓ Copié !';this.classList.add('copied');setTimeout(()=>{this.innerHTML='📋 Copier le prompt';this.classList.remove('copied')},2000)">📋 Copier le prompt</button>
+            </div>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num" style="background:#00838F;">4</div>
+            <div class="wf-step-body">
+              <div class="wf-step-title" style="color:#fff;">Envoyer</div>
+              <div class="wf-step-desc">Envoyer l'infographie à Elodie (WhatsApp ou AirDrop). Elle l'insère dans la présentation.<br><em style="color:#90CAF9;font-size:0.9em;">Note : Nash refait l'infographie à Midi (12:00) et Après-midi (16:15) pour montrer l'évolution avant/après.</em></div>
+              <a href="${slidesUrl}" target="_blank" class="wf-slides-btn">📊 Ouvrir la présentation Google Slides</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>`;
   }
 
   // Waiting screen
@@ -1771,14 +2018,25 @@ function listenPolls(){
     fbDb.ref("icn-polls/active/"+q.id).on("value", snap=>{
       const active = snap.val() === true;
       const el = document.getElementById("poll-"+q.id);
-      // In presenter mode: only one question visible at a time
-      if(active && document.body.classList.contains("presenter")){
+      const isAdmin = window.location.search.includes("admin");
+      // All modes except admin: only one question visible at a time
+      if(active && !isAdmin){
         POLL_QUESTIONS.forEach(oq=>{
           const oel = document.getElementById("poll-"+oq.id);
           if(oel && oq.id !== q.id) oel.classList.remove("active");
         });
+        // Also hide JM q3 if a regular poll activates
+        const q3 = document.getElementById("poll-q3");
+        if(q3 && q.id !== "q3") q3.classList.remove("active");
       }
       if(el) el.classList.toggle("active", active);
+      // Non-admin: clear results display when question is deactivated
+      if(!active && !isAdmin){
+        const rc = document.getElementById("poll-results-"+q.id);
+        if(rc) rc.innerHTML = "";
+        const cc = document.getElementById("poll-count-"+q.id);
+        if(cc) cc.textContent = "";
+      }
       // Update admin status indicator
       const st = document.getElementById("adm-st-"+q.id);
       if(st){st.classList.toggle("on",active);st.classList.toggle("off",!active);}
