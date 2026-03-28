@@ -1037,11 +1037,11 @@ function buildAgenda(){
     {t:"10:00",d:"15'",title:"Cafe d'accueil",desc:"Installation dans l'amphitheatre",who:"Orga",color:"#607D8B",icon:"&#9749;"},
     {t:"10:15",d:"15'",title:"Kick-off Francois Therin",desc:"Perspective, defis, ce que cette journee est et n'est pas",who:"Francois",color:"#0D47A1",icon:"&#127908;"},
     {t:"10:30",d:"5'",title:"Agenda et equipe",desc:"Presentation du deroulement et de l'equipe de facilitation",who:"Anne",color:"#1565C0",icon:"&#128203;"},
-    {t:"10:35",d:"10'",title:"Collecte des pain points",desc:"Individuellement : 1 irritant par post-it, autant qu'on veut. En silence.",who:"Tous",color:"#E65100",icon:"&#128221;"},
-    {t:"10:45",d:"20'",title:"Pause cafe",desc:"Elodie clusterise les pain points avec l'IA",who:"Elodie + IA",color:"#F57F17",icon:"&#9749;"},
-    {t:"11:05",d:"15'",title:"Restitution des pain points",desc:"Francois presente les clusters IA, reagit a chaud",who:"Francois",color:"#0D47A1",icon:"&#128200;"},
-    {t:"11:20",d:"15'",title:"Presentation du programme PM",desc:"Mini Design Sprint, role de capitaine, fiches tuto",who:"Elodie + Zeenat + Anne",color:"#7B1FA2",icon:"&#127919;"},
-    {t:"11:35",d:"20'",title:"Ice-breaker en sous-groupes",desc:"Par groupe de 4-5 voisins. 'Si j'etais une oeuvre d'art...'",who:"Anne",color:"#00838F",icon:"&#127912;"},
+    {t:"10:35",d:"20'",title:"Ice-breaker en sous-groupes",desc:"Par groupe de 4-5 voisins. 'Si j'etais une oeuvre d'art...'",who:"Anne",color:"#00838F",icon:"&#127912;"},
+    {t:"10:55",d:"10'",title:"Collecte des pain points",desc:"Individuellement : 1 irritant par post-it, autant qu'on veut. En silence.",who:"Tous",color:"#E65100",icon:"&#128221;"},
+    {t:"11:05",d:"20'",title:"Pause cafe",desc:"Elodie clusterise les pain points avec l'IA",who:"Elodie + IA",color:"#F57F17",icon:"&#9749;"},
+    {t:"11:25",d:"15'",title:"Restitution des pain points",desc:"Francois presente les clusters IA, reagit a chaud",who:"Francois",color:"#0D47A1",icon:"&#128200;"},
+    {t:"11:40",d:"15'",title:"Presentation du programme PM",desc:"Mini Design Sprint, role de capitaine, fiches tuto",who:"Elodie + Zeenat + Anne",color:"#7B1FA2",icon:"&#127919;"},
     {t:"11:55",d:"65'",title:"Dejeuner",desc:"Pot luck / dejeuner partage",who:"Tous",color:"#2E7D32",icon:"&#127860;"}
   ];
   const afternoon = [
@@ -1657,12 +1657,12 @@ const CHAT_KB = {
     keywords:["programme","schedule","agenda","planning","horaire","deroulement"],
     fr:`<strong>Programme du jour :</strong><br>
 <u>Matin</u><br>
-10h00 — Cafe d'accueil<br>10h15 — Kick-off Francois<br>10h35 — Collecte pain points sur l'app<br>11h05 — Restitution Francois<br>11h20 — Presentation programme PM<br>11h35 — Ice-breaker<br>11h55 — Dejeuner<br>
+10h00 — Cafe d'accueil<br>10h15 — Kick-off Francois<br>10h35 — Ice-breaker<br>10h55 — Collecte pain points sur l'app<br>11h25 — Restitution Francois<br>11h40 — Presentation programme PM<br>11h55 — Dejeuner<br>
 <u>Apres-midi</u><br>
 13h00 — Brief + Sprint questions<br>13h10 — Lightning Demos (19')<br>13h29 — HMW + Vote (18')<br>13h57 — Solution Sketch (39')<br>14h36 — Marge facilitateur<br>14h51 — Pause cafe<br>15h06 — Pitch Canvas (32')<br>15h38 — Transition villages<br>15h43 — Village pitches (32')<br>16h30 — Pitchs finaux<br>16h50 — Closing<br>17h00 — Fin`,
     en:`<strong>Day schedule:</strong><br>
 <u>Morning</u><br>
-10:00 — Welcome coffee<br>10:15 — Kick-off Francois<br>10:35 — Pain points collection on app<br>11:05 — Francois restitution<br>11:20 — PM program presentation<br>11:35 — Ice-breaker<br>11:55 — Lunch<br>
+10:00 — Welcome coffee<br>10:15 — Kick-off Francois<br>10:35 — Ice-breaker<br>10:55 — Pain points collection on app<br>11:25 — Francois restitution<br>11:40 — PM program presentation<br>11:55 — Lunch<br>
 <u>Afternoon</u><br>
 13:00 — Brief + Sprint questions<br>13:10 — Lightning Demos (19')<br>13:29 — HMW + Vote (18')<br>13:57 — Solution Sketch (39')<br>14:36 — Facilitator buffer<br>14:51 — Coffee break<br>15:06 — Pitch Canvas (32')<br>15:38 — Village transition<br>15:43 — Village pitches (32')<br>16:30 — Final pitches<br>16:50 — Closing<br>17:00 — End`
   },
@@ -1756,7 +1756,7 @@ const CHAT_CHUNKS = {
   },
   programme_matin: {
     kw:["matin","morning","10h","11h","kick","accueil","ice-breaker","oeuvre d'art","programme","schedule","agenda","planning","dejeuner","lunch","pot luck"],
-    text:`PROGRAMME MATIN: 10h00 Cafe d'accueil | 10h15 Kick-off Francois Therin (DG) | 10h30 Agenda + equipe (Anne) | 10h35 Collecte pain points en silence | 10h45 Pause cafe (Elodie clusterise avec IA) | 11h05 Francois presente les clusters | 11h20 Presentation du sprint PM | 11h35 Ice-breaker "Si j'etais une oeuvre d'art..." par groupes de 4-5 | 11h55 Pot luck. DEJEUNER 12h00-13h00.`
+    text:`PROGRAMME MATIN: 10h00 Cafe d'accueil | 10h15 Kick-off Francois Therin (DG) | 10h30 Agenda + equipe (Anne) | 10h35 Ice-breaker "Si j'etais une oeuvre d'art..." par groupes de 4-5 | 10h55 Collecte pain points en silence | 11h05 Pause cafe (Elodie clusterise avec IA) | 11h25 Francois presente les clusters | 11h40 Presentation du sprint PM | 11h55 Pot luck. DEJEUNER 12h00-13h00.`
   },
   exercice1: {
     kw:["lightning","demo","exercice 1","fiche 1","13h10","13:10","inspirer","exemple","ailleurs"],
