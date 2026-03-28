@@ -424,6 +424,44 @@ const TEAMS = [
    members:[["Morteza","ALAEDDINI","Nancy","FR & EN"],["Nacera","BERBARA","Nancy","FR & EN"],["Francoise","BRODT","Nancy","FR & EN"],["Deborah","DA SILVA","Nancy","FR & EN"],["Nela","HIMA","Paris","FR & EN"],["Bruno","PECCHIOLI","Nancy","FR & EN"],["Alia","SELAMI","Nancy","FR & EN"],["Bruno","VANCON","Nancy","FR & EN"],["Yannick","WELLENREITER","Nancy","FR & EN"]]}
 ];
 
+const SPRINT_QUESTIONS = [
+  {id:"students", num:1, icon:"\u{1F393}", theme:"Students",
+   titleFr:"Students", titleEn:"Students",
+   questionFr:"Comment redessiner l'exp\u00e9rience \u00e9tudiante pour que chaque \u00e9tudiant devienne un ambassadeur fier d'ICN ?",
+   questionEn:"How might we redesign the student experience so that every student becomes a proud ambassador of ICN?",
+   contextFr:"Pour qui sommes-nous l\u00e0 ? L'\u00e9tudiant est la raison d'\u00eatre d'ICN.",
+   contextEn:"Who are we here for? The student is the reason ICN exists.",
+   fac:"John-Edwin", color:"#1565C0"},
+  {id:"people", num:2, icon:"\u{1F91D}", theme:"People",
+   titleFr:"People", titleEn:"People",
+   questionFr:"Comment reconstruire la confiance entre collaborateurs et management pour que chacun se sente en s\u00e9curit\u00e9, \u00e9cout\u00e9 et valoris\u00e9 ?",
+   questionEn:"How might we rebuild trust between staff and management so that people feel safe, heard, and valued?",
+   contextFr:"Confiance, \u00e9quit\u00e9, et le contrat humain entre ICN et ses collaborateurs.",
+   contextEn:"Trust, fairness, and the human contract between ICN and its staff.",
+   fac:"Anne", color:"#2E7D32"},
+  {id:"culture", num:3, icon:"\u{1F9ED}", theme:"Culture",
+   titleFr:"Culture", titleEn:"Culture",
+   questionFr:"Comment casser les silos et cr\u00e9er une culture o\u00f9 l'information, l'\u00e9nergie et les id\u00e9es circulent librement entre toutes les \u00e9quipes et tous les campus ?",
+   questionEn:"How might we break the silos and create a culture where information, energy, and ideas flow freely across all teams and campuses?",
+   contextFr:"Le logiciel collectif \u2014 comment ICN pense, communique et avance ensemble.",
+   contextEn:"The collective operating system \u2014 how ICN thinks, communicates, and moves together.",
+   fac:"Nash", color:"#E65100"},
+  {id:"atm", num:4, icon:"\u{1F3A8}", theme:"ATM",
+   titleFr:"ATM", titleEn:"ATM",
+   questionFr:"Comment faire d'ATM une r\u00e9alit\u00e9 v\u00e9cue au quotidien, que les \u00e9tudiants, les collaborateurs et le monde ext\u00e9rieur puissent voir, ressentir et raconter ?",
+   questionEn:"How might we make ATM a lived, daily reality that students, staff, and the outside world can see, feel, and talk about?",
+   contextFr:"Art, Technologie, Management \u2014 l'ADN unique d'ICN face \u00e0 200 autres \u00e9coles.",
+   contextEn:"Art, Technology, Management \u2014 ICN's unique DNA and reason to exist vs. 200 other schools.",
+   fac:"Zeenat", color:"#7B1FA2"},
+  {id:"place", num:5, icon:"\u{1F4CD}", theme:"Place",
+   titleFr:"Place", titleEn:"Place",
+   questionFr:"Comment faire de chaque campus \u2014 Nancy, Paris, Berlin \u2014 un aimant distinctif qui attire les \u00e9tudiants gr\u00e2ce \u00e0 sa localisation, et non malgr\u00e9 elle ?",
+   questionEn:"How might we turn each campus \u2014 Nancy, Paris, Berlin \u2014 into a distinctive magnet that attracts students because of where it is, not despite it?",
+   contextFr:"O\u00f9 ICN choisit de grandir et comment chaque campus devient une raison pour les \u00e9tudiants de nous choisir.",
+   contextEn:"Where ICN chooses to grow and how each campus becomes a reason students choose us.",
+   fac:"H\u00e9lo\u00efse", color:"#C2185B"}
+];
+
 const VILLAGES = {
   V1:{name:"Village 1 Vert",color:"#2E7D32",room:"207 Bobby Fisher",cap:55},
   V2:{name:"Village 2 Violet",color:"#7B1FA2",room:"112 Dorothy Vaughan",cap:37},
@@ -568,8 +606,20 @@ function buildOverview(){
       <div style="font-size:0.68em;color:#607D8B;" data-fr="La grande finale" data-en="The final showdown">La grande finale</div>
     </div>
   </div>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:0.92em;color:#C2185B;margin-bottom:10px;text-align:center;" data-fr="Les 5 d\u00e9fis" data-en="The 5 Challenges">Les 5 d\u00e9fis</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      ${SPRINT_QUESTIONS.map(sq=>`<div style="background:${sq.color}10;border-left:3px solid ${sq.color};border-radius:0 10px 10px 0;padding:8px 10px;${sq.num===5?'grid-column:1/-1;':''}">
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+          <span style="font-size:1em;">${sq.icon}</span>
+          <span style="font-weight:700;font-size:0.78em;color:${sq.color};">${sq.theme}</span>
+        </div>
+        <div style="font-size:0.65em;color:#455A64;line-height:1.3;" data-fr="${sq.questionFr}" data-en="${sq.questionEn}">${sq.questionFr}</div>
+      </div>`).join("")}
+    </div>
+  </div>
   <div style="background:#ECEFF1;border-radius:12px;padding:14px;font-size:0.8em;color:#455A64;text-align:center;line-height:1.5;">
-    <span data-fr="Perdu ? Clique sur le bouton rose en bas à droite pour trouver ta salle et ton équipe." data-en="Lost? Tap the pink button below to find your room and team.">Perdu ? Clique sur le bouton rose en bas à droite pour trouver ta salle et ton équipe.</span>
+    <span data-fr="Perdu ? Clique sur le bouton rose en bas \u00e0 droite pour trouver ta salle et ton \u00e9quipe." data-en="Lost? Tap the pink button below to find your room and team.">Perdu ? Clique sur le bouton rose en bas \u00e0 droite pour trouver ta salle et ton \u00e9quipe.</span>
   </div>
   </div>`;
 }
@@ -1098,6 +1148,21 @@ function buildAgenda(){
   <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:12px;font-size:0.78em;color:#795548;margin-top:12px;">
     <span data-fr="Fin nominale : 17h00. Train retour Paris en fin de journee." data-en="Nominal end: 17:00. Paris return train at end of day."><strong>Fin nominale : 17h00.</strong> Train retour Paris en fin de journee.</span>
   </div>
+  <div class="sec" style="margin-top:16px;">
+    <div class="sec-h" style="background:linear-gradient(135deg,#C2185B,#E91E63);"><span data-fr="Les 5 d\u00e9fis Sprint" data-en="The 5 Sprint Challenges">Les 5 d\u00e9fis Sprint</span><span class="bdg">5 HMW</span></div>
+    <div style="padding:12px;">
+      <p style="font-size:0.78em;color:#607D8B;margin-bottom:12px;line-height:1.4;" data-fr="Chaque \u00e9quipe travaillera sur l'une de ces 5 questions strat\u00e9giques pendant le Design Sprint." data-en="Each team will work on one of these 5 strategic questions during the Design Sprint.">Chaque \u00e9quipe travaillera sur l'une de ces 5 questions strat\u00e9giques pendant le Design Sprint.</p>
+      ${SPRINT_QUESTIONS.map(sq=>`<div style="border-left:4px solid ${sq.color};border-radius:0 10px 10px 0;padding:12px;margin-bottom:10px;background:#FAFAFA;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span style="font-size:1.3em;">${sq.icon}</span>
+          <span style="font-weight:700;font-size:0.92em;color:${sq.color};">${sq.theme}</span>
+          <span style="margin-left:auto;font-size:0.68em;background:${sq.color}20;color:${sq.color};padding:2px 8px;border-radius:10px;">${sq.fac}</span>
+        </div>
+        <div style="font-size:0.82em;color:#263238;line-height:1.5;font-style:italic;" data-fr="${sq.questionFr}" data-en="${sq.questionEn}">${sq.questionFr}</div>
+        <div style="font-size:0.72em;color:#607D8B;margin-top:4px;" data-fr="${sq.contextFr}" data-en="${sq.contextEn}">${sq.contextFr}</div>
+      </div>`).join("")}
+    </div>
+  </div>
   </div>`;
 }
 
@@ -1397,8 +1462,21 @@ function renderFacHome(){
   const facData = facKey ? FAC_MAP[facKey] : null;
   nameEl.textContent = facData ? facData.fullName : facName;
   if(!facKey){ teamsEl.innerHTML=""; return; }
+  // Show this facilitator's sprint question
+  const mySQ = SPRINT_QUESTIONS.find(sq=>sq.fac===facName);
+  let html = "";
+  if(mySQ){
+    html += `<div style="border:2px solid ${mySQ.color};border-radius:14px;padding:16px;margin-bottom:14px;background:${mySQ.color}10;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:1.5em;">${mySQ.icon}</span>
+        <span style="font-weight:800;font-size:1em;color:${mySQ.color};">${currentLang==="en"?"My Challenge":"Mon d\u00e9fi"} \u2014 ${mySQ.theme}</span>
+      </div>
+      <div style="font-size:0.88em;color:#263238;line-height:1.5;font-style:italic;margin-bottom:6px;" data-fr="${mySQ.questionFr}" data-en="${mySQ.questionEn}">${currentLang==="en"?mySQ.questionEn:mySQ.questionFr}</div>
+      <div style="font-size:0.75em;color:#607D8B;" data-fr="${mySQ.contextFr}" data-en="${mySQ.contextEn}">${currentLang==="en"?mySQ.contextEn:mySQ.contextFr}</div>
+    </div>`;
+  }
   const myTeams = TEAMS.filter(t=>t.fac===facKey);
-  let html = `<h3 style="font-size:0.88em;color:#263238;margin-bottom:8px;" data-fr="Mes équipes (${myTeams.length})" data-en="My teams (${myTeams.length})">${currentLang==="en"?"My teams":"Mes équipes"} (${myTeams.length})</h3>`;
+  html += `<h3 style="font-size:0.88em;color:#263238;margin-bottom:8px;" data-fr="Mes \u00e9quipes (${myTeams.length})" data-en="My teams (${myTeams.length})">${currentLang==="en"?"My teams":"Mes \u00e9quipes"} (${myTeams.length})</h3>`;
   myTeams.forEach(t=>{
     const v = VILLAGES[t.village];
     html += `<div style="background:#fff;border-left:4px solid ${t.vColor};border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:6px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;" onclick="showTeamModal('${t.name}')">
@@ -1760,8 +1838,8 @@ const CHAT_CHUNKS = {
     text:`ROLES A LA TABLE: CAPITAINE: lit les consignes a voix haute, donne la parole equitablement, maintient le silence. TIME KEEPER: lance le timer, annonce "Plus qu'une minute!" puis "Stop!". Strict. L'appli Chrono suffit.\nEQUIPE DE FACILITATION: Elodie Hughes (meta-facilitation, timer, IA live, pitchs finaux), Anne Corbel-Trinh (matinee, ice-breaker, village PM), Zeenat Fayaz (cadrage strategique, Sprint Questions, village PM), Heloise Lemeillet (facilitatrice flottante PM), John-Edwin Graf (facilitateur flottant PM, IA avec Elodie), Nash Hughes (interviews, captation video).`
   },
   sprint_question: {
-    kw:["sprint question","question","hmw","how might we","comment pourrait"],
-    text:`SPRINT QUESTION: Question strategique commencant par "Comment pourrait-on..." ou "Peut-on...". Formulee a partir des pain points du matin. Affichee sur chaque table. Exemples: "Comment pourrait-on ameliorer la visibilite d'ICN aupres des lyceens?", "Peut-on diviser par 2 le temps de réponse aux demandes etudiantes?", "Comment pourrait-on utiliser l'IA pour personnaliser le parcours etudiant?"`
+    kw:["sprint question","question","hmw","how might we","comment pourrait","challenge","defi","students","people","culture","atm","place","question sprint","5 questions","5 defis","john-edwin","anne","nash","zeenat","heloise"],
+    text:`LES 5 SPRINT QUESTIONS / CHALLENGES: Chaque equipe travaille sur l'une des 5 questions strategiques HMW (How Might We / Comment pourrait-on). Q1 STUDENTS (Facilitateur: John-Edwin): "Comment redessiner l'experience etudiante pour que chaque etudiant devienne un ambassadeur fier d'ICN?" — L'etudiant est la raison d'etre d'ICN. Q2 PEOPLE (Facilitatrice: Anne): "Comment reconstruire la confiance entre collaborateurs et management pour que chacun se sente en securite, ecoute et valorise?" — Confiance, equite, contrat humain entre ICN et ses collaborateurs. Q3 CULTURE (Facilitateur: Nash): "Comment casser les silos et creer une culture ou l'information, l'energie et les idees circulent librement entre toutes les equipes et tous les campus?" — Le logiciel collectif d'ICN. Q4 ATM (Facilitatrice: Zeenat): "Comment faire d'ATM une realite vecue au quotidien, que les etudiants, les collaborateurs et le monde exterieur puissent voir, ressentir et raconter?" — Art, Technologie, Management, l'ADN unique d'ICN. Q5 PLACE (Facilitatrice: Heloise): "Comment faire de chaque campus — Nancy, Paris, Berlin — un aimant distinctif qui attire les etudiants grace a sa localisation, et non malgre elle?" — Ou ICN choisit de grandir.`
   },
   programme_matin: {
     kw:["matin","morning","10h","11h","kick","accueil","ice-breaker","oeuvre d'art","programme","schedule","agenda","planning","dejeuner","lunch","pot luck"],
