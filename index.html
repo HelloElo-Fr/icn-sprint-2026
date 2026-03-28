@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>const APP_V="10";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}</script>
+<script>const APP_V="11";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}</script>
 <title>ICN Creativ Day — 28 mars 2026</title>
 <style>
 :root {
@@ -1921,9 +1921,14 @@ function localSearch(query){
   const teamMatch = TEAMS.find(t=>t.name.toLowerCase()===q || t.name.toLowerCase().includes(q));
   if(teamMatch){
     const v = VILLAGES[teamMatch.village];
+    const fd = FAC_MAP[teamMatch.fac];
+    const sq = fd ? SPRINT_QUESTIONS.find(s=>s.fac===fd.name) : null;
+    const challenge = sq ? (currentLang==="en"
+      ? `<br>${sq.icon} <strong>Challenge:</strong> ${sq.theme} — <em>${sq.questionEn}</em>`
+      : `<br>${sq.icon} <strong>Défi :</strong> ${sq.theme} — <em>${sq.questionFr}</em>`) : "";
     return currentLang==="en"
-      ? `<strong>Team ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1: ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}`
-      : `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1 : ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}`;
+      ? `<strong>Team ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1: ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}${challenge}`
+      : `<strong>Equipe ${teamMatch.name}</strong> (${teamMatch.members.length}p)<br>Phase 1 : ${ROOM_NAMES[teamMatch.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[teamMatch.p2Room]}${challenge}`;
   }
   // Search person — try full query first, then each word ≥3 chars
   let found = [];
@@ -1951,9 +1956,14 @@ function localSearch(query){
   if(found.length===1){
     const {person:m, team:t} = found[0];
     const v = VILLAGES[t.village];
+    const fd = FAC_MAP[t.fac];
+    const sq = fd ? SPRINT_QUESTIONS.find(s=>s.fac===fd.name) : null;
+    const challenge = sq ? (currentLang==="en"
+      ? `<br>${sq.icon} <strong>Your challenge:</strong> ${sq.theme} — <em>${sq.questionEn}</em>`
+      : `<br>${sq.icon} <strong>Ton défi :</strong> ${sq.theme} — <em>${sq.questionFr}</em>`) : "";
     return currentLang==="en"
-      ? `<strong>${m[0]} ${m[1]}</strong><br>Team: <strong>${t.name}</strong><br>Phase 1: ${ROOM_NAMES[t.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[t.p2Room]}`
-      : `<strong>${m[0]} ${m[1]}</strong><br>Equipe : <strong>${t.name}</strong><br>Phase 1 : ${ROOM_NAMES[t.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[t.p2Room]}`;
+      ? `<strong>${m[0]} ${m[1]}</strong><br>Team: <strong>${t.name}</strong><br>Phase 1: ${ROOM_NAMES[t.p1Room]}<br>Phase 2: ${v.name} — ${ROOM_NAMES[t.p2Room]}${challenge}`
+      : `<strong>${m[0]} ${m[1]}</strong><br>Equipe : <strong>${t.name}</strong><br>Phase 1 : ${ROOM_NAMES[t.p1Room]}<br>Phase 2 : ${v.name} — ${ROOM_NAMES[t.p2Room]}${challenge}`;
   }
   if(found.length>1){
     const header = currentLang==="en"
