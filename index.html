@@ -2855,8 +2855,10 @@ if(savedLang) setLang(savedLang);
     if(saved && !facSelect.value){
       facSelect.value = saved;
     }
-    renderFacHome();
+    // Store fac name from URL param
+    if(facSelect.value) localStorage.setItem("icn_fac_name", facSelect.value);
     renderFacWorkflows();
+    if(typeof renderFacHome === "function") renderFacHome();
   }
 })();
 
