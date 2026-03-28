@@ -2184,42 +2184,42 @@ function updateWaitingScreen(){
   const isAdmin = window.location.search.includes("admin");
   const jmActive = !!window._jmActivePhase;
   const anyRegularActive = _pollStates.q1 || _pollStates.q2;
+  const anyActive = anyRegularActive || jmActive;
 
-  // First: set all poll elements visibility
+  // Step 1: Hide ALL polls first
   POLL_QUESTIONS.forEach(q=>{
     const el = document.getElementById("poll-"+q.id);
-    if(!el) return;
-    if(q.type==="journeymap"){
-      if(isAdmin){
-        el.classList.toggle("active", jmActive);
-      } else {
-        // Non-admin: show q3 ONLY if JM active AND no regular poll active
-        el.classList.toggle("active", jmActive && !anyRegularActive);
-      }
-    } else {
-      if(isAdmin){
-        el.classList.toggle("active", _pollStates[q.id]);
-      } else {
-        // Non-admin: show only the active regular poll, hide if JM takes priority
-        el.classList.toggle("active", _pollStates[q.id]);
-        // If another regular poll is active, hide this one
-        if(!isAdmin && _pollStates[q.id]){
-          POLL_QUESTIONS.filter(oq=>oq.id!==q.id && oq.type!=="journeymap").forEach(oq=>{
-            const oel = document.getElementById("poll-"+oq.id);
-            if(oel) oel.classList.remove("active");
-          });
-        }
-      }
-    }
+    if(el) el.classList.remove("active");
   });
 
-  // Then: waiting screen — hide if ANY poll is showing
-  const anyVisible = anyRegularActive || (jmActive && (isAdmin || !anyRegularActive));
-  const isPresenter = document.body.classList.contains("presenter");
-  if(anyVisible){
+  // Step 2: Show the right poll(s)
+  if(isAdmin){
+    // Admin sees all active polls
+    POLL_QUESTIONS.forEach(q=>{
+      const el = document.getElementById("poll-"+q.id);
+      if(!el) return;
+      if(q.type==="journeymap") el.classList.toggle("active", jmActive);
+      else el.classList.toggle("active", _pollStates[q.id]);
+    });
+  } else {
+    // Non-admin: show exactly ONE poll with priority: q1 > q2 > q3
+    if(_pollStates.q1){
+      const el = document.getElementById("poll-q1");
+      if(el) el.classList.add("active");
+    } else if(_pollStates.q2){
+      const el = document.getElementById("poll-q2");
+      if(el) el.classList.add("active");
+    } else if(jmActive){
+      const el = document.getElementById("poll-q3");
+      if(el) el.classList.add("active");
+    }
+  }
+
+  // Step 3: Waiting screen — hide if ANY poll is visible, show otherwise
+  if(anyActive){
     waiting.style.setProperty("display", "none", "important");
   } else {
-    waiting.style.setProperty("display", isPresenter ? "flex" : "", "important");
+    waiting.style.setProperty("display", document.body.classList.contains("presenter") ? "flex" : "", "important");
   }
 }
 
