@@ -440,6 +440,14 @@ TEAMS.forEach(t => {
 
 // ============ RENDER ============
 const isFacMode = (()=>{const p=new URLSearchParams(window.location.search);return p.has("fac");})();
+const currentFacKey = (()=>{
+  if(!isFacMode) return null;
+  const p = new URLSearchParams(window.location.search).get("fac");
+  if(!p || p==="1") return null;
+  const entry = Object.entries(FAC_MAP).find(([k,v])=>v.name===p);
+  return entry ? entry[0] : null;
+})();
+function getFacTeams(){ return currentFacKey ? TEAMS.filter(t=>t.fac===currentFacKey) : TEAMS; }
 const tabDefs = [
   {id:"overview",fr:"Accueil",en:"Home"},
   {id:"agenda",fr:"Agenda",en:"Agenda"},
@@ -775,21 +783,31 @@ function buildPhase1(){
     return `<div class="fz" style="border-left-color:${color}"><h3><span class="fb" style="background:${color}">${badge}</span>${title}</h3><div class="rm-grid">${rooms}</div></div>`;
   }
 
+  const zones = [
+    {key:"Fac 1",color:"#1565C0",title:"Zone Conseil — 4 eq.",floor:1,rooms:roomBlock("Salle du Conseil",90,f1)},
+    {key:"Fac 2",color:"#E65100",title:"Zone Marie Curie — 4 eq.",floor:1,rooms:roomBlock("101 Marie Curie",30,f2a)+roomBlock("107 Charles Darwin",12,f2b)},
+    {key:"Fac 3",color:"#7B1FA2",title:"Zone Dorothy Vaughan — 4 eq.",floor:1,rooms:roomBlock("112 Dorothy Vaughan",37,f3a)+roomBlock("104 Simone de Beauvoir",12,f3b)},
+    {key:"Fac 4",color:"#2E7D32",title:"Zone Bobby Fisher — 5 eq.",floor:2,rooms:roomBlock("207 Bobby Fisher",55,f4a)+roomBlock("202 Rosa Parks",20,f4b)},
+    {key:"Fac 5",color:"#00838F",title:"Zone Galle-Prouve — 5 eq.",floor:2,rooms:roomBlock("205 Emile Galle",25,f5a)+roomBlock("206 Jean Prouve",25,f5b)+roomBlock("202 Rosa Parks",20,f5c)}
+  ];
+  const filteredZones = isFacMode && currentFacKey ? zones.filter(z=>z.key===currentFacKey) : zones;
+  const floor1 = filteredZones.filter(z=>z.floor===1);
+  const floor2 = filteredZones.filter(z=>z.floor===2);
+  const subtitle = isFacMode && currentFacKey
+    ? `Tes salles — ${FAC_MAP[currentFacKey].fullName}`
+    : "9 salles sur 2 etages. Tape ton nom pour trouver ta salle.";
+
+  let roomsHtml = "";
+  if(floor1.length) roomsHtml += `<div class="sec"><div class="sec-h">1er Etage<span class="bdg">${floor1.length} zone${floor1.length>1?"s":""}</span></div>${floor1.map(z=>facZone(z.color,z.key,z.title,z.rooms)).join("")}</div>`;
+  if(floor2.length) roomsHtml += `<div class="sec"><div class="sec-h">2eme Etage<span class="bdg">${floor2.length} zone${floor2.length>1?"s":""}</span></div>${floor2.map(z=>facZone(z.color,z.key,z.title,z.rooms)).join("")}</div>`;
+
   return `<div class="pnl" id="p-phase1">
   <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border-radius:14px;padding:16px;margin-bottom:14px;">
     <h2 style="font-size:1.05em;color:#E65100;margin-bottom:6px;" data-fr="Ma salle" data-en="My room">Ma salle</h2>
-    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;" data-fr="9 salles sur 2 etages. Tape ton nom pour trouver ta salle." data-en="9 rooms on 2 floors. Type your name to find your room.">9 salles sur 2 etages. Tape ton nom pour trouver ta salle.</p>
-    <input type="text" id="roomSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
+    <p style="font-size:0.8em;color:#455A64;line-height:1.4;margin-bottom:12px;">${subtitle}</p>
+    ${!isFacMode?`<input type="text" id="roomSearch" placeholder="&#128269; Chercher un nom ou une equipe..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">`:''}
   </div>
-  <div class="sec"><div class="sec-h">1er Etage — 12 equipes<span class="bdg">110 pers.</span></div>
-    ${facZone("#1565C0","FAC 1","Zone Conseil — 4 eq.",roomBlock("Salle du Conseil",90,f1))}
-    ${facZone("#E65100","FAC 2","Zone Marie Curie — 4 eq.",roomBlock("101 Marie Curie",30,f2a)+roomBlock("107 Charles Darwin",12,f2b))}
-    ${facZone("#7B1FA2","FAC 3","Zone Dorothy Vaughan — 4 eq.",roomBlock("112 Dorothy Vaughan",37,f3a)+roomBlock("104 Simone de Beauvoir",12,f3b))}
-  </div>
-  <div class="sec"><div class="sec-h">2eme Etage — 10 equipes<span class="bdg">77 pers.</span></div>
-    ${facZone("#2E7D32","FAC 4","Zone Bobby Fisher — 5 eq.",roomBlock("207 Bobby Fisher",55,f4a)+roomBlock("202 Rosa Parks",20,f4b))}
-    ${facZone("#00838F","FAC 5","Zone Galle-Prouve — 5 eq.",roomBlock("205 Emile Galle",25,f5a)+roomBlock("206 Jean Prouve",25,f5b)+roomBlock("202 Rosa Parks",20,f5c))}
-  </div>
+  ${roomsHtml}
   </div>`;
 }
 
@@ -800,7 +818,9 @@ function buildPhase2(){
     <p style="font-size:0.8em;color:#4A148C;line-height:1.4;" data-fr="5 villages, 5 couleurs. Apres le Sprint, ton equipe rejoint son village pour les pitchs." data-en="5 villages, 5 colors. After the Sprint, your team joins its village for the pitches.">5 villages, 5 couleurs. Apres le Sprint, ton equipe rejoint son village pour les pitchs.</p>
   </div>
   <div class="vg">`;
+  const facVillages = isFacMode && currentFacKey ? [...new Set(getFacTeams().map(t=>t.village))] : null;
   for(const [vk,v] of Object.entries(VILLAGES)){
+    if(facVillages && !facVillages.includes(vk)) continue;
     const vTeams = TEAMS.filter(t=>t.village===vk);
     const ppl = vTeams.reduce((s,t)=>s+t.members.length,0);
     html += `<div class="vc"><div class="vh" style="background:${v.color}"><h3>${v.name}</h3><div class="vi">${v.room}<br>${ppl} pers. / ${vTeams.length} eq.</div></div><div class="vb">`;
@@ -825,7 +845,8 @@ function buildEquipes(){
     <input type="text" id="eqSearch" placeholder="&#128269; Ton nom ou une equipe..." data-ph-fr="&#128269; Ton nom ou une equipe..." data-ph-en="&#128269; Your name or a team..." style="width:100%;padding:12px 16px;border:2px solid #90CAF9;border-radius:12px;font-size:1em;outline:none;background:#fff;-webkit-appearance:none;" onfocus="this.style.borderColor='#1565C0'" onblur="this.style.borderColor='#90CAF9'">
   </div>
   <div class="eq-grid" id="eqGrid">`;
-  TEAMS.forEach(t => {
+  const teamsToShow = isFacMode && currentFacKey ? getFacTeams() : TEAMS;
+  teamsToShow.forEach(t => {
     const typeLabel = t.type==="COMEX"?"":` | ${t.type}`;
     html += `<div class="eq-card" data-search="${t.name.toLowerCase()} ${t.members.map(m=>m[0]+" "+m[1]).join(" ").toLowerCase()}">
       <div class="eq-top" style="background:${t.vColor}"><h4>${t.name}</h4><span class="eq-info">${t.members.length} pers.${typeLabel}</span></div>
