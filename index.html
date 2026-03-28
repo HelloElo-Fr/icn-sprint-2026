@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>const APP_V="8";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}</script>
+<script>const APP_V="9";if(!location.search.includes("v="+APP_V)&&!location.search.includes("admin")&&!location.search.includes("fac")){const u=new URL(location);u.searchParams.set("v",APP_V);location.replace(u);}</script>
 <title>ICN Creativ Day — 28 mars 2026</title>
 <style>
 :root {
@@ -1254,9 +1254,15 @@ function buildEquipes(){
   const teamsToShow = isFacMode && currentFacKey ? getFacTeams() : TEAMS;
   teamsToShow.forEach(t => {
     const typeLabel = t.type==="COMEX"?"":` | ${t.type}`;
+    const facData = FAC_MAP[t.fac];
+    const sq = facData ? SPRINT_QUESTIONS.find(s=>s.fac===facData.name) : null;
     html += `<div class="eq-card" data-search="${t.name.toLowerCase()} ${t.members.map(m=>m[0]+" "+m[1]).join(" ").toLowerCase()}">
       <div class="eq-top" style="background:${t.vColor}"><h4>${t.name}</h4><span class="eq-info">${t.members.length} pers.${typeLabel}</span></div>
       <div class="eq-members">
+        ${sq?`<div style="background:${sq.color}10;border-left:3px solid ${sq.color};border-radius:0 8px 8px 0;padding:8px 10px;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><span>${sq.icon}</span><span style="font-weight:700;font-size:0.75em;color:${sq.color};">${sq.theme}</span></div>
+          <div style="font-size:0.68em;color:#455A64;line-height:1.3;font-style:italic;" data-fr="${sq.questionFr}" data-en="${sq.questionEn}">${sq.questionFr}</div>
+        </div>`:''}
         <div style="font-size:0.72em;color:#607D8B;margin-bottom:6px;line-height:1.5;">Phase 1: ${ROOM_NAMES[t.p1Room]} | Phase 2: ${ROOM_NAMES[t.p2Room]}</div>
         ${t.members.map(m=>`<div class="eq-m"><span>${m[0]} <strong>${m[1]}</strong></span><span style="color:#999;font-size:0.85em">${m[2]}</span></div>`).join("")}
       </div>
