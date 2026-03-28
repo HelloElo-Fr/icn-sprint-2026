@@ -228,7 +228,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f5f
 .presenter .poll-q{display:none!important;}
 .presenter .poll-q.active{display:block!important;}
 .presenter .adm-panel{display:none!important;}
-.presenter .poll-waiting{display:flex!important;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;}
+.presenter .poll-waiting{flex-direction:column;align-items:center;justify-content:center;min-height:70vh;}
+.presenter .poll-waiting.pw-visible{display:flex!important;}
+.presenter .poll-waiting.pw-hidden{display:none!important;}
 .presenter #jmBox{display:none!important;}
 .presenter #p-polls{display:block!important;}
 .presenter .pnl:not(#p-polls){display:none!important;}
@@ -432,11 +434,11 @@ const ROOM_NAMES = {"Conseil":"Salle du Conseil (1er)","101":"101 Marie Curie (1
 
 // ============ FACILITATOR DATA ============
 const FAC_MAP = {
-  "Fac 1":{name:"Zeenat",fullName:"Zeenat Fayaz"},
-  "Fac 2":{name:"John-Edwin",fullName:"John-Edwin Graf"},
-  "Fac 3":{name:"Héloïse",fullName:"Héloïse Lemeillet"},
-  "Fac 4":{name:"Anne",fullName:"Anne Corbel-Trinh"},
-  "Fac 5":{name:"Nash",fullName:"Nash Hughes"}
+  "Fac 1":{name:"Nash",fullName:"Nash Hughes"},
+  "Fac 2":{name:"Héloïse",fullName:"Héloïse Lemeillet"},
+  "Fac 3":{name:"John-Edwin",fullName:"John-Edwin Graf"},
+  "Fac 4":{name:"Zeenat",fullName:"Zeenat Fayaz"},
+  "Fac 5":{name:"Anne",fullName:"Anne Corbel-Trinh"}
 };
 const FAC_NAMES = Object.values(FAC_MAP).map(f=>f.name);
 
@@ -1020,16 +1022,24 @@ function buildAgenda(){
 }
 
 function buildPhase1(){
-  const f1 = TEAMS.filter(t=>t.p1Room==="Conseil");
-  const f2a = TEAMS.filter(t=>t.p1Room==="101");
-  const f2b = TEAMS.filter(t=>t.p1Room==="107");
-  const f3a = TEAMS.filter(t=>t.p1Room==="112");
-  const f3b = TEAMS.filter(t=>t.p1Room==="104");
-  const f4a = TEAMS.filter(t=>t.p1Room==="207");
-  const f4b = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 4");
-  const f5a = TEAMS.filter(t=>t.p1Room==="205");
-  const f5b = TEAMS.filter(t=>t.p1Room==="206");
-  const f5c = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 5");
+  // Fac 1 (Nash): Conseil(BARCELONA) + 202(LYON) + 206(DUBLIN, BUENOS AIRES)
+  const f1a = TEAMS.filter(t=>t.p1Room==="Conseil"&&t.fac==="Fac 1");
+  const f1b = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 1");
+  const f1c = TEAMS.filter(t=>t.p1Room==="206"&&t.fac==="Fac 1");
+  // Fac 2 (Héloïse): Conseil(NAIROBI) + 101(SEOUL, MARRAKECH, LE CAP) + 107(COMEX)
+  const f2a_conseil = TEAMS.filter(t=>t.p1Room==="Conseil"&&t.fac==="Fac 2");
+  const f2a = TEAMS.filter(t=>t.p1Room==="101"&&t.fac==="Fac 2");
+  const f2b = TEAMS.filter(t=>t.p1Room==="107"&&t.fac==="Fac 2");
+  // Fac 3 (John-Edwin): Conseil(TOKYO) + 112(SAN FRANCISCO, BERLIN, SINGAPOUR) + 104(MARSEILLE)
+  const f3a_conseil = TEAMS.filter(t=>t.p1Room==="Conseil"&&t.fac==="Fac 3");
+  const f3a = TEAMS.filter(t=>t.p1Room==="112"&&t.fac==="Fac 3");
+  const f3b = TEAMS.filter(t=>t.p1Room==="104"&&t.fac==="Fac 3");
+  // Fac 4 (Zeenat): Conseil(MONTREAL) + 207(AMSTERDAM, SYDNEY, MUMBAI, RIO)
+  const f4a_conseil = TEAMS.filter(t=>t.p1Room==="Conseil"&&t.fac==="Fac 4");
+  const f4a = TEAMS.filter(t=>t.p1Room==="207"&&t.fac==="Fac 4");
+  // Fac 5 (Anne): 205(LISBONNE, VANCOUVER) + 202(HELSINKI)
+  const f5a = TEAMS.filter(t=>t.p1Room==="205"&&t.fac==="Fac 5");
+  const f5b = TEAMS.filter(t=>t.p1Room==="202"&&t.fac==="Fac 5");
 
   function roomBlock(name,cap,teams){
     const searchData = teams.map(t=>t.name+" "+t.members.map(m=>m[0]+" "+m[1]).join(" ")).join(" ").toLowerCase();
@@ -1040,11 +1050,11 @@ function buildPhase1(){
   }
 
   const zones = [
-    {key:"Fac 1",color:"#1565C0",title:"Zone Conseil — 4 eq.",floor:1,rooms:roomBlock("Salle du Conseil",90,f1)},
-    {key:"Fac 2",color:"#E65100",title:"Zone Marie Curie — 4 eq.",floor:1,rooms:roomBlock("101 Marie Curie",30,f2a)+roomBlock("107 Charles Darwin",12,f2b)},
-    {key:"Fac 3",color:"#7B1FA2",title:"Zone Dorothy Vaughan — 4 eq.",floor:1,rooms:roomBlock("112 Dorothy Vaughan",37,f3a)+roomBlock("104 Simone de Beauvoir",12,f3b)},
-    {key:"Fac 4",color:"#2E7D32",title:"Zone Bobby Fisher — 5 eq.",floor:2,rooms:roomBlock("207 Bobby Fisher",55,f4a)+roomBlock("202 Rosa Parks",20,f4b)},
-    {key:"Fac 5",color:"#00838F",title:"Zone Galle-Prouve — 5 eq.",floor:2,rooms:roomBlock("205 Emile Galle",25,f5a)+roomBlock("206 Jean Prouve",25,f5b)+roomBlock("202 Rosa Parks",20,f5c)}
+    {key:"Fac 1",color:"#1565C0",title:"Zone Nash — 4 eq.",floor:1,rooms:roomBlock("Salle du Conseil",90,f1a)+roomBlock("202 Rosa Parks",20,f1b)+roomBlock("206 Jean Prouve",25,f1c)},
+    {key:"Fac 2",color:"#E65100",title:"Zone Héloïse — 5 eq.",floor:1,rooms:roomBlock("Salle du Conseil",90,f2a_conseil)+roomBlock("101 Marie Curie",30,f2a)+roomBlock("107 Charles Darwin",12,f2b)},
+    {key:"Fac 3",color:"#7B1FA2",title:"Zone John-Edwin — 5 eq.",floor:1,rooms:roomBlock("Salle du Conseil",90,f3a_conseil)+roomBlock("112 Dorothy Vaughan",37,f3a)+roomBlock("104 Simone de Beauvoir",12,f3b)},
+    {key:"Fac 4",color:"#2E7D32",title:"Zone Zeenat — 5 eq.",floor:2,rooms:roomBlock("Salle du Conseil",90,f4a_conseil)+roomBlock("207 Bobby Fisher",55,f4a)},
+    {key:"Fac 5",color:"#00838F",title:"Zone Anne — 3 eq.",floor:2,rooms:roomBlock("205 Emile Galle",25,f5a)+roomBlock("202 Rosa Parks",20,f5b)}
   ];
   const filteredZones = isFacMode && currentFacKey ? zones.filter(z=>z.key===currentFacKey) : zones;
   const floor1 = filteredZones.filter(z=>z.floor===1);
@@ -1232,8 +1242,10 @@ function buildFacilitateur(){
       <h3 style="font-size:0.95em;color:#E65100;margin-bottom:4px;" data-fr="Sondage 1 — Nuage de mots" data-en="Poll 1 — Word Cloud">Sondage 1 — Nuage de mots</h3>
       <p style="font-size:0.8em;color:#795548;" data-fr="${POLL_QUESTIONS[0].fr}" data-en="${POLL_QUESTIONS[0].en}">${POLL_QUESTIONS[0].fr}</p>
     </div>
+    <div style="text-align:center;margin-bottom:10px;"><button class="adm-btn adm-btn-export" onclick="exportPollSingle('q1')" style="background:#E65100;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">📥 Excel S1</button></div>
     <div id="fac-count-q1" style="font-size:0.8em;color:#607D8B;text-align:center;margin-bottom:8px;font-weight:600;"></div>
     <div id="fac-results-q1"></div>
+    <div id="fac-wf-q1" style="display:none;margin-top:16px;"></div>
   </div>
 
   <!-- Sondage 2 -->
@@ -1242,8 +1254,10 @@ function buildFacilitateur(){
       <h3 style="font-size:0.95em;color:#C2185B;margin-bottom:4px;" data-fr="Sondage 2 — Mur de post-its" data-en="Poll 2 — Post-it Wall">Sondage 2 — Mur de post-its</h3>
       <p style="font-size:0.8em;color:#795548;" data-fr="${POLL_QUESTIONS[1].fr}" data-en="${POLL_QUESTIONS[1].en}">${POLL_QUESTIONS[1].fr}</p>
     </div>
+    <div style="text-align:center;margin-bottom:10px;"><button class="adm-btn adm-btn-export" onclick="exportPollSingle('q2')" style="background:#7B1FA2;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">📥 Excel S2</button></div>
     <div id="fac-count-q2" style="font-size:0.8em;color:#607D8B;text-align:center;margin-bottom:8px;font-weight:600;"></div>
     <div id="fac-results-q2"></div>
+    <div id="fac-wf-q2" style="display:none;margin-top:16px;"></div>
   </div>
 
   <!-- Sondage 3 — Journey Map participants -->
@@ -1252,7 +1266,9 @@ function buildFacilitateur(){
       <h3 style="font-size:0.95em;color:#2E7D32;margin-bottom:4px;" data-fr="Sondage 3 — Journey Map participants" data-en="Poll 3 — Participant Journey Map">Sondage 3 — Journey Map participants</h3>
       <p style="font-size:0.8em;color:#455A64;" data-fr="Distribution des votes par phase" data-en="Vote distribution per phase">Distribution des votes par phase</p>
     </div>
+    <div style="text-align:center;margin-bottom:10px;"><button class="adm-btn adm-btn-export" onclick="exportJourneyMap()" style="background:#00838F;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">📥 Excel Journey Map</button></div>
     <div id="fac-s3-content"></div>
+    <div id="fac-wf-q3" style="display:none;margin-top:16px;"></div>
   </div>
 
   <!-- Mon évaluation -->
@@ -1351,6 +1367,45 @@ function onFacSelect(){
   if(name) localStorage.setItem("icn_fac_name", name);
   renderFacHome();
   renderFacTeams();
+  renderFacWorkflows();
+}
+
+const SLIDES_URL = "https://docs.google.com/presentation/d/1auWJ9aIMcd8WGLFol7z5FowJ-ivQJ7gS/edit?usp=sharing&ouid=114514625229434666204&rtpof=true&sd=true";
+function facCopyPrompt(btn, text){
+  navigator.clipboard.writeText(text);
+  const orig = btn.textContent;
+  btn.textContent = "✓ Copié !";
+  setTimeout(()=>btn.textContent = orig, 2000);
+}
+function renderFacWorkflows(){
+  const facName = document.getElementById("facSelect")?.value || localStorage.getItem("icn_fac_name") || "";
+  const wfMap = {
+    "John-Edwin":{target:"fac-wf-q1",color:"#E65100",title:"Workflow Q1 — Nuage de mots",prompt:`Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026. 187 collaborateurs ont répondu à la question : "Qu'est-ce qui t'empêche de faire du bon travail à l'ICN ?" Chaque réponse fait 1 à 3 mots maximum.\n\nVoici les réponses (le CSV est collé ci-dessous).\n\nFais une pondération de ces réponses :\n1. Regroupe les réponses par thème sémantique\n2. Compte le nombre d'occurrences par thème\n3. Classe du plus fréquent au moins fréquent\n4. Donne le % de chaque thème\n\nPuis écris un prompt pour NotebookLM : style sketch note, en anglais, pondération complète, humour, couleurs ICN.`},
+    "Héloïse":{target:"fac-wf-q2",color:"#7B1FA2",title:"Workflow Q2 — Texte libre",prompt:`Contexte : Nous sommes à la Creativ Day de l'ICN du 28 mars 2026. 187 collaborateurs ont répondu à la question : "Qu'est-ce qui freine le développement de l'ICN selon toi ?" Réponses en texte libre (200 car. max).\n\nVoici les réponses (CSV ci-dessous).\n\nFais une pondération :\n1. Identifie les thèmes principaux\n2. Regroupe par thème sémantique\n3. Compte les occurrences, classe, donne le %\n4. Extrais 2-3 verbatims marquants par thème\n\nPuis écris un prompt pour NotebookLM : style sketch note, en anglais, pondération + verbatims, humour, couleurs ICN, titre bilingue FR/EN.`},
+    "Nash":{target:"fac-wf-q3",color:"#00838F",title:"Workflow Q3 — Journey Map",prompt:`Contexte : Creativ Day ICN 28 mars 2026. 187 collaborateurs ont voté sur "Où en es-tu dans le voyage du changement ?"\n\n5 étapes : Camp de base, Le doute, La peur, L'effort, La réussite.\n\nDistribution des votes :\n- Camp de base : XX votes (XX%)\n- Le doute : XX votes (XX%)\n- La peur : XX votes (XX%)\n- L'effort : XX votes (XX%)\n- La réussite : XX votes (XX%)\n\nAnalyse : où se concentre la majorité ? Centre de gravité émotionnel ? Maturité du changement ? Messages pour François ?\n\nPuis écris un prompt pour NotebookLM : style sketch note, en anglais, voyage en montagne avec 5 étapes, icônes proportionnelles, centre de gravité, insights + espoir, couleurs ICN, titre bilingue.`}
+  };
+  // Hide all workflow panels first
+  ["fac-wf-q1","fac-wf-q2","fac-wf-q3"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){el.style.display="none";el.innerHTML="";}
+  });
+  const wf = wfMap[facName];
+  if(!wf) return;
+  const el = document.getElementById(wf.target);
+  if(!el) return;
+  el.style.display = "block";
+  el.innerHTML = `
+    <div style="background:${wf.color}15;border:1px solid ${wf.color}40;border-radius:12px;padding:14px;">
+      <h4 style="color:${wf.color};margin-bottom:10px;">🎨 ${wf.title}</h4>
+      <div style="font-size:0.82em;color:#455A64;line-height:1.6;">
+        <p><strong>1️⃣ Collecter</strong> — Clique sur le bouton 📥 Excel ci-dessus</p>
+        <p style="margin-top:8px;"><strong>2️⃣ Pondérer</strong> — Ouvre Claude Cowork, colle le CSV + ce prompt :</p>
+        <button onclick="facCopyPrompt(this,\`${wf.prompt.replace(/`/g,"\\`")}\`)" style="background:${wf.color};color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:0.85em;margin:6px 0;">📋 Copier le prompt Claude</button>
+        <p style="margin-top:8px;"><strong>3️⃣ Infographie</strong> — Dans NotebookLM : ajouter charte ICN + CSV. Coller le prompt généré par Claude.</p>
+        <p style="margin-top:8px;"><strong>4️⃣ Envoyer</strong> — Envoie l'infographie à Elodie (WhatsApp/AirDrop)</p>
+        <a href="${SLIDES_URL}" target="_blank" style="display:inline-block;margin-top:8px;background:#1565C0;color:#fff;border-radius:8px;padding:8px 14px;text-decoration:none;font-size:0.85em;">📊 Ouvrir Google Slides</a>
+      </div>
+    </div>`;
 }
 
 function renderFacTeams(){
@@ -1511,7 +1566,7 @@ function showTeamModal(name){
       <strong>Type :</strong> ${t.type} | <strong>${t.members.length} personnes</strong><br>
       <strong>Phase 1 :</strong> ${ROOM_NAMES[t.p1Room]}<br>
       <strong>Phase 2 :</strong> ${v.name} — ${ROOM_NAMES[t.p2Room]}<br>
-      <strong>Facilitateur :</strong> ${t.fac}
+      <strong>Facilitateur :</strong> ${FAC_MAP[t.fac]?FAC_MAP[t.fac].fullName:t.fac}
     </div>
     <div style="font-weight:600;font-size:0.82em;margin-bottom:4px;">Membres :</div>
     ${t.members.map(m=>`<div class="modal-member"><span>${m[0]} <strong>${m[1]}</strong></span><span style="font-size:0.8em;color:#999;">${m[2]} ${m[3]}</span></div>`).join("")}
@@ -1661,7 +1716,7 @@ const CHAT_CHUNKS = {
   },
   villages: {
     kw:["village","v1","v2","v3","v4","v5","vert","violet","orange","rose","cyan","facilitateur par village"],
-    text:`VILLAGES: V1 Vert (salle 207) — MONTREAL, AMSTERDAM, SYDNEY, MUMBAI, RIO — Facilitatrice Anne — ~46p. V2 Violet (salle 112) — TOKYO, MARSEILLE, SAN FRANCISCO, BERLIN, SINGAPOUR — Facilitatrice Heloise — ~37p. V3 Orange (salle 101) — NAIROBI, COMEX, SEOUL, MARRAKECH, LE CAP — Facilitateur John-Edwin — ~38p. V4 Rose (salle 205) — LISBONNE, VANCOUVER, HELSINKI — Facilitateur Nash — ~24p. V5 Cyan (salle 206) — BARCELONA, DUBLIN, LYON, BUENOS AIRES — Facilitatrice Zeenat — ~42p.`
+    text:`VILLAGES: V1 Vert (salle 207) — MONTREAL, AMSTERDAM, SYDNEY, MUMBAI, RIO — Facilitatrice Zeenat — ~46p. V2 Violet (salle 112) — TOKYO, MARSEILLE, SAN FRANCISCO, BERLIN, SINGAPOUR — Facilitateur John-Edwin — ~37p. V3 Orange (salle 101) — NAIROBI, COMEX, SEOUL, MARRAKECH, LE CAP — Facilitatrice Heloise — ~38p. V4 Rose (salle 205) — LISBONNE, VANCOUVER, HELSINKI — Facilitatrice Anne — ~24p. V5 Cyan (salle 206) — BARCELONA, DUBLIN, LYON, BUENOS AIRES — Facilitateur Nash — ~42p.`
   }
 };
 
@@ -2088,6 +2143,9 @@ function updateWaitingScreen(){
   // Then: waiting screen — hide if ANY poll is showing
   const anyVisible = anyRegularActive || (jmActive && (isAdmin || !anyRegularActive));
   waiting.style.display = anyVisible ? "none" : "";
+  // Also use classes for presenter mode (CSS !important override)
+  waiting.classList.toggle("pw-hidden", anyVisible);
+  waiting.classList.toggle("pw-visible", !anyVisible);
 }
 
 function enforceSinglePoll(){
@@ -2722,6 +2780,7 @@ if(savedLang) setLang(savedLang);
       facSelect.value = saved;
     }
     renderFacHome();
+    renderFacWorkflows();
   }
 })();
 
