@@ -1,0 +1,27 @@
+# Données nominatives — ne JAMAIS committer
+*.xlsx
+*.xls
+*.csv
+participants*
+roster*
+
+# Secrets / config locale
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+firebase-debug.log
+
+# Local OS / éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Build / cache
+node_modules/
+dist/
+.cache/
